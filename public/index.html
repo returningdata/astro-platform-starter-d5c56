@@ -1,8 +1,17 @@
----
-import KruigerLayout from '../layouts/KruigerLayout.astro';
----
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KruigerLabs</title>
 
-<KruigerLayout title="KruigerLabs">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
 
   <!-- NAVBAR -->
   <header class="navbar">
@@ -23,7 +32,7 @@ import KruigerLayout from '../layouts/KruigerLayout.astro';
   <section class="hero" id="home">
     <div class="hero-content">
 
-      <img src="/assets/logo.png" class="hero-logo" alt="KruigerLabs Logo">
+      <img src="assets/logo.png" class="hero-logo" alt="KruigerLabs Logo">
 
       <h1>UNLEASH <span>THE POWER OF AI</span></h1>
       <h2>WITH <span>KRUIGERLABS</span></h2>
@@ -72,43 +81,43 @@ import KruigerLayout from '../layouts/KruigerLayout.astro';
     <div class="bot-grid">
 
       <div class="bot-card">
-        <img src="/assets/elite-pulse.png" alt="Elite Pulse">
+        <img src="assets/elite-pulse.png" alt="Elite Pulse">
         <h4>Elite Pulse</h4>
         <p>Real-time server monitoring and heartbeat detection. Keep your Discord community alive with instant status updates and performance analytics.</p>
       </div>
 
       <div class="bot-card">
-        <img src="/assets/elite-welcomer.png" alt="Elite Welcomer">
+        <img src="assets/elite-welcomer.png" alt="Elite Welcomer">
         <h4>Elite Welcomer</h4>
         <p>Create stunning welcome messages for new members. Customizable greetings, role assignments, and onboarding automation for your server.</p>
       </div>
 
       <div class="bot-card">
-        <img src="/assets/kruigers-assistant.png" alt="Kruigers Assistant">
+        <img src="assets/kruigers-assistant.png" alt="Kruigers Assistant">
         <h4>Kruigers Assistant</h4>
         <p>Your all-in-one AI-powered assistant. Handles moderation, answers questions, and provides intelligent responses to keep your community engaged.</p>
       </div>
 
       <div class="bot-card">
-        <img src="/assets/kruiger-tickets.png" alt="Kruiger Tickets">
+        <img src="assets/kruiger-tickets.png" alt="Kruiger Tickets">
         <h4>Kruiger Tickets</h4>
         <p>Professional ticket support system for Discord. Manage customer inquiries, track issues, and provide seamless support with automated workflows.</p>
       </div>
 
       <div class="bot-card">
-        <img src="/assets/elite-multipurpose.png" alt="Elite MultiPurpose">
+        <img src="assets/elite-multipurpose.png" alt="Elite MultiPurpose">
         <h4>Elite MultiPurpose</h4>
         <p>The ultimate all-in-one bot solution. Moderation, music, fun commands, utilities, and more packed into a single powerful bot.</p>
       </div>
 
       <div class="bot-card">
-        <img src="/assets/elite-relay.png" alt="Elite Relay">
+        <img src="assets/elite-relay.png" alt="Elite Relay">
         <h4>Elite Relay</h4>
         <p>Cross-server communication made easy. Bridge messages between channels and servers with advanced filtering and customization options.</p>
       </div>
 
       <div class="bot-card">
-        <img src="/assets/elite-logger.png" alt="Elite Logger">
+        <img src="assets/elite-logger.png" alt="Elite Logger">
         <h4>Elite Logger</h4>
         <p>Comprehensive server logging and audit trails. Track member actions, message edits, deletions, and all server events in detail.</p>
       </div>
@@ -143,4 +152,6 @@ import KruigerLayout from '../layouts/KruigerLayout.astro';
     <p>&copy; 2026 KruigerLabs — All Rights Reserved</p>
   </footer>
 
-</KruigerLayout>
+  <script src="script.js"></script>
+</body>
+</html>
