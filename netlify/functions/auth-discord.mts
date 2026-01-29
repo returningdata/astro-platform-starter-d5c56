@@ -4,8 +4,8 @@ import type { Context, Config } from "@netlify/functions";
 const DISCORD_CLIENT_ID = Netlify.env.get("DISCORD_CLIENT_ID") || "";
 const DISCORD_CLIENT_SECRET = Netlify.env.get("DISCORD_CLIENT_SECRET") || "";
 const REDIRECT_URI = Netlify.env.get("URL")
-  ? `${Netlify.env.get("URL")}/.netlify/functions/auth-discord-callback`
-  : "http://localhost:8888/.netlify/functions/auth-discord-callback";
+  ? `${Netlify.env.get("URL")}/api/auth/discord/callback`
+  : "http://localhost:8888/api/auth/discord/callback";
 
 const DISCORD_GUILD_ID = "1411715697406378116"; // KruigerLabs Discord server
 const OWNER_ROLE_ID = "1411715697888989286"; // Owner role

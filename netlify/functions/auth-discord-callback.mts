@@ -4,11 +4,14 @@ import { getStore } from "@netlify/blobs";
 const DISCORD_CLIENT_ID = Netlify.env.get("DISCORD_CLIENT_ID") || "";
 const DISCORD_CLIENT_SECRET = Netlify.env.get("DISCORD_CLIENT_SECRET") || "";
 const REDIRECT_URI = Netlify.env.get("URL")
-  ? `${Netlify.env.get("URL")}/.netlify/functions/auth-discord-callback`
-  : "http://localhost:8888/.netlify/functions/auth-discord-callback";
+  ? `${Netlify.env.get("URL")}/api/auth/discord/callback`
+  : "http://localhost:8888/api/auth/discord/callback";
 
 const DISCORD_GUILD_ID = "1411715697406378116";
 const OWNER_ROLE_ID = "1411715697888989286";
+
+// Bootstrap admin: comma-separated Discord user IDs that always get admin access
+const ADMIN_USER_IDS = (Netlify.env.get("ADMIN_USER_IDS") || "").split(",").filter(id => id.trim());
 
 interface DiscordUser {
   id: string;
@@ -129,10 +132,18 @@ export default async (req: Request, context: Context) => {
 
     // Get admin roles configuration
     const adminRoles = await getAdminRoles();
-    const permissions = getUserPermissions(memberRoles, adminRoles);
+    let permissions = getUserPermissions(memberRoles, adminRoles);
 
-    const isAdmin = permissions.length > 0;
-    const isOwner = memberRoles.includes(OWNER_ROLE_ID);
+    // Check if user is a bootstrap admin via env var
+    const isBootstrapAdmin = ADMIN_USER_IDS.includes(user.id);
+
+    // Bootstrap admins get all permissions
+    if (isBootstrapAdmin && !permissions.includes("all")) {
+      permissions = ["all"];
+    }
+
+    const isAdmin = permissions.length > 0 || isBootstrapAdmin;
+    const isOwner = memberRoles.includes(OWNER_ROLE_ID) || isBootstrapAdmin;
 
     // Create session token
     const sessionId = crypto.randomUUID();
@@ -173,5 +184,5 @@ export default async (req: Request, context: Context) => {
 };
 
 export const config: Config = {
-  path: "/.netlify/functions/auth-discord-callback"
+  path: "/api/auth/discord/callback"
 };
