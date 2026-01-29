@@ -12,10 +12,30 @@ import KruigerLayout from '../layouts/KruigerLayout.astro';
       <a href="#home">Home</a>
       <a href="#about">About Us</a>
       <a href="#bots">Our Bots</a>
+      <a href="/login" class="admin-link" id="admin-link" style="display:none;">Admin</a>
     </nav>
 
     <a href="http://kruigerlabs.discord.kruigerlabs.xyz/" class="btn-glow" target="_blank" rel="noopener noreferrer">JOIN OUR DISCORD</a>
   </header>
+
+  <script>
+    // Check if user is logged in as admin
+    (async function checkAdminStatus() {
+      try {
+        const res = await fetch('/api/auth/session');
+        const data = await res.json();
+        if (data.authenticated && data.user.isAdmin) {
+          const adminLink = document.getElementById('admin-link');
+          if (adminLink) {
+            adminLink.style.display = 'inline';
+            adminLink.href = '/admin';
+          }
+        }
+      } catch (e) {
+        // Silently fail
+      }
+    })();
+  </script>
 
 
   <!-- HERO SECTION -->
