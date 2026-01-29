@@ -1,0 +1,25 @@
+---
+import AdminDashboard from '../components/AdminDashboard';
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Admin - KruigerLabs</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="robots" content="noindex, nofollow" />
+        <link rel="icon" type="image/png" href="/favicon.png" />
+        <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+        <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            body {
+                background: radial-gradient(circle at top, #050a12, #02040a);
+                min-height: 100vh;
+            }
+        </style>
+    </head>
+    <body>
+        <AdminDashboard client:load />
+    </body>
+</html>

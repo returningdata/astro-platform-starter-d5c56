@@ -1,4 +1,6 @@
 ---
+import ChatbotWidget from '../components/ChatbotWidget.tsx';
+
 interface Props {
     title: string;
 }
@@ -515,5 +517,8 @@ const { title } = Astro.props;
     </head>
     <body>
         <slot />
+
+        <!-- Custom KruigerLabs AI Chatbot Widget -->
+        <ChatbotWidget client:load />
     </body>
 </html>
