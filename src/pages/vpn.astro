@@ -1,634 +1,230 @@
 ---
 import KruigerLayout from '../layouts/KruigerLayout.astro';
+import '../styles/vpn.css';
 
 const nordVpnLink = 'https://go.nordvpn.net/aff_c?offer_id=15&aff_id=152990&url_id=902';
 const nordPassLink = 'https://go.nordpass.io/aff_c?offer_id=488&aff_id=152990&url_id=9356';
+
+const reviews = [
+  {
+    product: 'NordVPN',
+    source: 'TechRadar',
+    verdict: 'Best VPN overall',
+    detail: 'Placed first in TechRadar’s 2026 guide after testing privacy, speed, streaming, apps, and security tools.',
+    date: 'Updated July 2026',
+    url: 'https://www.techradar.com/vpn/best-vpn',
+    tone: 'vpn'
+  },
+  {
+    product: 'NordVPN',
+    source: "Tom’s Guide",
+    verdict: 'Best VPN for most people',
+    detail: 'Recommended as a strong all-round choice with a polished experience, excellent speeds, and broad feature coverage.',
+    date: 'Updated June 17, 2026',
+    url: 'https://www.tomsguide.com/reviews/nordvpn-review',
+    tone: 'vpn'
+  },
+  {
+    product: 'NordPass',
+    source: 'TechRadar',
+    verdict: 'Best password manager overall',
+    detail: 'Ranked first in TechRadar’s 2026 password manager guide for its security, ease of use, and value.',
+    date: 'Updated May 26, 2026',
+    url: 'https://www.techradar.com/best/password-manager',
+    tone: 'pass'
+  },
+  {
+    product: 'NordPass',
+    source: 'Cybernews',
+    verdict: 'Top password manager for 2026',
+    detail: 'Selected as the leading overall option after hands-on testing of security, features, usability, and pricing.',
+    date: 'Updated June 27, 2026',
+    url: 'https://cybernews.com/best-password-managers/nordpass-review/',
+    tone: 'pass'
+  }
+];
 ---
 
 <KruigerLayout
-  title="Online Security Toolkit | KruigerLabs"
-  description="Learn how NordVPN and NordPass can help protect your internet connection, passwords, and everyday online accounts."
+  title="NordVPN + NordPass Security Guide | KruigerLabs"
+  description="See why KruigerLabs recommends NordVPN and NordPass for safer connections, stronger passwords, and better everyday account security."
 >
   <main class="security-page">
-    <header class="security-nav" aria-label="Primary navigation">
-      <a class="security-brand" href="/" aria-label="KruigerLabs home">
-        KRUIGER<span>LABS</span>
-      </a>
-      <nav aria-label="Security page navigation">
-        <a href="#why-vpn">Why a VPN</a>
-        <a href="#passwords">Password Security</a>
+    <header class="security-nav">
+      <a class="security-brand" href="/" aria-label="KruigerLabs home">KRUIGER<span>LABS</span></a>
+      <nav aria-label="VPN page navigation">
+        <a href="#vpn">NordVPN</a>
+        <a href="#pass">NordPass</a>
+        <a href="#reviews">Reviews</a>
         <a href="#faq">FAQ</a>
       </nav>
-      <a class="nav-cta" href={nordVpnLink} target="_blank" rel="sponsored noopener noreferrer">
-        Explore NordVPN
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </a>
+      <a class="nav-cta" href={nordVpnLink} target="_blank" rel="sponsored noopener noreferrer">Get protected</a>
     </header>
 
-    <section class="security-hero">
+    <section class="hero">
+      <div class="hero-glow hero-glow-blue"></div>
+      <div class="hero-glow hero-glow-teal"></div>
+      <div class="hero-grid"></div>
+
       <div class="hero-copy">
-        <div class="eyebrow"><span></span>KruigerLabs member security guide</div>
-        <h1>Your online life needs <em>two</em> strong locks.</h1>
-        <p class="hero-lede">
-          A VPN protects the connection you use. A password manager protects the accounts you access.
-          Together, NordVPN and NordPass create a practical security layer for gaming, work, travel, and everyday browsing.
+        <p class="eyebrow">Stay secure <i></i> Stay private</p>
+        <h1>Protect what<br/><span>matters.</span></h1>
+        <p class="hero-intro">
+          Your connection and your accounts need different defenses. NordVPN helps secure the path your data travels.
+          NordPass helps secure the credentials that unlock your digital life.
         </p>
         <div class="hero-actions">
-          <a class="primary-action" href={nordVpnLink} target="_blank" rel="sponsored noopener noreferrer">
+          <a class="button button-vpn" href={nordVpnLink} target="_blank" rel="sponsored noopener noreferrer">
             Get NordVPN
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
-          <a class="secondary-action" href={nordPassLink} target="_blank" rel="sponsored noopener noreferrer">
-            Explore NordPass
+          <a class="button button-pass" href={nordPassLink} target="_blank" rel="sponsored noopener noreferrer">
+            Get NordPass
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
         </div>
-        <p class="affiliate-note">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
-          Affiliate disclosure: KruigerLabs may earn a commission if you purchase through these links, at no added cost to you.
-        </p>
+        <p class="affiliate-note">Affiliate disclosure: KruigerLabs may earn a commission from qualifying purchases at no added cost to you.</p>
       </div>
 
-      <div class="security-visual" aria-label="Illustration of protected online activity">
-        <div class="orbit orbit-one"></div>
-        <div class="orbit orbit-two"></div>
-        <div class="signal-card signal-card-top">
-          <span class="signal-icon">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><path d="M12 20h.01"/></svg>
-          </span>
-          <span><b>Public Wi-Fi</b><small>Encrypted connection</small></span>
+      <div class="hero-products" aria-label="NordVPN and NordPass applications">
+        <div class="product-orbit"></div>
+        <figure class="hero-shot hero-shot-vpn">
+          <img src="/assets/security/nordvpn-app.webp" alt="NordVPN application running on a laptop" width="1400" height="933" />
+          <figcaption><span></span>Connection protected</figcaption>
+        </figure>
+        <figure class="hero-shot hero-shot-pass">
+          <img src="/assets/security/nordpass-app.webp" alt="NordPass password health screen on a phone" width="1400" height="788" />
+          <figcaption><span></span>Password health checked</figcaption>
+        </figure>
+        <div class="hero-shield" aria-hidden="true">
+          <svg viewBox="0 0 64 76"><path d="M32 3 59 13v22c0 20-11 34-27 41C16 69 5 55 5 35V13L32 3Z"/><path d="m21 38 8 8 15-18"/></svg>
         </div>
-        <div class="signal-card signal-card-bottom">
-          <span class="signal-icon">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-          </span>
-          <span><b>Account access</b><small>Unique credentials</small></span>
-        </div>
-        <div class="shield-core">
-          <svg viewBox="0 0 120 140" aria-hidden="true">
-            <path d="M60 5 108 23v39c0 35-20 60-48 73C32 122 12 97 12 62V23L60 5Z"/>
-            <path d="M42 69 55 82l25-30"/>
-          </svg>
-          <strong>Protected</strong>
-          <span>Connection + accounts</span>
-        </div>
-        <div class="status-pill"><i></i>Security stack active</div>
+      </div>
+
+      <div class="hero-proof">
+        <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>Two tools. One stronger security stack.</span>
+        <span>Official product imagery shown</span>
       </div>
     </section>
 
-    <section class="trust-strip" aria-label="Recommended use cases">
-      <span>Built for real online habits</span>
-      <div><i></i>Remote work</div>
-      <div><i></i>Travel</div>
-      <div><i></i>Gaming communities</div>
-      <div><i></i>Everyday browsing</div>
-    </section>
-
-    <section class="briefing-section" id="why-vpn">
-      <div class="section-heading">
-        <p>01 / Connection security</p>
-        <h2>Why KruigerLabs members should use a VPN</h2>
+    <section class="security-principle">
+      <p class="section-index">01 / Why both</p>
+      <div>
+        <h2>One protects your route.<br/>The other protects your keys.</h2>
+        <p>A VPN and a password manager are not substitutes. They solve separate risks that show up every day in gaming communities, remote work, travel, shopping, and social accounts.</p>
       </div>
-
-      <div class="vpn-layout">
-        <article class="feature-lead">
-          <span class="feature-number">01</span>
-          <div class="feature-icon">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
-          </div>
-          <h3>Protect traffic on networks you do not control</h3>
-          <p>
-            Airports, hotels, cafés, convention centers, and shared housing networks can be convenient without being trustworthy.
-            NordVPN encrypts traffic between your device and its VPN server, reducing what people on the same local network can observe.
-          </p>
-          <div class="use-case"><span>Best for</span> Travel, remote work, and public Wi-Fi</div>
-        </article>
-
-        <div class="feature-stack">
-          <article>
-            <span class="feature-number">02</span>
-            <h3>Reduce casual tracking tied to your IP address</h3>
-            <p>A VPN replaces the public IP address websites see with the address of the VPN server. It is a useful privacy layer alongside secure browsers, careful permissions, and tracker controls.</p>
-          </article>
-          <article>
-            <span class="feature-number">03</span>
-            <h3>Secure everyday activity without changing your routine</h3>
-            <p>Once configured, NordVPN can automatically connect on untrusted networks. Apps are available across common desktop, mobile, browser, TV, and router environments.</p>
-          </article>
-          <article>
-            <span class="feature-number">04</span>
-            <h3>Add specialized tools when you need them</h3>
-            <p>Depending on plan and platform, NordVPN includes options such as Threat Protection, a kill switch, Double VPN, Meshnet, and dark web monitoring.</p>
-          </article>
-        </div>
-      </div>
-
-      <aside class="reality-check">
-        <div>
-          <span class="label">Important reality check</span>
-          <h3>A VPN is a strong layer, not an invisibility cloak.</h3>
-        </div>
-        <p>
-          Stay cautious with downloads, phishing links, browser permissions, and personal information. Keep devices updated and use multi-factor authentication wherever possible.
-        </p>
-      </aside>
-    </section>
-
-    <section class="pass-section" id="passwords">
-      <div class="pass-intro">
-        <p class="section-kicker">02 / Account security</p>
-        <h2>NordPass closes the gap a VPN cannot.</h2>
-        <p>
-          A VPN protects data in transit, but it cannot fix a reused password or stop someone from signing in with stolen credentials.
-          NordPass helps members create, store, and use stronger account credentials without relying on memory.
-        </p>
-        <a class="text-link" href={nordPassLink} target="_blank" rel="sponsored noopener noreferrer">
-          View NordPass options
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
-      </div>
-
-      <div class="pass-grid">
-        <article class="pass-card pass-card-wide">
-          <div class="pass-card-icon">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="7.5" cy="15.5" r="5.5"/><path d="m11.5 11.5 9-9M17 6l3 3M14 9l3 3"/></svg>
-          </div>
-          <h3>One unique password for every account</h3>
-          <p>Password reuse turns one breach into a chain reaction. A password manager generates and remembers long, unique credentials so one exposed service does not automatically compromise the rest.</p>
-          <div class="password-demo" aria-label="Example of a generated password">
-            <span>Generated password</span>
-            <code>••••••••••••••••••••</code>
-            <i>Strong</i>
-          </div>
-        </article>
-
-        <article class="pass-card">
-          <div class="pass-card-icon">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 9h6M7 13h10M7 17h4"/></svg>
-          </div>
-          <h3>Faster, safer sign-ins</h3>
-          <p>Autofill reduces typing and helps you avoid weak variations of the same familiar password across Discord, gaming, email, shopping, and work accounts.</p>
-        </article>
-
-        <article class="pass-card">
-          <div class="pass-card-icon">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.6 2.9 16.5A2 2 0 0 0 4.6 19.5h14.8a2 2 0 0 0 1.7-3L13.7 3.6a2 2 0 0 0-3.4 0Z"/></svg>
-          </div>
-          <h3>Spot weak or exposed credentials</h3>
-          <p>Password health and breach-monitoring tools can help identify credentials that need attention, so you can prioritize changes instead of guessing.</p>
-        </article>
-
-        <article class="pass-card pass-card-accent">
-          <span class="mini-label">Modern login support</span>
-          <h3>Store passkeys alongside passwords</h3>
-          <p>As more services adopt passkeys, NordPass can keep supported credentials organized and available across your devices.</p>
-        </article>
+      <div class="principle-diagram" aria-label="Diagram comparing connection and account protection">
+        <div class="diagram-node node-device"><span>01</span>Your device</div>
+        <div class="diagram-line line-blue"><i></i></div>
+        <div class="diagram-node node-vpn"><span>02</span>Encrypted route</div>
+        <div class="diagram-line line-teal"><i></i></div>
+        <div class="diagram-node node-account"><span>03</span>Secured account</div>
       </div>
     </section>
 
-    <section class="stack-section">
-      <div class="section-heading compact">
-        <p>03 / Recommended setup</p>
-        <h2>A practical security stack in four moves</h2>
+    <section class="product-section product-vpn" id="vpn">
+      <div class="product-copy">
+        <img class="product-logo" src="/assets/security/nordvpn-logo.svg" alt="NordVPN" width="720" height="158" />
+        <p class="product-tagline">Online privacy made practical</p>
+        <h2>Protect your connection wherever you sign in.</h2>
+        <p class="product-lede">NordVPN encrypts traffic between your device and its VPN server. That matters most when you use public or shared networks you do not control.</p>
+        <ul class="feature-list">
+          <li><span>01</span><div><b>Safer public Wi-Fi</b><p>Reduce exposure to other people sharing airport, hotel, café, or event networks.</p></div></li>
+          <li><span>02</span><div><b>More private browsing</b><p>Replace the public IP address websites see with the VPN server’s address.</p></div></li>
+          <li><span>03</span><div><b>Protection that travels</b><p>Use apps across popular phones, computers, browsers, TVs, and compatible routers.</p></div></li>
+          <li><span>04</span><div><b>Extra security tools</b><p>Plan and platform may include Threat Protection, kill switch, Meshnet, Double VPN, and dark web monitoring.</p></div></li>
+        </ul>
+        <a class="product-link product-link-vpn" href={nordVpnLink} target="_blank" rel="sponsored noopener noreferrer">Explore NordVPN plans <span>↗</span></a>
       </div>
-      <ol class="steps-list">
-        <li>
-          <span>01</span>
-          <div><h3>Install NordVPN</h3><p>Add it to the devices you use outside your home and enable automatic protection for untrusted networks.</p></div>
-        </li>
-        <li>
-          <span>02</span>
-          <div><h3>Move passwords into NordPass</h3><p>Import existing credentials, then replace reused or weak passwords with unique generated ones.</p></div>
-        </li>
-        <li>
-          <span>03</span>
-          <div><h3>Turn on multi-factor authentication</h3><p>Start with email, Discord, finance, cloud storage, and any account that can reset other accounts.</p></div>
-        </li>
-        <li>
-          <span>04</span>
-          <div><h3>Review alerts and updates</h3><p>Act on breach notifications, keep apps current, and remove devices or sessions you no longer recognize.</p></div>
-        </li>
+      <div class="product-media">
+        <div class="media-number">N° 01</div>
+        <img src="/assets/security/nordvpn-app.webp" alt="NordVPN connected to a United States server on a laptop" width="1400" height="933" loading="lazy" />
+        <div class="media-status"><i></i><span><b>VPN connected</b>Traffic route encrypted</span></div>
+      </div>
+    </section>
+
+    <section class="product-section product-pass" id="pass">
+      <div class="product-media">
+        <div class="media-number">N° 02</div>
+        <img src="/assets/security/nordpass-app.webp" alt="NordPass password health dashboard on a mobile phone" width="1400" height="788" loading="lazy" />
+        <div class="media-status"><i></i><span><b>Vault ready</b>Credentials organized</span></div>
+      </div>
+      <div class="product-copy">
+        <img class="product-logo" src="/assets/security/nordpass-logo.svg" alt="NordPass" width="720" height="158" />
+        <p class="product-tagline">Passwords made simple and secure</p>
+        <h2>Stop asking one password to protect everything.</h2>
+        <p class="product-lede">NordPass stores and fills credentials so every important account can have a long, unique password without making you memorize it.</p>
+        <ul class="feature-list">
+          <li><span>01</span><div><b>Unique generated passwords</b><p>Limit the damage from a breach by avoiding the same password across multiple services.</p></div></li>
+          <li><span>02</span><div><b>Fast, accurate autofill</b><p>Sign in across supported devices without repeatedly typing or exposing credentials.</p></div></li>
+          <li><span>03</span><div><b>Password health visibility</b><p>Find weak, reused, or exposed credentials and prioritize the accounts that need attention.</p></div></li>
+          <li><span>04</span><div><b>Passwords and passkeys together</b><p>Keep traditional logins and supported passkeys organized inside one secure vault.</p></div></li>
+        </ul>
+        <a class="product-link product-link-pass" href={nordPassLink} target="_blank" rel="sponsored noopener noreferrer">Explore NordPass plans <span>↗</span></a>
+      </div>
+    </section>
+
+    <section class="reviews-section" id="reviews">
+      <div class="reviews-heading">
+        <p class="section-index">02 / Independent reviews</p>
+        <h2>Recommended beyond our community.</h2>
+        <p>Recent independent testing places both products among the leading options in their categories. Review verdicts can change as products and test methods evolve.</p>
+      </div>
+      <div class="reviews-grid">
+        {reviews.map((review, index) => (
+          <a class:list={["review-card", `review-${review.tone}`]} href={review.url} target="_blank" rel="noopener noreferrer">
+            <div class="review-topline">
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              <span>{review.product}</span>
+            </div>
+            <p class="review-source">{review.source}</p>
+            <h3>{review.verdict}</h3>
+            <p class="review-detail">{review.detail}</p>
+            <div class="review-footer"><span>{review.date}</span><span>Read review ↗</span></div>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="setup-section">
+      <div class="setup-heading">
+        <p class="section-index">03 / Member setup</p>
+        <h2>Build the stack in four moves.</h2>
+      </div>
+      <ol class="setup-list">
+        <li><span>01</span><div><h3>Protect untrusted networks</h3><p>Install NordVPN on the devices you travel with and configure automatic connection for public Wi-Fi.</p></div></li>
+        <li><span>02</span><div><h3>Move credentials into NordPass</h3><p>Import existing logins, then replace reused and weak passwords with generated alternatives.</p></div></li>
+        <li><span>03</span><div><h3>Enable multi-factor authentication</h3><p>Prioritize email, Discord, finance, cloud storage, and accounts that can reset other accounts.</p></div></li>
+        <li><span>04</span><div><h3>Act on alerts</h3><p>Review breach notifications, remove unfamiliar sessions, and keep both apps and devices updated.</p></div></li>
       </ol>
     </section>
 
     <section class="faq-section" id="faq">
-      <div class="section-heading compact">
-        <p>04 / Quick answers</p>
-        <h2>Before you choose</h2>
+      <div class="faq-heading">
+        <p class="section-index">04 / Questions</p>
+        <h2>Know what each tool can—and cannot—do.</h2>
       </div>
       <div class="faq-list">
-        <details open>
-          <summary>Do I need both NordVPN and NordPass?<span></span></summary>
-          <p>They solve different problems. NordVPN protects your internet connection; NordPass protects the credentials used to enter your accounts. Using both creates broader coverage than either tool alone.</p>
-        </details>
-        <details>
-          <summary>Does a VPN make me completely anonymous?<span></span></summary>
-          <p>No. A VPN improves connection privacy, but websites can still identify you through logins, cookies, browser fingerprinting, and information you share. Treat it as one part of a layered security approach.</p>
-        </details>
-        <details>
-          <summary>Will NordVPN work on every device?<span></span></summary>
-          <p>NordVPN supports many popular platforms, but features can differ by operating system, app version, region, and subscription. Review current compatibility on the offer page before purchasing.</p>
-        </details>
-        <details>
-          <summary>Why use a password manager instead of browser storage?<span></span></summary>
-          <p>A dedicated password manager is designed around credential generation, organization, cross-device access, password health, and secure sharing features. Choose the setup that fits your risk level and devices.</p>
-        </details>
+        <details open><summary>Do I need both NordVPN and NordPass?<span></span></summary><p>They protect different parts of your online activity. NordVPN protects the connection carrying your data; NordPass protects the credentials used to access accounts. Using both gives broader coverage.</p></details>
+        <details><summary>Does a VPN make me anonymous?<span></span></summary><p>No. A VPN improves connection privacy, but websites may still identify you through logins, cookies, fingerprinting, and information you share. It is one layer in a larger security routine.</p></details>
+        <details><summary>Can a password manager stop phishing?<span></span></summary><p>It can reduce some risk by filling credentials only on recognized sites, but it cannot replace careful link checking, multi-factor authentication, software updates, and good judgment.</p></details>
+        <details><summary>Are all listed features included on every device?<span></span></summary><p>No. Features can vary by subscription, operating system, app version, and region. Check the current offer and compatibility details before buying.</p></details>
       </div>
     </section>
 
     <section class="final-cta">
-      <div>
-        <p>KruigerLabs security recommendation</p>
-        <h2>Protect the connection. Lock down the accounts.</h2>
-      </div>
-      <div class="final-actions">
-        <a class="primary-action" href={nordVpnLink} target="_blank" rel="sponsored noopener noreferrer">Get NordVPN</a>
-        <a class="secondary-action" href={nordPassLink} target="_blank" rel="sponsored noopener noreferrer">Get NordPass</a>
+      <p>Stay secure. Stay private.</p>
+      <h2>Protect the connection.<br/><span>Lock down the accounts.</span></h2>
+      <div class="hero-actions">
+        <a class="button button-vpn" href={nordVpnLink} target="_blank" rel="sponsored noopener noreferrer">Get NordVPN</a>
+        <a class="button button-pass" href={nordPassLink} target="_blank" rel="sponsored noopener noreferrer">Get NordPass</a>
       </div>
     </section>
 
     <footer class="security-footer">
       <a class="security-brand" href="/">KRUIGER<span>LABS</span></a>
-      <p>Independent recommendations for a safer online community.</p>
-      <p>NordVPN and NordPass are trademarks of their respective owners. Features and offers may change.</p>
+      <p>Independent security recommendations for the KruigerLabs community.</p>
+      <p>NordVPN and NordPass are trademarks of their respective owners. Offers, features, and review rankings may change.</p>
     </footer>
   </main>
 </KruigerLayout>
-
-<style>
-  :global(body) {
-    background: #07110f;
-  }
-
-  :global(body::before) {
-    display: none;
-  }
-
-  .security-page {
-    --ink: #07110f;
-    --paper: #f3f1e8;
-    --paper-deep: #e8e5d8;
-    --mint: #b8e4d3;
-    --green: #79d6b3;
-    --acid: #d9f28b;
-    --line: rgba(7, 17, 15, 0.17);
-    --muted: #5c6964;
-    min-height: 100vh;
-    background:
-      linear-gradient(rgba(7,17,15,.045) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(7,17,15,.045) 1px, transparent 1px),
-      var(--paper);
-    background-size: 42px 42px;
-    color: var(--ink);
-    font-family: "Inter", sans-serif;
-    position: relative;
-  }
-
-  .security-page :global(*) { box-sizing: border-box; }
-  .security-page :global(a) { color: inherit; text-decoration: none; }
-
-  .security-nav {
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    min-height: 76px;
-    padding: 0 clamp(22px, 5vw, 76px);
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    align-items: center;
-    border-bottom: 1px solid var(--line);
-    background: rgba(243, 241, 232, 0.9);
-    backdrop-filter: blur(18px);
-  }
-
-  .security-brand {
-    width: fit-content;
-    font-family: "Orbitron", sans-serif;
-    font-size: 1.06rem;
-    font-weight: 800;
-    letter-spacing: .075em;
-  }
-
-  .security-brand span { color: #168b69; }
-
-  .security-nav nav { display: flex; gap: 2rem; }
-  .security-nav nav a {
-    color: #33423d;
-    font-size: .78rem;
-    font-weight: 700;
-    letter-spacing: .04em;
-  }
-  .security-nav nav a:hover { color: #087052; }
-
-  .nav-cta {
-    justify-self: end;
-    display: inline-flex;
-    align-items: center;
-    gap: .6rem;
-    padding: .7rem 1rem;
-    border: 1px solid var(--ink);
-    background: var(--ink);
-    color: var(--paper) !important;
-    font-size: .76rem;
-    font-weight: 800;
-    letter-spacing: .025em;
-    transition: transform .2s ease, background .2s ease;
-  }
-  .nav-cta:hover { transform: translateY(-2px); background: #17352d; }
-  .nav-cta svg, .primary-action svg, .text-link svg { width: 17px; fill: none; stroke: currentColor; stroke-width: 1.8; }
-
-  .security-hero {
-    min-height: 720px;
-    padding: 86px clamp(24px, 7vw, 112px) 92px;
-    display: grid;
-    grid-template-columns: minmax(0, 1.05fr) minmax(380px, .95fr);
-    gap: clamp(50px, 8vw, 132px);
-    align-items: center;
-    border-bottom: 1px solid var(--line);
-    overflow: hidden;
-  }
-
-  .hero-copy { max-width: 730px; }
-  .eyebrow {
-    display: flex;
-    align-items: center;
-    gap: .75rem;
-    margin-bottom: 1.6rem;
-    color: #2c4f43;
-    font-size: .72rem;
-    font-weight: 800;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-  }
-  .eyebrow span { width: 34px; height: 2px; background: #178965; }
-
-  .security-hero h1 {
-    max-width: 760px;
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: clamp(3.5rem, 6.2vw, 7.4rem);
-    font-weight: 400;
-    line-height: .91;
-    letter-spacing: -.065em;
-  }
-  .security-hero h1 em { color: #168b69; font-weight: 400; }
-  .hero-lede {
-    max-width: 680px;
-    margin-top: 2rem;
-    color: #45534e;
-    font-size: clamp(1rem, 1.35vw, 1.2rem);
-    line-height: 1.75;
-  }
-  .hero-actions { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2.2rem; }
-  .primary-action, .secondary-action {
-    min-height: 52px;
-    padding: .9rem 1.35rem;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: .75rem;
-    border: 1px solid var(--ink);
-    font-size: .82rem;
-    font-weight: 800;
-    letter-spacing: .035em;
-    transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
-  }
-  .primary-action { background: var(--ink); color: var(--paper) !important; box-shadow: 7px 7px 0 var(--green); }
-  .secondary-action { background: transparent; }
-  .primary-action:hover, .secondary-action:hover { transform: translate(-2px, -2px); }
-  .primary-action:hover { box-shadow: 10px 10px 0 var(--green); }
-  .secondary-action:hover { background: var(--paper-deep); }
-
-  .affiliate-note {
-    max-width: 590px;
-    margin-top: 1.8rem;
-    display: flex;
-    gap: .65rem;
-    color: #69746f;
-    font-size: .72rem;
-    line-height: 1.55;
-  }
-  .affiliate-note svg { flex: 0 0 16px; width: 16px; fill: none; stroke: #168b69; stroke-width: 1.7; }
-
-  .security-visual {
-    min-height: 500px;
-    position: relative;
-    display: grid;
-    place-items: center;
-  }
-  .security-visual::before {
-    content: "";
-    position: absolute;
-    width: min(430px, 85vw);
-    aspect-ratio: 1;
-    border-radius: 50%;
-    background: var(--mint);
-    box-shadow: 0 0 0 34px rgba(184,228,211,.34), 0 0 0 68px rgba(184,228,211,.16);
-  }
-  .orbit { position: absolute; width: 460px; height: 210px; border: 1px solid rgba(7,17,15,.24); border-radius: 50%; z-index: 1; }
-  .orbit-one { transform: rotate(28deg); }
-  .orbit-two { transform: rotate(-28deg); }
-  .orbit::after { content: ""; position: absolute; width: 9px; height: 9px; border-radius: 50%; background: var(--ink); top: 44px; left: 38px; }
-
-  .shield-core {
-    position: relative;
-    z-index: 3;
-    width: 230px;
-    height: 280px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: var(--ink);
-    color: var(--paper);
-    clip-path: polygon(50% 0, 95% 17%, 95% 56%, 83% 77%, 50% 100%, 17% 77%, 5% 56%, 5% 17%);
-    filter: drop-shadow(18px 22px 0 rgba(22,139,105,.27));
-  }
-  .shield-core svg { width: 92px; height: 108px; fill: none; stroke: var(--green); stroke-width: 5; stroke-linecap: square; stroke-linejoin: miter; }
-  .shield-core strong { margin-top: .4rem; font-family: "Orbitron", sans-serif; font-size: 1rem; letter-spacing: .06em; }
-  .shield-core span { margin-top: .4rem; color: #9fafa9; font-size: .68rem; }
-
-  .signal-card {
-    position: absolute;
-    z-index: 4;
-    min-width: 204px;
-    padding: .85rem 1rem;
-    display: flex;
-    align-items: center;
-    gap: .8rem;
-    background: rgba(243,241,232,.95);
-    border: 1px solid var(--ink);
-    box-shadow: 7px 7px 0 rgba(7,17,15,.14);
-  }
-  .signal-card-top { top: 52px; right: -18px; }
-  .signal-card-bottom { bottom: 78px; left: -25px; }
-  .signal-icon { width: 36px; height: 36px; display: grid; place-items: center; background: var(--acid); }
-  .signal-icon svg { width: 20px; fill: none; stroke: var(--ink); stroke-width: 1.8; stroke-linecap: round; }
-  .signal-card b, .signal-card small { display: block; }
-  .signal-card b { font-size: .76rem; }
-  .signal-card small { margin-top: .2rem; color: var(--muted); font-size: .65rem; }
-  .status-pill { position: absolute; z-index: 5; bottom: 25px; right: 17px; padding: .6rem .8rem; background: #fffdf3; border: 1px solid var(--line); font-size: .66rem; font-weight: 800; }
-  .status-pill i { display: inline-block; width: 7px; height: 7px; margin-right: .45rem; border-radius: 50%; background: #168b69; box-shadow: 0 0 0 4px rgba(22,139,105,.14); }
-
-  .trust-strip {
-    padding: 20px clamp(24px, 7vw, 112px);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1.5rem;
-    background: var(--ink);
-    color: #aebbb6;
-    font-size: .72rem;
-    letter-spacing: .04em;
-  }
-  .trust-strip > span { color: var(--acid); font-weight: 800; text-transform: uppercase; }
-  .trust-strip div { white-space: nowrap; }
-  .trust-strip i { display: inline-block; width: 5px; height: 5px; margin-right: .55rem; border-radius: 50%; background: var(--green); vertical-align: middle; }
-
-  .briefing-section, .pass-section, .stack-section, .faq-section {
-    padding: 110px clamp(24px, 7vw, 112px);
-    border-bottom: 1px solid var(--line);
-  }
-  .section-heading { max-width: 880px; margin-bottom: 4rem; }
-  .section-heading p, .section-kicker {
-    margin-bottom: 1rem;
-    color: #168b69;
-    font-size: .7rem;
-    font-weight: 900;
-    letter-spacing: .17em;
-    text-transform: uppercase;
-  }
-  .section-heading h2, .pass-intro h2 {
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: clamp(2.6rem, 4.6vw, 5.4rem);
-    font-weight: 400;
-    line-height: 1;
-    letter-spacing: -.05em;
-  }
-  .section-heading.compact { max-width: 740px; }
-
-  .vpn-layout { display: grid; grid-template-columns: 1.1fr .9fr; gap: 1px; background: var(--line); border: 1px solid var(--line); }
-  .feature-lead, .feature-stack article { background: var(--paper); }
-  .feature-lead { min-height: 560px; padding: clamp(30px, 4.5vw, 68px); display: flex; flex-direction: column; }
-  .feature-number { color: #71807a; font-family: "Orbitron", sans-serif; font-size: .64rem; letter-spacing: .08em; }
-  .feature-icon, .pass-card-icon { width: 58px; height: 58px; margin: auto 0 2rem; display: grid; place-items: center; background: var(--mint); border: 1px solid var(--ink); }
-  .feature-icon svg, .pass-card-icon svg { width: 28px; fill: none; stroke: var(--ink); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
-  .feature-lead h3 { max-width: 570px; font-family: Georgia, serif; font-size: clamp(2rem, 3vw, 3.2rem); font-weight: 400; line-height: 1.08; letter-spacing: -.035em; }
-  .feature-lead > p { max-width: 650px; margin-top: 1.4rem; color: var(--muted); line-height: 1.75; }
-  .use-case { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--line); color: #30413b; font-size: .75rem; }
-  .use-case span { margin-right: .7rem; color: #168b69; font-weight: 900; text-transform: uppercase; letter-spacing: .08em; }
-  .feature-stack { display: grid; gap: 1px; background: var(--line); }
-  .feature-stack article { padding: 34px clamp(28px, 3.5vw, 50px); }
-  .feature-stack h3 { margin-top: 1rem; font-family: Georgia, serif; font-size: 1.55rem; font-weight: 400; line-height: 1.15; }
-  .feature-stack p { margin-top: .8rem; color: var(--muted); font-size: .88rem; line-height: 1.65; }
-
-  .reality-check { margin-top: 26px; padding: 32px 38px; display: grid; grid-template-columns: .9fr 1.1fr; gap: 3rem; align-items: center; background: var(--acid); border: 1px solid var(--ink); box-shadow: 9px 9px 0 var(--ink); }
-  .reality-check .label { font-size: .65rem; font-weight: 900; letter-spacing: .13em; text-transform: uppercase; }
-  .reality-check h3 { margin-top: .6rem; font-family: Georgia, serif; font-size: 1.7rem; font-weight: 400; }
-  .reality-check p { color: #435147; line-height: 1.7; }
-
-  .pass-section { display: grid; grid-template-columns: minmax(290px, .72fr) minmax(0, 1.28fr); gap: clamp(50px, 8vw, 120px); background: var(--ink); color: var(--paper); }
-  .pass-intro { align-self: start; position: sticky; top: 120px; }
-  .pass-intro h2 { color: var(--paper); }
-  .pass-intro > p:not(.section-kicker) { margin-top: 1.7rem; color: #a8b5b0; line-height: 1.8; }
-  .text-link { margin-top: 2rem; display: inline-flex; gap: .7rem; align-items: center; color: var(--acid) !important; font-size: .78rem; font-weight: 800; }
-  .pass-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-  .pass-card { min-height: 310px; padding: clamp(25px, 3vw, 40px); background: #10231e; border: 1px solid rgba(184,228,211,.17); }
-  .pass-card-wide { grid-column: 1 / -1; min-height: 430px; }
-  .pass-card .pass-card-icon { margin: 0 0 2.5rem; background: var(--green); }
-  .pass-card h3 { max-width: 610px; font-family: Georgia, serif; font-size: clamp(1.7rem, 2.7vw, 2.8rem); font-weight: 400; line-height: 1.08; }
-  .pass-card p { margin-top: 1rem; color: #a8b5b0; font-size: .9rem; line-height: 1.7; }
-  .password-demo { margin-top: 2rem; padding: 1rem; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1rem; background: #07110f; border: 1px solid rgba(184,228,211,.2); }
-  .password-demo span { color: #899892; font-size: .65rem; text-transform: uppercase; letter-spacing: .08em; }
-  .password-demo code { color: var(--paper); letter-spacing: .18em; }
-  .password-demo i { padding: .35rem .55rem; background: var(--acid); color: var(--ink); font-size: .62rem; font-style: normal; font-weight: 900; }
-  .pass-card-accent { background: var(--acid); color: var(--ink); }
-  .pass-card-accent p { color: #4d594f; }
-  .mini-label { display: inline-block; margin-bottom: 4rem; font-size: .62rem; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; }
-
-  .steps-list { list-style: none; border-top: 1px solid var(--line); }
-  .steps-list li { padding: 2rem 0; display: grid; grid-template-columns: 90px minmax(0, 760px); gap: clamp(25px, 7vw, 110px); border-bottom: 1px solid var(--line); }
-  .steps-list > li > span { color: #168b69; font-family: "Orbitron", sans-serif; font-size: .75rem; }
-  .steps-list h3 { font-family: Georgia, serif; font-size: 1.8rem; font-weight: 400; }
-  .steps-list p { margin-top: .55rem; color: var(--muted); line-height: 1.7; }
-
-  .faq-section { background: var(--paper-deep); }
-  .faq-list { max-width: 980px; margin-left: auto; border-top: 1px solid var(--line); }
-  .faq-list details { border-bottom: 1px solid var(--line); }
-  .faq-list summary { padding: 1.6rem 0; display: flex; align-items: center; justify-content: space-between; gap: 2rem; cursor: pointer; list-style: none; font-family: Georgia, serif; font-size: clamp(1.25rem, 2vw, 1.75rem); }
-  .faq-list summary::-webkit-details-marker { display: none; }
-  .faq-list summary span { width: 24px; height: 24px; position: relative; flex: 0 0 24px; }
-  .faq-list summary span::before, .faq-list summary span::after { content: ""; position: absolute; top: 11px; left: 3px; width: 18px; height: 1px; background: var(--ink); transition: transform .2s ease; }
-  .faq-list summary span::after { transform: rotate(90deg); }
-  .faq-list details[open] summary span::after { transform: rotate(0); }
-  .faq-list details p { max-width: 780px; padding: 0 0 1.8rem; color: var(--muted); line-height: 1.75; }
-
-  .final-cta { padding: 84px clamp(24px, 7vw, 112px); display: flex; align-items: end; justify-content: space-between; gap: 3rem; background: var(--green); color: var(--ink); }
-  .final-cta p { margin-bottom: .75rem; font-size: .68rem; font-weight: 900; letter-spacing: .14em; text-transform: uppercase; }
-  .final-cta h2 { max-width: 760px; font-family: Georgia, serif; font-size: clamp(2.4rem, 4.5vw, 5rem); font-weight: 400; line-height: .98; letter-spacing: -.05em; }
-  .final-actions { display: flex; flex-wrap: wrap; gap: .8rem; flex: 0 0 auto; }
-  .final-actions .primary-action { box-shadow: 7px 7px 0 rgba(243,241,232,.75); }
-  .final-actions .secondary-action { background: rgba(243,241,232,.25); }
-
-  .security-footer { padding: 32px clamp(24px, 7vw, 112px); display: grid; grid-template-columns: 1fr auto auto; gap: 2rem; align-items: center; background: var(--ink); color: #8fa099; }
-  .security-footer .security-brand { color: var(--paper); }
-  .security-footer p { font-size: .65rem; line-height: 1.5; }
-  .security-footer p:last-child { max-width: 340px; text-align: right; }
-
-  @media (prefers-reduced-motion: no-preference) {
-    .hero-copy > * { animation: reveal .65s both; }
-    .hero-copy > *:nth-child(2) { animation-delay: .08s; }
-    .hero-copy > *:nth-child(3) { animation-delay: .16s; }
-    .hero-copy > *:nth-child(4) { animation-delay: .24s; }
-    .hero-copy > *:nth-child(5) { animation-delay: .32s; }
-    .security-visual { animation: reveal .8s .2s both; }
-    .orbit-one { animation: orbitFloat 9s ease-in-out infinite; }
-    .orbit-two { animation: orbitFloat 11s ease-in-out -3s infinite reverse; }
-  }
-
-  @keyframes reveal { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
-  @keyframes orbitFloat { 0%, 100% { translate: 0 0; } 50% { translate: 0 -8px; } }
-
-  @media (max-width: 1050px) {
-    .security-nav { grid-template-columns: 1fr auto; }
-    .security-nav nav { display: none; }
-    .security-hero { grid-template-columns: 1fr; }
-    .hero-copy { max-width: 820px; }
-    .security-visual { width: min(620px, 100%); margin: 0 auto; }
-    .pass-section { grid-template-columns: 1fr; }
-    .pass-intro { position: static; max-width: 760px; }
-    .security-footer { grid-template-columns: 1fr 1fr; }
-    .security-footer p:last-child { grid-column: 1 / -1; text-align: left; }
-  }
-
-  @media (max-width: 760px) {
-    .security-nav { min-height: 66px; }
-    .nav-cta { padding: .62rem .75rem; }
-    .nav-cta svg { display: none; }
-    .security-hero { min-height: auto; padding-top: 60px; }
-    .security-hero h1 { font-size: clamp(3.2rem, 15vw, 5.6rem); }
-    .security-visual { min-height: 420px; transform: scale(.88); }
-    .signal-card-top { right: -6vw; }
-    .signal-card-bottom { left: -6vw; }
-    .trust-strip { overflow-x: auto; justify-content: flex-start; }
-    .briefing-section, .pass-section, .stack-section, .faq-section { padding-top: 80px; padding-bottom: 80px; }
-    .vpn-layout, .reality-check { grid-template-columns: 1fr; }
-    .feature-lead { min-height: 500px; }
-    .reality-check { gap: 1.5rem; }
-    .pass-grid { grid-template-columns: 1fr; }
-    .pass-card-wide { grid-column: auto; }
-    .password-demo { grid-template-columns: 1fr auto; }
-    .password-demo code { grid-column: 1 / -1; grid-row: 2; }
-    .steps-list li { grid-template-columns: 42px 1fr; gap: 1.2rem; }
-    .final-cta { align-items: flex-start; flex-direction: column; }
-    .security-footer { grid-template-columns: 1fr; }
-    .security-footer p:last-child { grid-column: auto; }
-  }
-
-  @media (max-width: 480px) {
-    .security-brand { font-size: .86rem; }
-    .nav-cta { font-size: .66rem; }
-    .hero-actions, .final-actions { display: grid; width: 100%; }
-    .primary-action, .secondary-action { width: 100%; }
-    .security-visual { left: 50%; width: 108vw; transform: translateX(-50%) scale(.75); margin: -35px 0; }
-    .feature-lead { min-height: 540px; }
-  }
-</style>
