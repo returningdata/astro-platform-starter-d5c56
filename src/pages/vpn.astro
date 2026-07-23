@@ -1,0 +1,230 @@
+---
+import KruigerLayout from '../layouts/KruigerLayout.astro';
+import '../styles/vpn.css';
+
+const nordVpnLink = 'https://go.nordvpn.net/aff_c?offer_id=15&aff_id=152990&url_id=902';
+const nordPassLink = 'https://go.nordpass.io/aff_c?offer_id=488&aff_id=152990&url_id=9356';
+
+const reviews = [
+  {
+    product: 'NordVPN',
+    source: 'TechRadar',
+    verdict: 'Best VPN overall',
+    detail: 'Placed first in TechRadar’s 2026 guide after testing privacy, speed, streaming, apps, and security tools.',
+    date: 'Updated July 2026',
+    url: 'https://www.techradar.com/vpn/best-vpn',
+    tone: 'vpn'
+  },
+  {
+    product: 'NordVPN',
+    source: "Tom’s Guide",
+    verdict: 'Best VPN for most people',
+    detail: 'Recommended as a strong all-round choice with a polished experience, excellent speeds, and broad feature coverage.',
+    date: 'Updated June 17, 2026',
+    url: 'https://www.tomsguide.com/reviews/nordvpn-review',
+    tone: 'vpn'
+  },
+  {
+    product: 'NordPass',
+    source: 'TechRadar',
+    verdict: 'Best password manager overall',
+    detail: 'Ranked first in TechRadar’s 2026 password manager guide for its security, ease of use, and value.',
+    date: 'Updated May 26, 2026',
+    url: 'https://www.techradar.com/best/password-manager',
+    tone: 'pass'
+  },
+  {
+    product: 'NordPass',
+    source: 'Cybernews',
+    verdict: 'Top password manager for 2026',
+    detail: 'Selected as the leading overall option after hands-on testing of security, features, usability, and pricing.',
+    date: 'Updated June 27, 2026',
+    url: 'https://cybernews.com/best-password-managers/nordpass-review/',
+    tone: 'pass'
+  }
+];
+---
+
+<KruigerLayout
+  title="NordVPN + NordPass Security Guide | KruigerLabs"
+  description="See why KruigerLabs recommends NordVPN and NordPass for safer connections, stronger passwords, and better everyday account security."
+>
+  <main class="security-page">
+    <header class="security-nav">
+      <a class="security-brand" href="/" aria-label="KruigerLabs home">KRUIGER<span>LABS</span></a>
+      <nav aria-label="VPN page navigation">
+        <a href="#vpn">NordVPN</a>
+        <a href="#pass">NordPass</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <a class="nav-cta" href={nordVpnLink} target="_blank" rel="sponsored noopener noreferrer">Get protected</a>
+    </header>
+
+    <section class="hero">
+      <div class="hero-glow hero-glow-blue"></div>
+      <div class="hero-glow hero-glow-teal"></div>
+      <div class="hero-grid"></div>
+
+      <div class="hero-copy">
+        <p class="eyebrow">Stay secure <i></i> Stay private</p>
+        <h1>Protect what<br/><span>matters.</span></h1>
+        <p class="hero-intro">
+          Your connection and your accounts need different defenses. NordVPN helps secure the path your data travels.
+          NordPass helps secure the credentials that unlock your digital life.
+        </p>
+        <div class="hero-actions">
+          <a class="button button-vpn" href={nordVpnLink} target="_blank" rel="sponsored noopener noreferrer">
+            Get NordVPN
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="button button-pass" href={nordPassLink} target="_blank" rel="sponsored noopener noreferrer">
+            Get NordPass
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+        <p class="affiliate-note">Affiliate disclosure: KruigerLabs may earn a commission from qualifying purchases at no added cost to you.</p>
+      </div>
+
+      <div class="hero-products" aria-label="NordVPN and NordPass applications">
+        <div class="product-orbit"></div>
+        <figure class="hero-shot hero-shot-vpn">
+          <img src="/assets/security/nordvpn-app.webp" alt="NordVPN application running on a laptop" width="1400" height="933" />
+          <figcaption><span></span>Connection protected</figcaption>
+        </figure>
+        <figure class="hero-shot hero-shot-pass">
+          <img src="/assets/security/nordpass-app.webp" alt="NordPass password health screen on a phone" width="1400" height="788" />
+          <figcaption><span></span>Password health checked</figcaption>
+        </figure>
+        <div class="hero-shield" aria-hidden="true">
+          <svg viewBox="0 0 64 76"><path d="M32 3 59 13v22c0 20-11 34-27 41C16 69 5 55 5 35V13L32 3Z"/><path d="m21 38 8 8 15-18"/></svg>
+        </div>
+      </div>
+
+      <div class="hero-proof">
+        <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>Two tools. One stronger security stack.</span>
+        <span>Official product imagery shown</span>
+      </div>
+    </section>
+
+    <section class="security-principle">
+      <p class="section-index">01 / Why both</p>
+      <div>
+        <h2>One protects your route.<br/>The other protects your keys.</h2>
+        <p>A VPN and a password manager are not substitutes. They solve separate risks that show up every day in gaming communities, remote work, travel, shopping, and social accounts.</p>
+      </div>
+      <div class="principle-diagram" aria-label="Diagram comparing connection and account protection">
+        <div class="diagram-node node-device"><span>01</span>Your device</div>
+        <div class="diagram-line line-blue"><i></i></div>
+        <div class="diagram-node node-vpn"><span>02</span>Encrypted route</div>
+        <div class="diagram-line line-teal"><i></i></div>
+        <div class="diagram-node node-account"><span>03</span>Secured account</div>
+      </div>
+    </section>
+
+    <section class="product-section product-vpn" id="vpn">
+      <div class="product-copy">
+        <img class="product-logo" src="/assets/security/nordvpn-logo.svg" alt="NordVPN" width="720" height="158" />
+        <p class="product-tagline">Online privacy made practical</p>
+        <h2>Protect your connection wherever you sign in.</h2>
+        <p class="product-lede">NordVPN encrypts traffic between your device and its VPN server. That matters most when you use public or shared networks you do not control.</p>
+        <ul class="feature-list">
+          <li><span>01</span><div><b>Safer public Wi-Fi</b><p>Reduce exposure to other people sharing airport, hotel, café, or event networks.</p></div></li>
+          <li><span>02</span><div><b>More private browsing</b><p>Replace the public IP address websites see with the VPN server’s address.</p></div></li>
+          <li><span>03</span><div><b>Protection that travels</b><p>Use apps across popular phones, computers, browsers, TVs, and compatible routers.</p></div></li>
+          <li><span>04</span><div><b>Extra security tools</b><p>Plan and platform may include Threat Protection, kill switch, Meshnet, Double VPN, and dark web monitoring.</p></div></li>
+        </ul>
+        <a class="product-link product-link-vpn" href={nordVpnLink} target="_blank" rel="sponsored noopener noreferrer">Explore NordVPN plans <span>↗</span></a>
+      </div>
+      <div class="product-media">
+        <div class="media-number">N° 01</div>
+        <img src="/assets/security/nordvpn-app.webp" alt="NordVPN connected to a United States server on a laptop" width="1400" height="933" loading="lazy" />
+        <div class="media-status"><i></i><span><b>VPN connected</b>Traffic route encrypted</span></div>
+      </div>
+    </section>
+
+    <section class="product-section product-pass" id="pass">
+      <div class="product-media">
+        <div class="media-number">N° 02</div>
+        <img src="/assets/security/nordpass-app.webp" alt="NordPass password health dashboard on a mobile phone" width="1400" height="788" loading="lazy" />
+        <div class="media-status"><i></i><span><b>Vault ready</b>Credentials organized</span></div>
+      </div>
+      <div class="product-copy">
+        <img class="product-logo" src="/assets/security/nordpass-logo.svg" alt="NordPass" width="720" height="158" />
+        <p class="product-tagline">Passwords made simple and secure</p>
+        <h2>Stop asking one password to protect everything.</h2>
+        <p class="product-lede">NordPass stores and fills credentials so every important account can have a long, unique password without making you memorize it.</p>
+        <ul class="feature-list">
+          <li><span>01</span><div><b>Unique generated passwords</b><p>Limit the damage from a breach by avoiding the same password across multiple services.</p></div></li>
+          <li><span>02</span><div><b>Fast, accurate autofill</b><p>Sign in across supported devices without repeatedly typing or exposing credentials.</p></div></li>
+          <li><span>03</span><div><b>Password health visibility</b><p>Find weak, reused, or exposed credentials and prioritize the accounts that need attention.</p></div></li>
+          <li><span>04</span><div><b>Passwords and passkeys together</b><p>Keep traditional logins and supported passkeys organized inside one secure vault.</p></div></li>
+        </ul>
+        <a class="product-link product-link-pass" href={nordPassLink} target="_blank" rel="sponsored noopener noreferrer">Explore NordPass plans <span>↗</span></a>
+      </div>
+    </section>
+
+    <section class="reviews-section" id="reviews">
+      <div class="reviews-heading">
+        <p class="section-index">02 / Independent reviews</p>
+        <h2>Recommended beyond our community.</h2>
+        <p>Recent independent testing places both products among the leading options in their categories. Review verdicts can change as products and test methods evolve.</p>
+      </div>
+      <div class="reviews-grid">
+        {reviews.map((review, index) => (
+          <a class:list={["review-card", `review-${review.tone}`]} href={review.url} target="_blank" rel="noopener noreferrer">
+            <div class="review-topline">
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              <span>{review.product}</span>
+            </div>
+            <p class="review-source">{review.source}</p>
+            <h3>{review.verdict}</h3>
+            <p class="review-detail">{review.detail}</p>
+            <div class="review-footer"><span>{review.date}</span><span>Read review ↗</span></div>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="setup-section">
+      <div class="setup-heading">
+        <p class="section-index">03 / Member setup</p>
+        <h2>Build the stack in four moves.</h2>
+      </div>
+      <ol class="setup-list">
+        <li><span>01</span><div><h3>Protect untrusted networks</h3><p>Install NordVPN on the devices you travel with and configure automatic connection for public Wi-Fi.</p></div></li>
+        <li><span>02</span><div><h3>Move credentials into NordPass</h3><p>Import existing logins, then replace reused and weak passwords with generated alternatives.</p></div></li>
+        <li><span>03</span><div><h3>Enable multi-factor authentication</h3><p>Prioritize email, Discord, finance, cloud storage, and accounts that can reset other accounts.</p></div></li>
+        <li><span>04</span><div><h3>Act on alerts</h3><p>Review breach notifications, remove unfamiliar sessions, and keep both apps and devices updated.</p></div></li>
+      </ol>
+    </section>
+
+    <section class="faq-section" id="faq">
+      <div class="faq-heading">
+        <p class="section-index">04 / Questions</p>
+        <h2>Know what each tool can—and cannot—do.</h2>
+      </div>
+      <div class="faq-list">
+        <details open><summary>Do I need both NordVPN and NordPass?<span></span></summary><p>They protect different parts of your online activity. NordVPN protects the connection carrying your data; NordPass protects the credentials used to access accounts. Using both gives broader coverage.</p></details>
+        <details><summary>Does a VPN make me anonymous?<span></span></summary><p>No. A VPN improves connection privacy, but websites may still identify you through logins, cookies, fingerprinting, and information you share. It is one layer in a larger security routine.</p></details>
+        <details><summary>Can a password manager stop phishing?<span></span></summary><p>It can reduce some risk by filling credentials only on recognized sites, but it cannot replace careful link checking, multi-factor authentication, software updates, and good judgment.</p></details>
+        <details><summary>Are all listed features included on every device?<span></span></summary><p>No. Features can vary by subscription, operating system, app version, and region. Check the current offer and compatibility details before buying.</p></details>
+      </div>
+    </section>
+
+    <section class="final-cta">
+      <p>Stay secure. Stay private.</p>
+      <h2>Protect the connection.<br/><span>Lock down the accounts.</span></h2>
+      <div class="hero-actions">
+        <a class="button button-vpn" href={nordVpnLink} target="_blank" rel="sponsored noopener noreferrer">Get NordVPN</a>
+        <a class="button button-pass" href={nordPassLink} target="_blank" rel="sponsored noopener noreferrer">Get NordPass</a>
+      </div>
+    </section>
+
+    <footer class="security-footer">
+      <a class="security-brand" href="/">KRUIGER<span>LABS</span></a>
+      <p>Independent security recommendations for the KruigerLabs community.</p>
+      <p>NordVPN and NordPass are trademarks of their respective owners. Offers, features, and review rankings may change.</p>
+    </footer>
+  </main>
+</KruigerLayout>
