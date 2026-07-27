@@ -1,17 +1,16 @@
-import type { Context, Config } from "@netlify/functions";
+import type { Config } from "@netlify/functions";
 import { getStore } from "@netlify/blobs";
 
 const DISCORD_CLIENT_ID = Netlify.env.get("DISCORD_CLIENT_ID") || "";
 const DISCORD_CLIENT_SECRET = Netlify.env.get("DISCORD_CLIENT_SECRET") || "";
-const REDIRECT_URI = Netlify.env.get("URL")
-  ? `${Netlify.env.get("URL")}/api/auth/discord/callback`
-  : "http://localhost:8888/api/auth/discord/callback";
+const SITE_URL = Netlify.env.get("SITE_URL") || Netlify.env.get("URL") || "http://localhost:8889";
+const REDIRECT_URI = Netlify.env.get("DISCORD_REDIRECT_URI") || `${SITE_URL}/api/auth/discord/callback`;
 
-const DISCORD_GUILD_ID = "1411715697406378116";
-const OWNER_ROLE_ID = "1411715697888989286";
+const DISCORD_GUILD_ID = Netlify.env.get("KRUIGER_DISCORD_GUILD_ID") || "1411715697406378116";
+const OWNER_ROLE_ID = Netlify.env.get("KRUIGER_OWNER_ROLE_ID") || "1411715697888989286";
 
 // Bootstrap admin: comma-separated Discord user IDs that always get admin access
-const ADMIN_USER_IDS = (Netlify.env.get("ADMIN_USER_IDS") || "").split(",").filter(id => id.trim());
+const ADMIN_USER_IDS = `${Netlify.env.get("ADMIN_USER_IDS") || ""},${Netlify.env.get("AUTHORIZED_STAFF_IDS") || ""}`.split(",").map(id => id.trim()).filter(Boolean);
 
 interface DiscordUser {
   id: string;
@@ -66,11 +65,20 @@ function getUserPermissions(memberRoles: string[], adminRoles: AdminRole[]): str
   return Array.from(permissions);
 }
 
-export default async (req: Request, context: Context) => {
+function readCookie(req: Request, name: string) {
+  return (req.headers.get("cookie") || "").split(";").map((part) => part.trim()).find((part) => part.startsWith(`${name}=`))?.slice(name.length + 1) || "";
+}
+
+export default async (req: Request) => {
   const url = new URL(req.url);
   const code = url.searchParams.get("code");
+  const state = url.searchParams.get("state");
+  const oauthCookie = readCookie(req, "oauth_state");
+  const separator = oauthCookie.indexOf(".");
+  const storedState = separator >= 0 ? oauthCookie.slice(0, separator) : "";
+  const returnTo = separator >= 0 ? decodeURIComponent(oauthCookie.slice(separator + 1)) : "/customer";
 
-  if (!code) {
+  if (!code || !state || state !== storedState) {
     return Response.redirect("/?error=no_code", 302);
   }
 
@@ -159,6 +167,7 @@ export default async (req: Request, context: Context) => {
       isAdmin,
       isOwner,
       isInGuild,
+      csrfToken: crypto.randomUUID(),
       createdAt: new Date().toISOString(),
       expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString() // 7 days
     };
@@ -168,13 +177,10 @@ export default async (req: Request, context: Context) => {
     await sessionsStore.setJSON(sessionId, sessionData);
 
     // Redirect to admin page with session cookie
-    const response = new Response(null, {
-      status: 302,
-      headers: {
-        Location: isAdmin ? "/admin" : "/?error=not_admin",
-        "Set-Cookie": `session=${sessionId}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${7 * 24 * 60 * 60}`
-      }
-    });
+    const headers = new Headers({ Location: isAdmin && returnTo === "/customer" ? "/admin" : returnTo });
+    headers.append("Set-Cookie", `session=${sessionId}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${7 * 24 * 60 * 60}${SITE_URL.startsWith("https://") ? "; Secure" : ""}`);
+    headers.append("Set-Cookie", "oauth_state=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0");
+    const response = new Response(null, { status: 302, headers });
 
     return response;
   } catch (error) {

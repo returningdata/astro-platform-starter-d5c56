@@ -1,0 +1,54 @@
+---
+import '../styles/docs.css';
+import { docNav, searchEntries } from '../data/portal';
+interface Props { title: string; description?: string; active?: string; toc?: { id: string; label: string }[]; }
+const { title, description = 'Kruiger Labs LLC product documentation and support.', active = '', toc = [] } = Astro.props;
+const path = Astro.url.pathname;
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content={description} />
+  <title>{title} | Kruiger Labs LLC Docs</title>
+  <link rel="icon" href="/favicon.png" />
+</head>
+<body>
+  <header class="docs-mainbar">
+    <a class="brand" href="/"><img src="/logo.png" alt="Kruiger Labs LLC logo" /><span>Kruiger <span>Labs</span> LLC</span></a>
+    <nav class="main-links" aria-label="Main website">
+      <a href="/">Main Website</a><a href="/products">Products</a><a class="active" href="/docs">Docs</a><a href="/docs/support">Support</a><a href="/customer">Customer Dashboard</a>
+    </nav>
+  </header>
+  <div class="docs-top">
+    <div style="display:flex;align-items:center;gap:10px"><button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle documentation navigation">☰</button><div class="docs-title">Documentation<small>Internal Affairs Bot · v1.0</small></div></div>
+    <button class="search-button" id="search-open"><span>Search products, guides, and commands…</span><span class="kbd">⌘ K</span></button>
+    <div class="top-actions"><a class="button-secondary" href="/api/auth/discord?action=login&returnTo=/customer">Sign in</a><a class="button" href="/docs/support">Get support</a></div>
+  </div>
+  <div class="docs-grid">
+    <aside class="docs-sidebar" id="docs-sidebar">
+      <div class="side-label">Kruiger Labs Docs</div>
+      {docNav.map(([label, href]) => <a class={path === href || active === label ? 'active' : ''} href={href}>{label}</a>)}
+      <div class="side-label">Internal Affairs</div>
+      <a href="/docs/internal-affairs-bot#features">Features</a><a href="/docs/internal-affairs-bot#server-checks">Member server checks</a><a href="/docs/workflows#approval-workflow">Approval workflow</a><a href="/docs/permissions#discord-permissions">Discord permissions</a>
+    </aside>
+    <main class="docs-content">
+      <div class="breadcrumbs"><a href="/docs">Docs</a><span>›</span><span>{title}</span></div>
+      <slot />
+      <div class="article-footer"><span>Last updated July 27, 2026 · Product version 1.0</span><div class="helpful">Was this helpful? <button data-helpful="true">Yes</button> <button data-helpful="false">No</button></div></div>
+      <div class="pager"><a href="/docs">← Documentation home</a><a href="/docs/support">Support centre →</a></div>
+    </main>
+    <aside class="docs-toc"><strong>On this page</strong>{toc.map((item) => <a href={`#${item.id}`}>{item.label}</a>)}</aside>
+  </div>
+  <footer class="docs-footer"><div class="footer-links"><a href="/docs">Documentation</a><a href="/docs/catalogue">Product Catalogue</a><a href="/docs/support">Support</a><a href="/docs/status">Service Status</a><a href="/docs/privacy">Privacy Policy</a><a href="/docs/terms">Terms of Service</a><a href="/docs/security">Security</a><a href="/docs/contact">Contact</a><a href="/">Main Website</a></div><p>Built and maintained by Kruiger Labs LLC.</p></footer>
+  <div class="search-modal" id="search-modal" role="dialog" aria-modal="true" aria-label="Search documentation"><div class="search-shell"><input class="search-input" id="global-search" placeholder="Try “approve a punishment” or “mutual servers”" autocomplete="off" /><div class="search-results" id="search-results"></div></div></div>
+  <script define:vars={{ searchEntries }}>
+    const modal=document.querySelector('#search-modal');const input=document.querySelector('#global-search');const results=document.querySelector('#search-results');
+    const render=async()=>{const q=input.value.toLowerCase().trim();const terms=q.split(/\s+/).filter(Boolean);let ranked=searchEntries.map(item=>{const hay=`${item.title} ${item.excerpt} ${item.category}`.toLowerCase();return{...item,score:terms.reduce((n,t)=>n+(hay.includes(t)?1:0),0)}}).filter(x=>!terms.length||x.score>0).sort((a,b)=>b.score-a.score).slice(0,12);if(q.length>1){const dynamic=await fetch(`/api/docs/content?resource=search&q=${encodeURIComponent(q)}`).then(r=>r.json()).catch(()=>({items:[]}));ranked=[...(dynamic.items||[]),...ranked].slice(0,12)}results.innerHTML=ranked.map(x=>`<a class="search-result" href="${x.href}"><strong>${x.title}</strong><span>${x.category} · v${x.version} — ${x.excerpt.slice(0,150)}</span></a>`).join('')||'<div class="search-result"><span>No matching documentation found.</span></div>'};
+    const open=()=>{modal.classList.add('open');input.focus();render()};const close=()=>modal.classList.remove('open');document.querySelector('#search-open').addEventListener('click',open);modal.addEventListener('click',e=>{if(e.target===modal)close()});input.addEventListener('input',render);document.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();open()}if(e.key==='Escape')close()});
+    document.querySelector('#mobile-toggle').addEventListener('click',()=>document.querySelector('#docs-sidebar').classList.toggle('open'));
+    document.querySelectorAll('[data-helpful]').forEach(button=>button.addEventListener('click',async()=>{await fetch('/api/docs/feedback',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({articleSlug:location.pathname,helpful:button.dataset.helpful==='true'})});button.parentElement.textContent='Thanks for your feedback.'}));
+  </script>
+</body>
+</html>
