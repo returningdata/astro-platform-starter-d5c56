@@ -11,7 +11,8 @@ import KruigerLayout from '../layouts/KruigerLayout.astro';
     <nav>
       <a href="#home">Home</a>
       <a href="#about">About Us</a>
-      <a href="#bots">Our Bots</a>
+      <a href="/products">Products</a>
+      <a href="/docs">Docs</a>
       <a href="/vpn">Online Security</a>
       <a href="/login" class="admin-link" id="admin-link" style="display:none;">Admin</a>
     </nav>
@@ -26,7 +27,7 @@ import KruigerLayout from '../layouts/KruigerLayout.astro';
         const res = await fetch('/api/auth/session');
         const data = await res.json();
         if (data.authenticated && data.user.isAdmin) {
-          const adminLink = document.getElementById('admin-link');
+          const adminLink = document.querySelector<HTMLAnchorElement>('#admin-link');
           if (adminLink) {
             adminLink.style.display = 'inline';
             adminLink.href = '/admin';
@@ -276,7 +277,7 @@ import KruigerLayout from '../layouts/KruigerLayout.astro';
     <canvas id="starfield"></canvas>
     <div class="bots-wall-content">
       <h3>KRUIGERLABS <span>SERVICES</span></h3>
-      <p class="bots-wall-subtitle">Explore our bots, skills, and tools — from moderation to automations and everything in between.</p>
+      <p class="bots-wall-subtitle">Explore our products, development skills, integrations, and automation tools.</p>
 
       <div class="icon-grid">
         <div class="icon-tile">
@@ -423,7 +424,7 @@ import KruigerLayout from '../layouts/KruigerLayout.astro';
   <script>
     // Starfield Canvas Animation
     (function() {
-      const canvas = document.getElementById('starfield');
+      const canvas = document.querySelector<HTMLCanvasElement>('#starfield');
       if (!canvas) return;
 
       const ctx = canvas.getContext('2d');
@@ -543,70 +544,30 @@ import KruigerLayout from '../layouts/KruigerLayout.astro';
   </script>
 
 
-  <!-- BOTS SECTION -->
+  <!-- INTERNAL AFFAIRS BOT FEATURE -->
   <section class="bots" id="bots">
-
-    <h3>OUR <span>BOTS</span></h3>
-
-    <div class="bot-grid">
-
-      <div class="bot-card">
-        <img src="/assets/elite-pulse.png" alt="Elite Pulse">
-        <h4>Elite Pulse</h4>
-        <p>Real-time server monitoring and heartbeat detection. Keep your Discord community alive with instant status updates and performance analytics.</p>
+    <h3>PROFESSIONAL <span>INTERNAL AFFAIRS MANAGEMENT</span></h3>
+    <p style="max-width:900px;margin:0 auto 36px;color:var(--muted);font-size:1.08rem;line-height:1.8;text-align:center;">The Internal Affairs Bot gives communities and administrative teams a secure and organised way to manage investigations, cases, blacklists, punishments, evidence, staff records, and multi-stage approval workflows directly through Discord.</p>
+    <div class="bot-grid" style="max-width:1040px;margin:0 auto;grid-template-columns:minmax(280px,380px) minmax(0,1fr);align-items:stretch;">
+      <div class="bot-card" style="display:flex;flex-direction:column;align-items:center;">
+        <img src="/assets/internal-affairs/logo.png" alt="Internal Affairs Bot">
+        <h4>Internal Affairs Bot</h4>
+        <p>A professional Discord investigation, case-management, blacklist, punishment-review, and administrative-record system built for roleplay communities, departments, staff teams, and multi-server organisations.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:20px;"><span style="border:1px solid var(--border);border-radius:999px;padding:6px 10px;color:var(--accent);font-size:.8rem;">Available</span><span style="border:1px solid var(--border);border-radius:999px;padding:6px 10px;color:var(--muted);font-size:.8rem;">Discord Bot</span><span style="border:1px solid var(--border);border-radius:999px;padding:6px 10px;color:var(--muted);font-size:.8rem;">Support Available</span></div>
       </div>
-
-      <div class="bot-card">
-        <img src="/assets/elite-welcomer.png" alt="Elite Welcomer">
-        <h4>Elite Welcomer</h4>
-        <p>Create stunning welcome messages for new members. Customizable greetings, role assignments, and onboarding automation for your server.</p>
+      <div class="bot-card" style="text-align:left;display:flex;flex-direction:column;align-items:flex-start;">
+        <h4 style="margin-top:0;">Secure, accountable workflows</h4>
+        <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;width:100%;color:var(--muted);line-height:1.5;"><span>✓ Case management</span><span>✓ User and server investigations</span><span>✓ Blacklist requests</span><span>✓ Punishment requests</span><span>✓ Evidence and case threads</span><span>✓ First-stage reviews</span><span>✓ High Command final reviews</span><span>✓ Reviewer tracking</span><span>✓ Administrative records</span><span>✓ Detailed audit logs</span></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:auto;padding-top:28px;"><a class="btn-glow" href="/products/internal-affairs-bot">Explore Internal Affairs Bot</a><a class="btn-glow" href="/docs/internal-affairs-bot" style="background:transparent;">Read Documentation</a><a class="btn-glow" href="/docs/support?product=Internal%20Affairs%20Bot" style="background:transparent;">Get Support</a><a class="btn-glow" href="/products/internal-affairs-bot/request-access" style="background:transparent;">Request Access</a></div>
       </div>
-
-      <div class="bot-card">
-        <img src="/assets/kruigers-assistant.png" alt="Kruigers Assistant">
-        <h4>Kruigers Assistant</h4>
-        <p>Your all-in-one AI-powered assistant. Handles moderation, answers questions, and provides intelligent responses to keep your community engaged.</p>
-      </div>
-
-      <div class="bot-card">
-        <img src="/assets/kruiger-tickets.png" alt="Kruiger Tickets">
-        <h4>Kruiger Tickets</h4>
-        <p>Professional ticket support system for Discord. Manage customer inquiries, track issues, and provide seamless support with automated workflows.</p>
-      </div>
-
-      <div class="bot-card">
-        <img src="/assets/elite-multipurpose.png" alt="Elite MultiPurpose">
-        <h4>Elite MultiPurpose</h4>
-        <p>The ultimate all-in-one bot solution. Moderation, music, fun commands, utilities, and more packed into a single powerful bot.</p>
-      </div>
-
-      <div class="bot-card">
-        <img src="/assets/elite-relay.png" alt="Elite Relay">
-        <h4>Elite Relay</h4>
-        <p>Cross-server communication made easy. Bridge messages between channels and servers with advanced filtering and customization options.</p>
-      </div>
-
-      <div class="bot-card">
-        <img src="/assets/elite-logger.png" alt="Elite Logger">
-        <h4>Elite Logger</h4>
-        <p>Comprehensive server logging and audit trails. Track member actions, message edits, deletions, and all server events in detail.</p>
-      </div>
-
-      <div class="bot-card">
-        <img src="/assets/elite-sector.png" alt="Elite Sector">
-        <h4>Elite Sector</h4>
-        <p>Security Tool for all of KruigerLabs Servers.</p>
-      </div>
-
     </div>
-
   </section>
 
 
 
   <!-- FOOTER -->
   <footer>
-    <p>&copy; 2026 KruigerLabs — All Rights Reserved</p>
+    <p>&copy; 2026 Kruiger Labs LLC — All Rights Reserved · <a href="/docs">Documentation</a> · <a href="/docs/support">Support</a> · <a href="/docs/status">Service Status</a></p>
   </footer>
 
 </KruigerLayout>

@@ -1,0 +1,9 @@
+[[redirects]]
+  from = "/bots/*"
+  to = "/products"
+  status = 301
+
+[[redirects]]
+  from = "/products/bots/*"
+  to = "/products"
+  status = 301

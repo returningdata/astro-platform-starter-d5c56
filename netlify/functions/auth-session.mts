@@ -11,6 +11,7 @@ interface SessionData {
   isAdmin: boolean;
   isOwner: boolean;
   isInGuild: boolean;
+  csrfToken: string;
   createdAt: string;
   expiresAt: string;
 }
@@ -75,7 +76,8 @@ export default async (req: Request, context: Context) => {
           isAdmin: session.isAdmin,
           isOwner: session.isOwner,
           permissions: session.permissions
-        }
+        },
+        csrfToken: session.csrfToken
       }),
       {
         status: 200,

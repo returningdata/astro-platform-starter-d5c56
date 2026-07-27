@@ -1,0 +1,7 @@
+---
+import '../styles/docs.css';
+interface Props { title: string; description: string; }
+const { title, description } = Astro.props;
+---
+<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="description" content={description}/><title>{title} | Kruiger Labs LLC</title><link rel="icon" href="/favicon.png"/></head><body><header class="docs-mainbar"><a class="brand" href="/"><img src="/logo.png" alt="Kruiger Labs LLC logo"/><span>Kruiger <span>Labs</span> LLC</span></a><nav class="main-links"><a href="/">Home</a><a class="active" href="/products">Products</a><a href="/docs">Docs</a><a href="/docs/support">Support</a><a href="/customer">Customer Dashboard</a></nav></header><main style="max-width:1180px;margin:auto;padding:70px 22px 100px"><slot/></main><footer class="docs-footer"><div class="footer-links"><a href="/products">Product Catalogue</a><a href="/docs">Documentation</a><a href="/docs/support">Support</a><a href="/docs/status">Service Status</a><a href="/docs/privacy">Privacy</a><a href="/docs/terms">Terms</a><a href="/docs/security">Security</a></div><p>Built and maintained by Kruiger Labs LLC.</p></footer></body></html>
+

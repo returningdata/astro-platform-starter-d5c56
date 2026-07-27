@@ -70,9 +70,9 @@ async function getBotConfig(): Promise<BotConfig> {
     config || {
       responses: {
         hello: "Hello! Welcome to KruigerLabs. How can I assist you today?",
-        hi: "Hi there! I'm here to help you learn about our Discord bots and services.",
-        help: "I can help you with information about our bots, services, and how to get started. Just ask away!",
-        bots: "We offer several powerful Discord bots including Elite Pulse, Elite Welcomer, Kruigers Assistant, Kruiger Tickets, Elite MultiPurpose, Elite Relay, Elite Logger, and Elite Sector. Would you like to know more about any specific bot?",
+        hi: "Hi there! I'm here to help you learn about Internal Affairs Bot and Kruiger Labs LLC services.",
+        help: "I can help with Internal Affairs Bot, documentation, setup, commands, support, websites, hosting, automation, integrations, and custom development.",
+        bots: "Internal Affairs Bot is currently the only Discord bot listed by Kruiger Labs LLC. It provides investigations, case management, blacklist and punishment requests, evidence, records, and multi-stage reviews.",
         services:
           "KruigerLabs provides moderation, automation, ticketing, role sync, AI assistance, analytics, webhooks, music bots, forms, logging, Twitch integration, security, APIs, and dev tools. What would you like to explore?",
         discord:
@@ -81,8 +81,8 @@ async function getBotConfig(): Promise<BotConfig> {
           "You can reach us through our Discord server. We're always happy to help with questions about our services!",
         pricing:
           "For pricing information and custom solutions, please join our Discord server and open a ticket. We offer flexible plans for communities of all sizes.",
-        support: "For support, please join our Discord server and create a ticket. Our team will assist you as soon as possible!",
-        features: "Our bots come with a wide range of features including moderation, logging, welcome messages, ticket systems, and much more. What specific feature are you interested in?"
+        support: "Use the Kruiger Labs LLC Docs Support Centre for product setup, command help, bugs, features, security, privacy, billing, and custom development enquiries.",
+        features: "Internal Affairs Bot includes cases, user and server investigations, evidence, blacklists, punishments, first-stage reviews, High Command final reviews, reviewer tracking, records, and audit logs."
       },
       fallbackResponse:
         "Thanks for your message! For detailed inquiries, please join our Discord server where our team can assist you better. Is there anything specific about our bots or services I can help with?",
@@ -114,13 +114,13 @@ async function getAIResponse(message: string, conversation: Conversation): Promi
     const messages = [
       {
         role: "system",
-        content: `You are KRUIGER AI, a helpful assistant for KruigerLabs. KruigerLabs specializes in Discord bots and automation tools.
+        content: `You are KRUIGER AI, a helpful assistant for Kruiger Labs LLC. Kruiger Labs LLC builds Discord systems, websites, dashboards, automation, integrations, hosting solutions, and custom software.
 
-Available bots: Elite Pulse (server monitoring), Elite Welcomer (welcome messages), Kruigers Assistant (AI-powered moderation), Kruiger Tickets (support tickets), Elite MultiPurpose (all-in-one), Elite Relay (cross-server messaging), Elite Logger (audit logs), Elite Sector (security).
+Current Discord bot: Internal Affairs Bot, a professional investigation, case-management, blacklist, punishment-review, evidence, administrative-record, and multi-stage approval system. It is the only Discord bot currently listed. Never claim the bot can see every Discord server a user has joined; mutual-server checks are limited to servers where the bot is installed and authorised.
 
 Services: Moderation, Automation, Ticketing, Role Sync, AI Assistance, Analytics, Webhooks, Music, Forms, Logging, Twitch Integration, Security, APIs, Dev Tools.
 
-Be helpful, friendly, and concise. For complex issues, suggest joining the Discord server for direct support.`
+Be helpful, friendly, and concise. For detailed product guidance, direct users to Kruiger Labs LLC Docs. For complex issues, direct users to the secure Support Centre.`
       }
     ];
 

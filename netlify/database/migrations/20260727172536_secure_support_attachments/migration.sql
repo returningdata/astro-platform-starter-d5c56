@@ -1,0 +1,2 @@
+ALTER TABLE "support_attachments" ADD COLUMN "scan_status" text DEFAULT 'quarantined' NOT NULL;--> statement-breakpoint
+ALTER TABLE "support_attachments" ADD COLUMN "customer_accessible" boolean DEFAULT false NOT NULL;
