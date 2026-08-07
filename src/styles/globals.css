@@ -2,24 +2,33 @@
 
 @theme {
     --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-    --color-primary: #f67280;
-    --color-primary-content: #101828;
-    --color-complementary: #355c7d;
+    --font-display: 'Orbitron', 'Rajdhani', ui-sans-serif, system-ui, sans-serif;
+    --color-primary: #a855f7;
+    --color-primary-content: #ffffff;
+    --color-complementary: #07070a;
+    --color-panel: #121219;
+    --color-silver: #d7d9df;
+    --color-line: rgba(168, 85, 247, 0.18);
     --background-image-noise: linear-gradient(
             to bottom,
-            color-mix(in oklab, var(--color-gray-950) 0%, transparent),
-            color-mix(in oklab, var(--color-gray-950) 100%, transparent)
+            color-mix(in oklab, #07070a 0%, transparent),
+            color-mix(in oklab, #07070a 100%, transparent)
         ),
+        radial-gradient(900px 460px at 50% -8%, rgba(139, 92, 246, 0.16), transparent 70%),
         url('/images/noise.png');
 }
 
 @layer base {
     h1 {
         @apply text-4xl font-bold tracking-tight sm:text-5xl;
+        font-family: var(--font-display);
+        letter-spacing: 0.02em;
     }
 
     h2 {
         @apply text-2xl font-bold sm:text-3xl;
+        font-family: var(--font-display);
+        letter-spacing: 0.02em;
     }
 
     a:not(.btn) {
@@ -28,10 +37,15 @@
 
     pre {
         @apply p-6 overflow-x-auto rounded-lg;
+        background: rgba(13, 13, 18, 0.92);
+        border: 1px solid var(--color-line);
     }
 
     :not(pre) > code {
-        @apply px-1 py-0.5 font-mono rounded bg-gray-900 text-primary;
+        @apply px-1 py-0.5 font-mono rounded;
+        background: rgba(18, 18, 25, 0.92);
+        border: 1px solid var(--color-line);
+        color: #c4a9fd;
         font-size: 0.9em;
     }
 }
@@ -56,17 +70,28 @@
     }
 
     .btn {
-        @apply inline-flex items-center justify-center gap-2 bg-primary text-primary-content cursor-pointer text-center font-semibold no-underline transition-colors;
+        @apply inline-flex items-center justify-center gap-2 text-primary-content cursor-pointer text-center font-semibold no-underline;
         padding: var(--btn-py, 0.875rem) var(--btn-px, 1.25rem);
         font-size: var(--btn-font-size, 0.875rem);
-        border-radius: var(--btn-border-radius, 0.25rem);
+        border-radius: var(--btn-border-radius, 0.6rem);
+        background: linear-gradient(135deg, #a855f7, #6d28d9);
+        border: 1px solid rgba(168, 85, 247, 0.55);
+        box-shadow: 0 10px 26px rgba(139, 92, 246, 0.24);
+        transition: transform 0.22s ease, box-shadow 0.22s ease, filter 0.22s ease;
 
         &:hover {
-            @apply bg-primary/85;
+            filter: brightness(1.1);
+            transform: translateY(-1px);
+            box-shadow: 0 14px 32px rgba(139, 92, 246, 0.36);
         }
 
         &:disabled {
-            @apply text-gray-400 bg-gray-700;
+            @apply text-gray-400;
+            background: #23232d;
+            border-color: rgba(168, 85, 247, 0.14);
+            box-shadow: none;
+            transform: none;
+            filter: none;
         }
     }
 

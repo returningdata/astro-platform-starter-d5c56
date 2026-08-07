@@ -1,0 +1,14 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+/** Inline notice. Tone controls the accent rule and background wash. */
+interface Props extends HTMLAttributes<'div'> {
+    tone?: 'info' | 'success' | 'warning' | 'error';
+}
+
+const { tone = 'info', class: className = '', ...rest } = Astro.props;
+---
+
+<div class={`kl-alert kl-alert--${tone} ${className}`.trim()} {...rest}>
+    <slot />
+</div>

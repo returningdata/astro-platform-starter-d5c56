@@ -1,8 +1,12 @@
 ---
-import Logo from '../components/Logo.astro';
+/**
+ * Header for the Netlify platform demo routes (/blobs, /edge, /image-cdn,
+ * /revalidation). Uses the Kruiger Labs wordmark and links back to the main
+ * site so these pages no longer look like a separate starter project.
+ */
+import Wordmark from './kl/Wordmark.astro';
 
 const navItems = [
-    { linkText: 'Home', href: '/' },
     { linkText: 'Revalidation', href: '/revalidation' },
     { linkText: 'Image CDN', href: '/image-cdn' },
     { linkText: 'Edge Function', href: '/edge' },
@@ -10,21 +14,28 @@ const navItems = [
 ];
 ---
 
-<nav class="flex flex-wrap items-center gap-4 pt-6 pb-16 sm:pt-12 sm:pb-24">
-    <a href="/">
-        <Logo />
+<nav class="flex flex-wrap items-center gap-x-6 gap-y-3 pt-6 pb-16 sm:pt-10 sm:pb-24">
+    <a href="/" class="no-underline" aria-label="Kruiger Labs home">
+        <Wordmark mark={28} size="0.95rem" />
     </a>
-    {
-        !!navItems?.length && (
-            <ul class="flex flex-wrap gap-x-4 gap-y-1">
-                {navItems.map((item) => (
-                    <li>
-                        <a href={item.href} class="inline-block px-1.5 py-1 sm:px-3 sm:py-2">
-                            {item.linkText}
-                        </a>
-                    </li>
-                ))}
-            </ul>
-        )
-    }
+    <ul class="flex flex-wrap items-center gap-x-1 gap-y-1 text-sm">
+        {
+            navItems.map((item) => (
+                <li>
+                    <a
+                        href={item.href}
+                        class="inline-block rounded-lg px-2 py-1.5 no-underline text-[#a1a1aa] transition-colors hover:text-white sm:px-3 sm:py-2"
+                    >
+                        {item.linkText}
+                    </a>
+                </li>
+            ))
+        }
+    </ul>
+    <a
+        href="/"
+        class="ml-auto inline-flex items-center rounded-lg border border-[rgba(168,85,247,0.28)] px-3 py-1.5 text-xs font-semibold tracking-wide uppercase no-underline text-[#d7d9df] transition-colors hover:border-[rgba(168,85,247,0.6)] hover:text-white"
+    >
+        Back to site
+    </a>
 </nav>

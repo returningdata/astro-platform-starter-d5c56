@@ -1,0 +1,41 @@
+---
+/** Primary / secondary / ghost action. Renders as <a> or <button>. */
+interface Props {
+    href?: string;
+    variant?: 'primary' | 'secondary' | 'ghost';
+    size?: 'sm' | 'md' | 'lg';
+    type?: 'button' | 'submit' | 'reset';
+    external?: boolean;
+    block?: boolean;
+    class?: string;
+    id?: string;
+    'aria-label'?: string;
+}
+
+const {
+    href,
+    variant = 'primary',
+    size = 'md',
+    type = 'button',
+    external = false,
+    block = false,
+    class: className = '',
+    ...rest
+} = Astro.props;
+
+const classes = ['kl-btn', `kl-btn--${variant}`, size !== 'md' ? `kl-btn--${size}` : '', block ? 'kl-btn--block' : '', className]
+    .filter(Boolean)
+    .join(' ');
+---
+
+{
+    href ? (
+        <a class={classes} href={href} {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})} {...rest}>
+            <slot />
+        </a>
+    ) : (
+        <button class={classes} type={type} {...rest}>
+            <slot />
+        </button>
+    )
+}

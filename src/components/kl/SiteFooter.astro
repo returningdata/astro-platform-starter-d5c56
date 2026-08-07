@@ -1,0 +1,202 @@
+---
+import Wordmark from './Wordmark.astro';
+import Container from './Container.astro';
+import Icon from './Icon.astro';
+import { SITE } from '../../data/site';
+
+/** Site footer. Legal links live here only — never in the primary nav. */
+const year = new Date().getFullYear();
+
+const columns = [
+    {
+        title: 'Kruiger Labs',
+        links: [
+            { label: 'Products', href: '/products' },
+            { label: 'Services', href: '/services' },
+            { label: 'CloudNord', href: '/cloudnord' },
+            { label: 'Documentation', href: '/docs' }
+        ]
+    },
+    {
+        title: 'Company',
+        links: [
+            { label: 'About', href: '/about' },
+            { label: 'Contact', href: '/contact' },
+            { label: 'Support', href: '/support' },
+            { label: 'Online Security', href: '/vpn' }
+        ]
+    },
+    {
+        title: 'Legal',
+        links: [
+            { label: 'Terms of Service', href: '/docs/terms' },
+            { label: 'Privacy Policy', href: '/docs/privacy' }
+        ]
+    }
+];
+---
+
+<footer class="kl-footer">
+    <Container>
+        <div class="kl-footer__top">
+            <div class="kl-footer__brand">
+                <Wordmark mark={38} size="1.05rem" />
+                <p class="kl-footer__blurb">
+                    Premium software, infrastructure, hosting, automation, Discord systems, and digital solutions built
+                    for modern communities and businesses.
+                </p>
+            </div>
+
+            <nav class="kl-footer__cols" aria-label="Footer">
+                {
+                    columns.map((column) => (
+                        <div class="kl-footer__col">
+                            <h2 class="kl-footer__heading">{column.title}</h2>
+                            <ul>
+                                {column.links.map((link) => (
+                                    <li>
+                                        <a href={link.href}>{link.label}</a>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    ))
+                }
+
+                <div class="kl-footer__col">
+                    <h2 class="kl-footer__heading">Community</h2>
+                    <ul>
+                        <li>
+                            <a href={SITE.discord} target="_blank" rel="noopener noreferrer" class="kl-footer__discord">
+                                <Icon name="discord" size={16} />
+                                <span>Discord</span>
+                            </a>
+                        </li>
+                        <li><a href="/customer">Client Portal</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+        <div class="kl-footer__bar">
+            <p>&copy; {year} Kruiger Labs LLC. All rights reserved.</p>
+            <p class="kl-footer__site">{SITE.url.replace('https://', '')}</p>
+        </div>
+    </Container>
+</footer>
+
+<style>
+    .kl-footer {
+        position: relative;
+        margin-top: clamp(60px, 9vw, 120px);
+        padding-block: clamp(46px, 6vw, 72px) 28px;
+        border-top: 1px solid var(--kl-border);
+        background: linear-gradient(180deg, rgba(13, 13, 18, 0.6), rgba(7, 7, 10, 0.95));
+    }
+
+    /* Thin neon rule echoing the navbar. */
+    .kl-footer::before {
+        content: '';
+        position: absolute;
+        top: -1px;
+        left: 15%;
+        right: 15%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.6), transparent);
+    }
+
+    .kl-footer__top {
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(0, 2fr);
+        gap: clamp(28px, 5vw, 60px);
+    }
+
+    .kl-footer__blurb {
+        max-width: 42ch;
+        margin: 18px 0 0;
+        color: var(--kl-text-muted);
+        font-size: 0.9rem;
+        line-height: 1.65;
+    }
+
+    .kl-footer__cols {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: clamp(20px, 3vw, 36px);
+    }
+
+    .kl-footer__heading {
+        margin: 0 0 14px;
+        color: var(--kl-silver-bright);
+        font-family: var(--kl-font-display);
+        font-size: 0.74rem;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+    }
+
+    .kl-footer__col ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .kl-footer__col a {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--kl-text-muted);
+        font-size: 0.88rem;
+        text-decoration: none;
+        transition: color var(--kl-t);
+    }
+
+    .kl-footer__col a:hover {
+        color: var(--kl-purple-text);
+    }
+
+    .kl-footer__discord svg {
+        color: var(--kl-purple-bright);
+    }
+
+    .kl-footer__bar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        margin-top: clamp(34px, 5vw, 56px);
+        padding-top: 22px;
+        border-top: 1px solid rgba(215, 217, 223, 0.08);
+    }
+
+    .kl-footer__bar p {
+        margin: 0;
+        color: var(--kl-silver-muted);
+        font-size: 0.8rem;
+    }
+
+    .kl-footer__site {
+        font-family: var(--kl-font-mono);
+        letter-spacing: 0.04em;
+    }
+
+    @media (max-width: 900px) {
+        .kl-footer__top {
+            grid-template-columns: 1fr;
+        }
+        .kl-footer__cols {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    @media (max-width: 480px) {
+        .kl-footer__bar {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    }
+</style>

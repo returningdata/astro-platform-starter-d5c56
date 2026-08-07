@@ -1,0 +1,71 @@
+---
+import Container from './Container.astro';
+import BackgroundGrid from './BackgroundGrid.astro';
+
+/** Standard page header used by every interior public page. */
+interface Props {
+    eyebrow?: string;
+    title: string;
+    accent?: string;
+    description?: string;
+    align?: 'left' | 'center';
+    class?: string;
+}
+
+const { eyebrow, title, accent, description, align = 'left', class: className = '' } = Astro.props;
+---
+
+<section class={`kl-page-hero kl-page-hero--${align} ${className}`}>
+    <BackgroundGrid orbs />
+    <Container class="kl-page-hero__inner">
+        {eyebrow && <span class="kl-eyebrow">{eyebrow}</span>}
+        <h1 class="kl-display kl-page-hero__title">
+            <span class="kl-metal">{title}</span>
+            {accent && <span class="kl-violet"> {accent}</span>}
+        </h1>
+        {description && <p class="kl-lead kl-page-hero__desc">{description}</p>}
+        <slot />
+    </Container>
+    <hr class="kl-divider" />
+</section>
+
+<style>
+    .kl-page-hero {
+        position: relative;
+        padding-block: clamp(44px, 8vw, 92px) clamp(32px, 5vw, 56px);
+        margin-top: var(--kl-nav-h);
+    }
+
+    .kl-page-hero__inner {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .kl-page-hero--center .kl-page-hero__inner {
+        align-items: center;
+        text-align: center;
+    }
+
+    .kl-page-hero__title {
+        font-size: clamp(2rem, 5.6vw, 3.6rem);
+        max-width: 20ch;
+    }
+
+    .kl-page-hero--center .kl-page-hero__title {
+        max-width: 24ch;
+    }
+
+    .kl-page-hero__desc {
+        max-width: 66ch;
+    }
+
+    .kl-page-hero .kl-divider {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+</style>

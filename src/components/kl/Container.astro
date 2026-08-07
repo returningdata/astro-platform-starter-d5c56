@@ -1,0 +1,15 @@
+---
+/** Width-constrained content wrapper. */
+interface Props {
+    size?: 'narrow' | 'default' | 'wide';
+    as?: string;
+    class?: string;
+}
+
+const { size = 'default', as: Tag = 'div', class: className = '' } = Astro.props;
+const modifier = size === 'default' ? '' : `kl-container--${size}`;
+---
+
+<Tag class={`kl-container ${modifier} ${className}`.trim()}>
+    <slot />
+</Tag>

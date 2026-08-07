@@ -1,0 +1,35 @@
+---
+/** Dark glass surface used for every card across the site. */
+interface Props {
+    interactive?: boolean;
+    brackets?: boolean;
+    href?: string;
+    class?: string;
+    reveal?: boolean;
+    delay?: number;
+}
+
+const { interactive = true, brackets = false, href, class: className = '', reveal = false, delay = 0 } = Astro.props;
+
+const classes = ['kl-card', interactive ? 'kl-card--interactive' : '', brackets ? 'kl-brackets' : '', className].filter(Boolean).join(' ');
+const revealAttrs = reveal ? { 'data-reveal': '', style: `--kl-reveal-delay:${delay}ms` } : {};
+---
+
+{
+    href ? (
+        <a class={`${classes} kl-card--link`} href={href} {...revealAttrs}>
+            <slot />
+        </a>
+    ) : (
+        <article class={classes} {...revealAttrs}>
+            <slot />
+        </article>
+    )
+}
+
+<style>
+    .kl-card--link {
+        text-decoration: none;
+        color: inherit;
+    }
+</style>

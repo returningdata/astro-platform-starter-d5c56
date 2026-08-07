@@ -1,0 +1,165 @@
+---
+import ProductCard from './ProductCard.astro';
+import { PRODUCT_FILTERS, filterFacet, productLinks } from '../../data/site';
+
+/**
+ * Filterable catalogue grid. Products are passed in from `src/data/portal.ts`
+ * so the same real records power the homepage and the products page.
+ */
+interface Props {
+    products: readonly {
+        name: string;
+        slug: string;
+        category: string;
+        status: string;
+        description: string;
+        logo?: string;
+        customerOnly?: boolean;
+    }[];
+    class?: string;
+}
+
+const { products, class: className = '' } = Astro.props;
+
+/** Line icon used when a product has no logo of its own. */
+const ICON_BY_CATEGORY: Record<string, string> = {
+    'Discord Bots': 'discord',
+    'Custom Development': 'code',
+    Websites: 'globe',
+    Integrations: 'layers',
+    Automation: 'cpu',
+    'Roleplay Systems': 'gamepad',
+    Hosting: 'cloud'
+};
+
+const cards = products.map((product, index) => {
+    const links = productLinks(product.slug);
+    return {
+        ...product,
+        facet: filterFacet(product.category),
+        icon: ICON_BY_CATEGORY[product.category] ?? 'code',
+        href: links.href,
+        docsHref: links.docsHref,
+        ctaLabel: links.hasPage ? 'View Product' : 'Enquire',
+        delay: (index % 3) * 70
+    };
+});
+
+/** Only offer a facet when at least one real product matches it. */
+const present = new Set(cards.map((card) => card.facet));
+const filters = PRODUCT_FILTERS.filter((filter) => filter === 'All' || present.has(filter));
+---
+
+<div class={`kl-catalogue ${className}`.trim()} data-kl-catalogue>
+    <div class="kl-filterbar" role="group" aria-label="Filter products by category">
+        {
+            filters.map((filter) => (
+                <button
+                    type="button"
+                    class:list={['kl-filter', filter === 'All' && 'is-active']}
+                    data-filter={filter}
+                    aria-pressed={filter === 'All' ? 'true' : 'false'}
+                >
+                    {filter}
+                </button>
+            ))
+        }
+    </div>
+
+    <div class="kl-grid kl-grid--3 kl-catalogue__grid">
+        {
+            cards.map((card) => (
+                <ProductCard
+                    name={card.name}
+                    description={card.description}
+                    category={card.category}
+                    status={card.status}
+                    logo={card.logo}
+                    facet={card.facet}
+                    href={card.href}
+                    docsHref={card.docsHref}
+                    ctaLabel={card.ctaLabel}
+                    icon={card.icon}
+                    delay={card.delay}
+                />
+            ))
+        }
+    </div>
+
+    <p class="kl-catalogue__empty kl-hide" role="status">No products in this category yet.</p>
+</div>
+
+<style>
+    .kl-filterbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+        margin-bottom: clamp(22px, 3vw, 34px);
+    }
+
+    .kl-filter {
+        padding: 8px 16px;
+        background: rgba(18, 18, 25, 0.7);
+        border: 1px solid var(--kl-border-metal);
+        border-radius: var(--kl-r-sm);
+        color: var(--kl-text-muted);
+        font-family: inherit;
+        font-size: 0.78rem;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        cursor: pointer;
+        transition:
+            color var(--kl-t),
+            border-color var(--kl-t),
+            background-color var(--kl-t),
+            box-shadow var(--kl-t);
+    }
+
+    .kl-filter:hover {
+        color: var(--kl-silver-bright);
+        border-color: var(--kl-border-strong);
+    }
+
+    .kl-filter.is-active {
+        color: var(--kl-white);
+        border-color: var(--kl-border-strong);
+        background: linear-gradient(180deg, rgba(139, 92, 246, 0.25), rgba(109, 40, 217, 0.18));
+        box-shadow: 0 0 18px -6px var(--kl-purple-glow);
+    }
+
+    .kl-catalogue__empty {
+        margin: 26px 0 0;
+        text-align: center;
+        color: var(--kl-text-muted);
+    }
+</style>
+
+<script>
+    document.querySelectorAll<HTMLElement>('[data-kl-catalogue]').forEach((catalogue) => {
+        const buttons = catalogue.querySelectorAll<HTMLButtonElement>('.kl-filter');
+        const cards = catalogue.querySelectorAll<HTMLElement>('[data-facet]');
+        const empty = catalogue.querySelector<HTMLElement>('.kl-catalogue__empty');
+
+        const apply = (filter: string) => {
+            let visible = 0;
+            cards.forEach((card) => {
+                const match = filter === 'All' || card.dataset.facet === filter;
+                card.hidden = !match;
+                if (match) visible += 1;
+            });
+            empty?.classList.toggle('kl-hide', visible > 0);
+        };
+
+        buttons.forEach((button) => {
+            button.addEventListener('click', () => {
+                buttons.forEach((other) => {
+                    const active = other === button;
+                    other.classList.toggle('is-active', active);
+                    other.setAttribute('aria-pressed', String(active));
+                });
+                apply(button.dataset.filter || 'All');
+            });
+        });
+    });
+</script>

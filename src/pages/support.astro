@@ -1,0 +1,271 @@
+---
+import KruigerLayout from '../layouts/KruigerLayout.astro';
+import PageHero from '../components/kl/PageHero.astro';
+import Container from '../components/kl/Container.astro';
+import Button from '../components/kl/Button.astro';
+import Card from '../components/kl/Card.astro';
+import Icon from '../components/kl/Icon.astro';
+import GlowPanel from '../components/kl/GlowPanel.astro';
+import SectionHeader from '../components/kl/SectionHeader.astro';
+import { SITE } from '../data/site';
+import { faqs, troubleshooting } from '../data/portal';
+
+const title = 'Support | Kruiger Labs LLC';
+const description =
+    'Kruiger Labs support: documentation, troubleshooting guides, the secure ticket centre, service status, and the community Discord.';
+
+/** Every route below already exists — nothing here invents a support channel. */
+const routes = [
+    {
+        title: 'Submit a Ticket',
+        description: 'The secure support centre. Attach screenshots and diagnostics, and track the reply in your portal.',
+        icon: 'lifebuoy',
+        href: '/docs/support',
+        cta: 'Open Support Centre'
+    },
+    {
+        title: 'Documentation',
+        description: 'Setup guides, command references, permission models, integrations, and workflows.',
+        icon: 'book',
+        href: '/docs',
+        cta: 'Read the Docs'
+    },
+    {
+        title: 'Troubleshooting',
+        description: 'Fixes for the issues that come up most often, with the exact steps to resolve them.',
+        icon: 'terminal',
+        href: '/docs/troubleshooting',
+        cta: 'Troubleshooting Guide'
+    },
+    {
+        title: 'Service Status',
+        description: 'Current operational state of Kruiger Labs products and infrastructure.',
+        icon: 'activity',
+        href: '/docs/status',
+        cta: 'View Status'
+    },
+    {
+        title: 'Client Portal',
+        description: 'Sign in to review licences, connected servers, and the history of your tickets.',
+        icon: 'users',
+        href: '/customer',
+        cta: 'Open Portal'
+    },
+    {
+        title: 'Community Discord',
+        description: 'Talk to the team and the wider community for quick questions and announcements.',
+        icon: 'discord',
+        href: SITE.discord,
+        cta: 'Join Discord',
+        external: true
+    }
+];
+
+/** Top questions and known issues, pulled from the existing documentation. */
+const topFaqs = faqs.slice(0, 8).map(([question, answer]) => ({ question, answer }));
+const topIssues = troubleshooting.slice(0, 4).map(([issue, , fix]) => ({ issue, fix }));
+---
+
+<KruigerLayout title={title} description={description}>
+    <PageHero
+        eyebrow="Support"
+        title="Help When You"
+        accent="Need It"
+        description="Start with the documentation, check the known issues, then raise a ticket if you still need a hand. Every channel below is staffed by the same team that builds the products."
+    >
+        <div class="hero-actions">
+            <Button href="/docs/support" size="lg">Submit a Ticket</Button>
+            <Button href="/docs" variant="secondary" size="lg">Browse Documentation</Button>
+        </div>
+    </PageHero>
+
+    <section class="kl-section">
+        <Container>
+            <div class="kl-grid kl-grid--3">
+                {
+                    routes.map((route, index) => (
+                        <Card interactive brackets reveal delay={(index % 3) * 70}>
+                            <span class="kl-card__icon">
+                                <Icon name={route.icon} />
+                            </span>
+                            <h3>{route.title}</h3>
+                            <p>{route.description}</p>
+                            <div class="kl-card__foot">
+                                <a
+                                    class="kl-btn kl-btn--secondary kl-btn--sm"
+                                    href={route.href}
+                                    {...route.external ? { target: '_blank', rel: 'noopener noreferrer' } : {}}
+                                >
+                                    {route.cta}
+                                </a>
+                            </div>
+                        </Card>
+                    ))
+                }
+            </div>
+        </Container>
+    </section>
+
+    <section class="kl-section">
+        <Container>
+            <SectionHeader
+                eyebrow="Known issues"
+                title="Common"
+                accent="Fixes"
+                description="The quickest resolutions, taken straight from the troubleshooting documentation."
+            />
+            <div class="kl-grid kl-grid--2">
+                {
+                    topIssues.map((issue, index) => (
+                        <Card interactive reveal delay={(index % 2) * 70}>
+                            <h3>{issue.issue}</h3>
+                            <p>{issue.fix}</p>
+                        </Card>
+                    ))
+                }
+            </div>
+            <div class="section-cta">
+                <Button href="/docs/troubleshooting" variant="secondary">All Troubleshooting Steps</Button>
+            </div>
+        </Container>
+    </section>
+
+    <section class="kl-section">
+        <Container size="narrow">
+            <SectionHeader
+                eyebrow="FAQ"
+                title="Frequently Asked"
+                accent="Questions"
+                description="Answers taken from the Kruiger Labs documentation."
+            />
+            <div class="faq" data-reveal>
+                {
+                    topFaqs.map((faq) => (
+                        <details class="faq__item">
+                            <summary>
+                                <span>{faq.question}</span>
+                                <Icon name="arrow" size={16} />
+                            </summary>
+                            <p>{faq.answer}</p>
+                        </details>
+                    ))
+                }
+            </div>
+            <div class="section-cta">
+                <Button href="/docs/faq" variant="secondary">Read the Full FAQ</Button>
+            </div>
+        </Container>
+    </section>
+
+    <section class="kl-section">
+        <Container size="narrow">
+            <GlowPanel class="cta" reveal>
+                <h2 class="kl-display cta__title">
+                    <span class="kl-metal">Still stuck?</span>
+                </h2>
+                <p class="kl-lead">
+                    Raise a ticket with as much detail as you can. Screenshots, command names, and server IDs get you a
+                    faster answer.
+                </p>
+                <div class="cta__actions">
+                    <Button href="/docs/support" size="lg">Submit a Ticket</Button>
+                    <Button href="/contact" variant="secondary" size="lg">Contact Us</Button>
+                </div>
+            </GlowPanel>
+        </Container>
+    </section>
+</KruigerLayout>
+
+<style>
+    .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-top: 24px;
+    }
+
+    .section-cta {
+        display: flex;
+        justify-content: center;
+        margin-top: clamp(26px, 4vw, 40px);
+    }
+
+    .faq {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .faq__item {
+        background: var(--kl-glass);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid var(--kl-border);
+        border-radius: var(--kl-r-md);
+        transition:
+            border-color var(--kl-t),
+            box-shadow var(--kl-t);
+    }
+
+    .faq__item[open],
+    .faq__item:hover {
+        border-color: var(--kl-border-strong);
+        box-shadow: 0 0 24px -12px var(--kl-purple-glow);
+    }
+
+    .faq__item summary {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 16px 20px;
+        color: var(--kl-silver-bright);
+        font-weight: 600;
+        cursor: pointer;
+        list-style: none;
+    }
+
+    .faq__item summary::-webkit-details-marker {
+        display: none;
+    }
+
+    .faq__item summary :global(svg) {
+        flex: none;
+        color: var(--kl-purple-bright);
+        transform: rotate(90deg);
+        transition: transform var(--kl-t);
+    }
+
+    .faq__item[open] summary :global(svg) {
+        transform: rotate(-90deg);
+    }
+
+    .faq__item p {
+        margin: 0;
+        padding: 0 20px 18px;
+        color: var(--kl-text-muted);
+        line-height: 1.7;
+    }
+
+    .cta {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+        padding: clamp(30px, 5vw, 56px);
+        text-align: center;
+    }
+
+    .cta__title {
+        margin: 0;
+        font-size: clamp(1.7rem, 4.6vw, 2.8rem);
+        text-transform: uppercase;
+    }
+
+    .cta__actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 14px;
+    }
+</style>

@@ -1,0 +1,195 @@
+---
+import KruigerLayout from '../layouts/KruigerLayout.astro';
+import Container from '../components/kl/Container.astro';
+import Button from '../components/kl/Button.astro';
+import Card from '../components/kl/Card.astro';
+import Icon from '../components/kl/Icon.astro';
+import Badge from '../components/kl/Badge.astro';
+import GlowPanel from '../components/kl/GlowPanel.astro';
+import SectionHeader from '../components/kl/SectionHeader.astro';
+import BackgroundGrid from '../components/kl/BackgroundGrid.astro';
+import { CLOUDNORD } from '../data/site';
+
+const title = 'CloudNord | Cloud Infrastructure & Hosting by Kruiger Labs';
+const description = CLOUDNORD.subheadline;
+
+/** Platform characteristics — capability statements, not invented metrics. */
+const platform = [
+    {
+        title: 'Managed Deployment',
+        description: 'Servers, bots, and applications are provisioned, configured, and updated by the Kruiger Labs team.',
+        icon: 'terminal'
+    },
+    {
+        title: 'Monitoring & Logging',
+        description: 'Process supervision and log retention so failures are visible rather than silent.',
+        icon: 'activity'
+    },
+    {
+        title: 'Backups & Recovery',
+        description: 'Scheduled snapshots for databases and configuration, with restore paths documented up front.',
+        icon: 'database'
+    },
+    {
+        title: 'Access Control',
+        description: 'Role-scoped access to environments, with Discord-linked identity for community operators.',
+        icon: 'lock'
+    }
+];
+---
+
+<KruigerLayout title={title} description={description}>
+    <section class="cn-hero">
+        <BackgroundGrid orbs beam particles />
+        <Container class="cn-hero__inner">
+            <Badge tone="live">CloudNord</Badge>
+            <h1 class="kl-display cn-hero__title" data-reveal>
+                <span class="kl-metal">Powered for</span>
+                <span class="kl-violet"> Performance</span>
+            </h1>
+            <p class="kl-lead cn-hero__lead" data-reveal>{CLOUDNORD.subheadline}</p>
+            <div class="cn-hero__actions" data-reveal>
+                <Button href="/contact?category=CloudNord" size="lg">Request Hosting</Button>
+                <Button href="/docs" variant="secondary" size="lg">Documentation</Button>
+            </div>
+        </Container>
+        <hr class="kl-divider" />
+    </section>
+
+    <section class="kl-section">
+        <Container>
+            <SectionHeader
+                eyebrow="Categories"
+                title="Hosting"
+                accent="Categories"
+                description="Infrastructure options covering game servers, Discord applications, virtual servers, websites, and long-running workloads."
+            />
+            <div class="kl-grid kl-grid--3">
+                {
+                    CLOUDNORD.categories.map((category, index) => (
+                        <Card interactive brackets reveal delay={(index % 3) * 70}>
+                            <span class="kl-card__icon">
+                                <Icon name={category.icon} />
+                            </span>
+                            <h3>{category.title}</h3>
+                            <p>{category.description}</p>
+                            <div class="kl-card__foot">
+                                <a class="kl-btn kl-btn--ghost kl-btn--sm" href={`/contact?category=CloudNord&product=${encodeURIComponent(category.title)}`}>
+                                    Enquire
+                                </a>
+                            </div>
+                        </Card>
+                    ))
+                }
+            </div>
+        </Container>
+    </section>
+
+    <section class="kl-section">
+        <Container>
+            <SectionHeader
+                eyebrow="Platform"
+                title="How CloudNord"
+                accent="Operates"
+                description="What managed means in practice for the systems running on the platform."
+            />
+            <div class="kl-grid kl-grid--2">
+                {
+                    platform.map((item, index) => (
+                        <Card interactive reveal delay={(index % 2) * 70}>
+                            <span class="kl-card__icon">
+                                <Icon name={item.icon} />
+                            </span>
+                            <h3>{item.title}</h3>
+                            <p>{item.description}</p>
+                        </Card>
+                    ))
+                }
+            </div>
+        </Container>
+    </section>
+
+    <section class="kl-section">
+        <Container size="narrow">
+            <GlowPanel class="cta" reveal>
+                <h2 class="kl-display cta__title">
+                    <span class="kl-metal">Infrastructure that</span>
+                    <span class="kl-violet"> keeps up.</span>
+                </h2>
+                <p class="kl-lead">
+                    Tell us what you are running — a community server, a bot fleet, an application, or all three — and we
+                    will scope the right environment for it.
+                </p>
+                <div class="cta__actions">
+                    <Button href="/contact?category=CloudNord" size="lg">Explore CloudNord</Button>
+                    <Button href="/support" variant="secondary" size="lg">Talk to Support</Button>
+                </div>
+            </GlowPanel>
+        </Container>
+    </section>
+</KruigerLayout>
+
+<style>
+    .cn-hero {
+        position: relative;
+        margin-top: var(--kl-nav-h);
+        padding-block: clamp(56px, 10vw, 108px) clamp(36px, 6vw, 64px);
+        text-align: center;
+    }
+
+    .cn-hero :global(.cn-hero__inner) {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 18px;
+    }
+
+    .cn-hero__title {
+        margin: 0;
+        font-size: clamp(2.1rem, 6.5vw, 4.2rem);
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+        line-height: 1.05;
+    }
+
+    .cn-hero__lead {
+        max-width: 62ch;
+    }
+
+    .cn-hero__actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 14px;
+    }
+
+    .cta {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+        padding: clamp(30px, 5vw, 56px);
+        text-align: center;
+    }
+
+    .cta__title {
+        margin: 0;
+        font-size: clamp(1.7rem, 4.6vw, 2.8rem);
+        text-transform: uppercase;
+    }
+
+    .cta__actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 14px;
+    }
+
+    @media (max-width: 520px) {
+        .cn-hero__actions :global(.kl-btn) {
+            width: 100%;
+        }
+    }
+</style>
