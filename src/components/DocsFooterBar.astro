@@ -1,0 +1,24 @@
+---
+/**
+ * Shared footer for the documentation, product, and portal pages. Mirrors the
+ * main site footer's link set so both halves of the site agree.
+ */
+const year = new Date().getFullYear();
+---
+
+<footer class="docs-footer">
+    <div class="footer-links">
+        <a href="/products">Products</a>
+        <a href="/services">Services</a>
+        <a href="/cloudnord">CloudNord</a>
+        <a href="/docs">Documentation</a>
+        <a href="/support">Support</a>
+        <a href="/docs/status">Service Status</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+        <a href="/docs/terms">Terms of Service</a>
+        <a href="/docs/privacy">Privacy Policy</a>
+        <a href="/docs/security">Security</a>
+    </div>
+    <p>&copy; {year} Kruiger Labs LLC. All rights reserved.</p>
+</footer>

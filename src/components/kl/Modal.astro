@@ -1,0 +1,33 @@
+---
+/**
+ * Accessible dialog shell. Toggle by adding/removing `is-open`, or by
+ * calling the exported helpers on `window.klModal`.
+ */
+interface Props {
+    id: string;
+    label: string;
+    class?: string;
+}
+
+const { id, label, class: className = '' } = Astro.props;
+---
+
+<div class={`kl-modal ${className}`.trim()} id={id} role="dialog" aria-modal="true" aria-label={label} data-kl-modal>
+    <div class="kl-modal__shell">
+        <slot />
+    </div>
+</div>
+
+<script>
+    // Close on backdrop click or Escape for every modal on the page.
+    document.querySelectorAll<HTMLElement>('[data-kl-modal]').forEach((modal) => {
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) modal.classList.remove('is-open');
+        });
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key !== 'Escape') return;
+        document.querySelectorAll('[data-kl-modal].is-open').forEach((modal) => modal.classList.remove('is-open'));
+    });
+</script>

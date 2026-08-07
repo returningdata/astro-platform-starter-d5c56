@@ -653,15 +653,15 @@ export default function AdminDashboard() {
       <style>{`
         .admin-container {
           min-height: 100vh;
-          background: radial-gradient(circle at top, #050a12, #02040a);
-          color: #EAF2FF;
+          background: radial-gradient(circle at top, #0d0d12, #07070a);
+          color: #F1F1F3;
           font-family: Inter, system-ui, sans-serif;
         }
 
         .admin-header {
           padding: 20px 40px;
-          background: rgba(5, 10, 20, 0.9);
-          border-bottom: 1px solid rgba(47, 230, 255, 0.25);
+          background: rgba(7, 7, 10, 0.92);
+          border-bottom: 1px solid rgba(168, 85, 247, 0.25);
           display: flex;
           justify-content: space-between;
           align-items: center;
@@ -675,7 +675,7 @@ export default function AdminDashboard() {
           letter-spacing: 0.06em;
         }
 
-        .admin-logo span { color: #2FE6FF; }
+        .admin-logo span { color: #A855F7; }
 
         .admin-user {
           display: flex;
@@ -687,7 +687,7 @@ export default function AdminDashboard() {
           width: 40px;
           height: 40px;
           border-radius: 50%;
-          border: 2px solid rgba(47, 230, 255, 0.5);
+          border: 2px solid rgba(168, 85, 247, 0.5);
         }
 
         .admin-user-info {
@@ -700,7 +700,7 @@ export default function AdminDashboard() {
 
         .admin-user-role {
           font-size: 12px;
-          color: #2FE6FF;
+          color: #A855F7;
         }
 
         .btn-logout {
@@ -725,8 +725,8 @@ export default function AdminDashboard() {
 
         .admin-sidebar {
           width: 240px;
-          background: rgba(10, 20, 35, 0.8);
-          border-right: 1px solid rgba(47, 230, 255, 0.15);
+          background: rgba(18, 18, 25, 0.86);
+          border-right: 1px solid rgba(168, 85, 247, 0.15);
           padding: 20px 0;
         }
 
@@ -743,7 +743,7 @@ export default function AdminDashboard() {
           padding: 12px 20px;
           background: transparent;
           border: none;
-          color: #A9B8D0;
+          color: #A1A1AA;
           text-align: left;
           font-size: 14px;
           cursor: pointer;
@@ -752,14 +752,14 @@ export default function AdminDashboard() {
         }
 
         .admin-nav button:hover {
-          background: rgba(47, 230, 255, 0.1);
-          color: #EAF2FF;
+          background: rgba(168, 85, 247, 0.1);
+          color: #F1F1F3;
         }
 
         .admin-nav button.active {
-          background: rgba(47, 230, 255, 0.15);
-          color: #2FE6FF;
-          border-left: 3px solid #2FE6FF;
+          background: rgba(168, 85, 247, 0.15);
+          color: #A855F7;
+          border-left: 3px solid #A855F7;
         }
 
         .admin-main {
@@ -774,15 +774,15 @@ export default function AdminDashboard() {
           align-items: center;
           justify-content: center;
           min-height: 100vh;
-          background: radial-gradient(circle at top, #050a12, #02040a);
-          color: #EAF2FF;
+          background: radial-gradient(circle at top, #0d0d12, #07070a);
+          color: #F1F1F3;
         }
 
         .admin-spinner {
           width: 48px;
           height: 48px;
-          border: 3px solid rgba(47, 230, 255, 0.2);
-          border-top-color: #2FE6FF;
+          border: 3px solid rgba(168, 85, 247, 0.2);
+          border-top-color: #A855F7;
           border-radius: 50%;
           animation: spin 1s linear infinite;
         }
@@ -797,7 +797,7 @@ export default function AdminDashboard() {
           margin-bottom: 30px;
         }
 
-        .admin-dashboard h1 span { color: #2FE6FF; }
+        .admin-dashboard h1 span { color: #A855F7; }
 
         .dashboard-stats {
           display: grid;
@@ -808,20 +808,20 @@ export default function AdminDashboard() {
 
         .stat-card {
           padding: 24px;
-          background: rgba(10, 20, 35, 0.55);
-          border: 1px solid rgba(47, 230, 255, 0.25);
+          background: rgba(15, 15, 22, 0.82);
+          border: 1px solid rgba(168, 85, 247, 0.25);
           border-radius: 12px;
           text-align: center;
         }
 
         .stat-card h3 {
           font-size: 36px;
-          color: #2FE6FF;
+          color: #A855F7;
           margin-bottom: 8px;
         }
 
         .stat-card p {
-          color: #A9B8D0;
+          color: #A1A1AA;
           font-size: 14px;
         }
 
@@ -832,8 +832,8 @@ export default function AdminDashboard() {
         }
 
         .admin-form {
-          background: rgba(10, 20, 35, 0.55);
-          border: 1px solid rgba(47, 230, 255, 0.25);
+          background: rgba(15, 15, 22, 0.82);
+          border: 1px solid rgba(168, 85, 247, 0.25);
           border-radius: 12px;
           padding: 24px;
           margin-bottom: 30px;
@@ -842,7 +842,7 @@ export default function AdminDashboard() {
         .admin-form h3 {
           font-size: 18px;
           margin-bottom: 16px;
-          color: #EAF2FF;
+          color: #F1F1F3;
         }
 
         .admin-form input,
@@ -850,10 +850,10 @@ export default function AdminDashboard() {
           width: 100%;
           padding: 12px 16px;
           margin-bottom: 12px;
-          background: rgba(15, 25, 45, 0.9);
-          border: 1px solid rgba(47, 230, 255, 0.2);
+          background: rgba(24, 24, 33, 0.92);
+          border: 1px solid rgba(168, 85, 247, 0.2);
           border-radius: 8px;
-          color: #EAF2FF;
+          color: #F1F1F3;
           font-size: 14px;
           outline: none;
           transition: 0.2s;
@@ -861,8 +861,8 @@ export default function AdminDashboard() {
 
         .admin-form input:focus,
         .admin-form textarea:focus {
-          border-color: rgba(47, 230, 255, 0.5);
-          box-shadow: 0 0 15px rgba(47, 230, 255, 0.15);
+          border-color: rgba(168, 85, 247, 0.5);
+          box-shadow: 0 0 15px rgba(168, 85, 247, 0.15);
         }
 
         .admin-form textarea {
@@ -872,9 +872,9 @@ export default function AdminDashboard() {
 
         .btn-primary {
           padding: 12px 24px;
-          background: linear-gradient(135deg, rgba(47, 230, 255, 0.3), rgba(47, 230, 255, 0.1));
-          border: 1px solid rgba(47, 230, 255, 0.4);
-          color: #EAF2FF;
+          background: linear-gradient(135deg, rgba(168, 85, 247, 0.3), rgba(168, 85, 247, 0.1));
+          border: 1px solid rgba(168, 85, 247, 0.4);
+          color: #F1F1F3;
           border-radius: 8px;
           cursor: pointer;
           font-size: 14px;
@@ -883,15 +883,15 @@ export default function AdminDashboard() {
         }
 
         .btn-primary:hover {
-          background: linear-gradient(135deg, rgba(47, 230, 255, 0.4), rgba(47, 230, 255, 0.2));
-          box-shadow: 0 0 20px rgba(47, 230, 255, 0.3);
+          background: linear-gradient(135deg, rgba(168, 85, 247, 0.4), rgba(168, 85, 247, 0.2));
+          box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
         }
 
         .btn-secondary {
           padding: 12px 24px;
           background: transparent;
-          border: 1px solid rgba(47, 230, 255, 0.3);
-          color: #A9B8D0;
+          border: 1px solid rgba(168, 85, 247, 0.3);
+          color: #A1A1AA;
           border-radius: 8px;
           cursor: pointer;
           font-size: 14px;
@@ -899,13 +899,13 @@ export default function AdminDashboard() {
         }
 
         .btn-secondary:hover {
-          border-color: rgba(47, 230, 255, 0.5);
-          color: #EAF2FF;
+          border-color: rgba(168, 85, 247, 0.5);
+          color: #F1F1F3;
         }
 
         .admin-items-list {
-          background: rgba(10, 20, 35, 0.55);
-          border: 1px solid rgba(47, 230, 255, 0.25);
+          background: rgba(15, 15, 22, 0.82);
+          border: 1px solid rgba(168, 85, 247, 0.25);
           border-radius: 12px;
           padding: 24px;
         }
@@ -913,7 +913,7 @@ export default function AdminDashboard() {
         .admin-items-list h3 {
           font-size: 18px;
           margin-bottom: 16px;
-          color: #EAF2FF;
+          color: #F1F1F3;
         }
 
         .admin-items-list ul {
@@ -925,8 +925,8 @@ export default function AdminDashboard() {
           justify-content: space-between;
           align-items: center;
           padding: 16px;
-          background: rgba(15, 25, 45, 0.6);
-          border: 1px solid rgba(47, 230, 255, 0.15);
+          background: rgba(24, 24, 33, 0.66);
+          border: 1px solid rgba(168, 85, 247, 0.15);
           border-radius: 8px;
           margin-bottom: 12px;
         }
@@ -937,7 +937,7 @@ export default function AdminDashboard() {
         }
 
         .item-info p {
-          color: #A9B8D0;
+          color: #A1A1AA;
           font-size: 13px;
         }
 
@@ -957,12 +957,12 @@ export default function AdminDashboard() {
 
         .btn-edit {
           background: transparent;
-          border: 1px solid rgba(47, 230, 255, 0.3);
-          color: #2FE6FF;
+          border: 1px solid rgba(168, 85, 247, 0.3);
+          color: #A855F7;
         }
 
         .btn-edit:hover {
-          background: rgba(47, 230, 255, 0.1);
+          background: rgba(168, 85, 247, 0.1);
         }
 
         .btn-delete {
@@ -984,10 +984,10 @@ export default function AdminDashboard() {
           width: 100%;
           padding: 10px 14px;
           margin-bottom: 10px;
-          background: rgba(15, 25, 45, 0.9);
-          border: 1px solid rgba(47, 230, 255, 0.2);
+          background: rgba(24, 24, 33, 0.92);
+          border: 1px solid rgba(168, 85, 247, 0.2);
           border-radius: 6px;
-          color: #EAF2FF;
+          color: #F1F1F3;
           font-size: 14px;
           outline: none;
         }
@@ -998,13 +998,13 @@ export default function AdminDashboard() {
         }
 
         .empty-message {
-          color: #A9B8D0;
+          color: #A1A1AA;
           text-align: center;
           padding: 20px;
         }
 
         .info-text {
-          color: #A9B8D0;
+          color: #A1A1AA;
           margin-bottom: 20px;
         }
 
@@ -1015,7 +1015,7 @@ export default function AdminDashboard() {
         .permissions-checkboxes > label {
           display: block;
           margin-bottom: 8px;
-          color: #A9B8D0;
+          color: #A1A1AA;
         }
 
         .checkbox-label {
@@ -1023,14 +1023,14 @@ export default function AdminDashboard() {
           align-items: center;
           gap: 8px;
           margin-bottom: 8px;
-          color: #EAF2FF;
+          color: #F1F1F3;
           cursor: pointer;
         }
 
         .checkbox-label input[type="checkbox"] {
           width: 18px;
           height: 18px;
-          accent-color: #2FE6FF;
+          accent-color: #A855F7;
         }
 
         /* Chat Manager Styles */
@@ -1048,8 +1048,8 @@ export default function AdminDashboard() {
         }
 
         .conversations-list {
-          background: rgba(10, 20, 35, 0.55);
-          border: 1px solid rgba(47, 230, 255, 0.25);
+          background: rgba(15, 15, 22, 0.82);
+          border: 1px solid rgba(168, 85, 247, 0.25);
           border-radius: 12px;
           padding: 20px;
           max-height: 600px;
@@ -1072,8 +1072,8 @@ export default function AdminDashboard() {
 
         .conversation-item {
           padding: 12px;
-          background: rgba(15, 25, 45, 0.6);
-          border: 1px solid rgba(47, 230, 255, 0.15);
+          background: rgba(24, 24, 33, 0.66);
+          border: 1px solid rgba(168, 85, 247, 0.15);
           border-radius: 8px;
           margin-bottom: 8px;
           cursor: pointer;
@@ -1081,16 +1081,16 @@ export default function AdminDashboard() {
         }
 
         .conversation-item:hover {
-          border-color: rgba(47, 230, 255, 0.4);
+          border-color: rgba(168, 85, 247, 0.4);
         }
 
         .conversation-item.selected {
-          border-color: #2FE6FF;
-          background: rgba(47, 230, 255, 0.1);
+          border-color: #A855F7;
+          background: rgba(168, 85, 247, 0.1);
         }
 
         .conversation-item.takeover {
-          border-left: 3px solid #2FE6FF;
+          border-left: 3px solid #A855F7;
         }
 
         .conv-info {
@@ -1107,25 +1107,25 @@ export default function AdminDashboard() {
 
         .conv-messages {
           font-size: 12px;
-          color: #A9B8D0;
+          color: #A1A1AA;
         }
 
         .takeover-badge {
           font-size: 11px;
           padding: 2px 6px;
-          background: rgba(47, 230, 255, 0.2);
+          background: rgba(168, 85, 247, 0.2);
           border-radius: 4px;
-          color: #2FE6FF;
+          color: #A855F7;
         }
 
         .conv-time {
           font-size: 11px;
-          color: #A9B8D0;
+          color: #A1A1AA;
         }
 
         .conversation-view {
-          background: rgba(10, 20, 35, 0.55);
-          border: 1px solid rgba(47, 230, 255, 0.25);
+          background: rgba(15, 15, 22, 0.82);
+          border: 1px solid rgba(168, 85, 247, 0.25);
           border-radius: 12px;
           padding: 20px;
           display: flex;
@@ -1138,7 +1138,7 @@ export default function AdminDashboard() {
           justify-content: space-between;
           align-items: center;
           padding-bottom: 16px;
-          border-bottom: 1px solid rgba(47, 230, 255, 0.15);
+          border-bottom: 1px solid rgba(168, 85, 247, 0.15);
           margin-bottom: 16px;
         }
 
@@ -1160,14 +1160,14 @@ export default function AdminDashboard() {
         }
 
         .message.user {
-          background: rgba(47, 230, 255, 0.15);
-          border: 1px solid rgba(47, 230, 255, 0.3);
+          background: rgba(168, 85, 247, 0.15);
+          border: 1px solid rgba(168, 85, 247, 0.3);
           margin-left: auto;
         }
 
         .message.bot {
-          background: rgba(15, 25, 45, 0.8);
-          border: 1px solid rgba(47, 230, 255, 0.15);
+          background: rgba(24, 24, 33, 0.86);
+          border: 1px solid rgba(168, 85, 247, 0.15);
         }
 
         .message.admin {
@@ -1177,7 +1177,7 @@ export default function AdminDashboard() {
 
         .message .sender {
           font-size: 11px;
-          color: #2FE6FF;
+          color: #A855F7;
           display: block;
           margin-bottom: 4px;
         }
@@ -1189,7 +1189,7 @@ export default function AdminDashboard() {
 
         .message .time {
           font-size: 10px;
-          color: #A9B8D0;
+          color: #A1A1AA;
           display: block;
           margin-top: 4px;
           text-align: right;
@@ -1203,21 +1203,21 @@ export default function AdminDashboard() {
         .admin-reply input {
           flex: 1;
           padding: 12px 16px;
-          background: rgba(15, 25, 45, 0.9);
-          border: 1px solid rgba(47, 230, 255, 0.2);
+          background: rgba(24, 24, 33, 0.92);
+          border: 1px solid rgba(168, 85, 247, 0.2);
           border-radius: 8px;
-          color: #EAF2FF;
+          color: #F1F1F3;
           font-size: 14px;
           outline: none;
         }
 
         .admin-reply input:focus {
-          border-color: rgba(47, 230, 255, 0.5);
+          border-color: rgba(168, 85, 247, 0.5);
         }
 
         .bot-config {
-          background: rgba(10, 20, 35, 0.55);
-          border: 1px solid rgba(47, 230, 255, 0.25);
+          background: rgba(15, 15, 22, 0.82);
+          border: 1px solid rgba(168, 85, 247, 0.25);
           border-radius: 12px;
           padding: 24px;
         }
@@ -1234,16 +1234,16 @@ export default function AdminDashboard() {
         .config-field label {
           display: block;
           margin-bottom: 8px;
-          color: #A9B8D0;
+          color: #A1A1AA;
         }
 
         .config-field textarea {
           width: 100%;
           padding: 12px 16px;
-          background: rgba(15, 25, 45, 0.9);
-          border: 1px solid rgba(47, 230, 255, 0.2);
+          background: rgba(24, 24, 33, 0.92);
+          border: 1px solid rgba(168, 85, 247, 0.2);
           border-radius: 8px;
-          color: #EAF2FF;
+          color: #F1F1F3;
           font-size: 14px;
           min-height: 100px;
           resize: vertical;
@@ -1258,7 +1258,7 @@ export default function AdminDashboard() {
           .admin-sidebar {
             width: 100%;
             border-right: none;
-            border-bottom: 1px solid rgba(47, 230, 255, 0.15);
+            border-bottom: 1px solid rgba(168, 85, 247, 0.15);
           }
 
           .admin-nav {

@@ -1,6 +1,71 @@
 ---
-import ProductLayout from '../../layouts/ProductLayout.astro';
+import KruigerLayout from '../../layouts/KruigerLayout.astro';
+import PageHero from '../../components/kl/PageHero.astro';
+import Container from '../../components/kl/Container.astro';
+import Button from '../../components/kl/Button.astro';
+import ProductGrid from '../../components/kl/ProductGrid.astro';
+import GlowPanel from '../../components/kl/GlowPanel.astro';
 import { products } from '../../data/portal';
----
-<ProductLayout title="Products" description="Kruiger Labs LLC products, integrations, websites, hosting, automation, and custom development."><div class="eyebrow">Products and services</div><h1 class="hero-title">Built for communities that need systems they can trust.</h1><p class="lead">Browse Discord products, websites, dashboards, automation, integrations, hosting, and custom development. Internal Affairs Bot is currently the only listed Discord bot.</p><div class="filterbar"><span class="badge">Products</span><span>→</span><span class="badge">Discord Bots</span><span>→</span><span class="badge good">Internal Affairs Bot</span></div><div class="grid" style="margin-top:32px">{products.map(product=><article class="card product-card"><img class="product-logo" src={product.logo || '/logo.png'} alt=""/><div class="badges"><span class="badge good">{product.status}</span><span class="badge">{product.category}</span></div><h3>{product.name}</h3><p>{product.description}</p><div class="card-actions">{product.slug==='internal-affairs-bot'?<><a class="button" href="/products/internal-affairs-bot">View Product</a><a class="button-secondary" href="/docs/internal-affairs-bot">Docs</a></>:<a class="button-secondary" href="/docs/support?product=Custom%20Development">Enquire</a>}</div></article>)}</div></ProductLayout>
 
+const title = 'Products | Kruiger Labs LLC';
+const description =
+    'Kruiger Labs products and services: Discord bots, custom development, websites, Netlify applications, integrations, automation, community tooling, and managed hosting.';
+---
+
+<KruigerLayout title={title} description={description}>
+    <PageHero
+        eyebrow="Catalogue"
+        title="Kruiger Labs"
+        accent="Products"
+        description="Discord systems, custom development, websites, integrations, automation, community tooling, and managed hosting. Filter by the kind of system you need."
+    />
+
+    <section class="kl-section">
+        <Container>
+            <ProductGrid products={products} />
+        </Container>
+    </section>
+
+    <section class="kl-section">
+        <Container size="narrow">
+            <GlowPanel class="cta" reveal>
+                <h2 class="kl-display cta__title">
+                    <span class="kl-metal">Need something</span>
+                    <span class="kl-violet"> bespoke?</span>
+                </h2>
+                <p class="kl-lead">
+                    Most Kruiger Labs work starts as a custom build. Describe what your community or business needs and
+                    we will scope it.
+                </p>
+                <div class="cta__actions">
+                    <Button href="/contact" size="lg">Start a Project</Button>
+                    <Button href="/docs/catalogue" variant="secondary" size="lg">Catalogue Documentation</Button>
+                </div>
+            </GlowPanel>
+        </Container>
+    </section>
+</KruigerLayout>
+
+<style>
+    .cta {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+        padding: clamp(30px, 5vw, 56px);
+        text-align: center;
+    }
+
+    .cta__title {
+        margin: 0;
+        font-size: clamp(1.7rem, 4.6vw, 2.8rem);
+        text-transform: uppercase;
+    }
+
+    .cta__actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 14px;
+    }
+</style>

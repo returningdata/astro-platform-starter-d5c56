@@ -1,0 +1,12 @@
+---
+/** Small status / category pill. */
+interface Props {
+    tone?: 'default' | 'purple' | 'ok' | 'warn' | 'live';
+    class?: string;
+}
+
+const { tone = 'default', class: className = '' } = Astro.props;
+const classes = ['kl-badge', tone !== 'default' ? `kl-badge--${tone}` : '', className].filter(Boolean).join(' ');
+---
+
+<span class={classes}><slot /></span>

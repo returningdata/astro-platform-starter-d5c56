@@ -1,0 +1,91 @@
+---
+import { NAV, NAV_ACTIONS } from '../data/site';
+
+/**
+ * Shared top bar for the documentation, product, and portal pages so their
+ * navigation matches the main site. Styled with `docs.css` classes.
+ */
+interface Props {
+    active?: string;
+}
+
+const { active = '' } = Astro.props;
+const path = Astro.url.pathname;
+
+const isActive = (item: { label: string; href: string }) => {
+    if (active) return active === item.label;
+    return item.href === '/' ? path === '/' : path === item.href || path.startsWith(`${item.href}/`);
+};
+---
+
+<header class="docs-mainbar">
+    <a class="brand" href="/">
+        <img src="/assets/logo.png" alt="" width="34" height="34" />
+        <span>Kruiger <span>Labs</span></span>
+    </a>
+
+    <nav class="main-links" aria-label="Main website">
+        {
+            NAV.map((item) => (
+                <a class={isActive(item) ? 'active' : ''} href={item.href} aria-current={isActive(item) ? 'page' : undefined}>
+                    {item.label}
+                </a>
+            ))
+        }
+    </nav>
+
+    <div class="mainbar-actions">
+        <a href={NAV_ACTIONS.portal.href}>{NAV_ACTIONS.portal.label}</a>
+        <a class="button" href={NAV_ACTIONS.start.href}>{NAV_ACTIONS.start.label}</a>
+    </div>
+</header>
+
+<style>
+    .docs-mainbar {
+        gap: 18px;
+    }
+
+    .mainbar-actions {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        flex: none;
+    }
+
+    .mainbar-actions a:not(.button) {
+        color: var(--muted);
+        font-size: 0.88rem;
+        font-weight: 600;
+        text-decoration: none;
+        white-space: nowrap;
+    }
+
+    .mainbar-actions a:not(.button):hover {
+        color: var(--ink);
+    }
+
+    @media (max-width: 1240px) {
+        .mainbar-actions a:not(.button) {
+            display: none;
+        }
+    }
+
+    @media (max-width: 1080px) {
+        /* Let the link row scroll rather than wrap the bar onto two lines. */
+        .docs-mainbar :global(.main-links) {
+            overflow-x: auto;
+            gap: 16px;
+            scrollbar-width: none;
+        }
+
+        .docs-mainbar :global(.main-links)::-webkit-scrollbar {
+            display: none;
+        }
+    }
+
+    @media (max-width: 720px) {
+        .mainbar-actions {
+            display: none;
+        }
+    }
+</style>

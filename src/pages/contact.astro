@@ -1,0 +1,275 @@
+---
+import KruigerLayout from '../layouts/KruigerLayout.astro';
+import PageHero from '../components/kl/PageHero.astro';
+import Container from '../components/kl/Container.astro';
+import Button from '../components/kl/Button.astro';
+import Card from '../components/kl/Card.astro';
+import Icon from '../components/kl/Icon.astro';
+import Input from '../components/kl/Input.astro';
+import Select from '../components/kl/Select.astro';
+import Alert from '../components/kl/Alert.astro';
+import GlowPanel from '../components/kl/GlowPanel.astro';
+import { SITE, CONTACT_CATEGORIES } from '../data/site';
+import { products } from '../data/portal';
+
+const title = 'Contact | Kruiger Labs LLC';
+const description =
+    'Get in touch with Kruiger Labs about custom development, Discord bots, FiveM systems, web development, CloudNord hosting, partnerships, or support.';
+
+/**
+ * The form posts to the existing `/api/support/tickets` endpoint, so enquiries
+ * land in the same authenticated ticket system staff already use. No new
+ * backend route is introduced and no private contact details are published.
+ *
+ * `?category=` and `?product=` deep links are applied on the client so this
+ * page can stay statically rendered.
+ */
+const categoryOptions = [...CONTACT_CATEGORIES];
+const productOptions = ['General Enquiry', ...products.map((product) => product.name)];
+
+const channels = [
+    {
+        title: 'Discord',
+        description: 'The fastest route for questions, scoping conversations, and community support.',
+        icon: 'discord',
+        action: { label: 'Open Discord', href: SITE.discord, external: true }
+    },
+    {
+        title: 'Support Centre',
+        description: 'Existing customers can raise a detailed ticket with attachments and diagnostics.',
+        icon: 'lifebuoy',
+        action: { label: 'Support Centre', href: '/docs/support', external: false }
+    },
+    {
+        title: 'Client Portal',
+        description: 'Sign in to review licences, servers, and the status of your open tickets.',
+        icon: 'users',
+        action: { label: 'Client Portal', href: '/customer', external: false }
+    }
+];
+---
+
+<KruigerLayout title={title} description={description}>
+    <PageHero
+        eyebrow="Contact"
+        title="Talk to"
+        accent="Kruiger Labs"
+        description="Tell us what you are building or what needs fixing. Enquiries are routed through the same ticket system our support team works from."
+    />
+
+    <section class="kl-section">
+        <Container>
+            <div class="contact">
+                <GlowPanel class="contact__form-panel" reveal>
+                    <h2 class="kl-display contact__title">
+                        <span class="kl-metal">Send an</span>
+                        <span class="kl-violet"> enquiry</span>
+                    </h2>
+                    <p class="contact__intro">
+                        Fields marked * are required. Your Discord user ID lets us reach you and link the enquiry to your
+                        community.
+                    </p>
+
+                    <form class="contact__form" id="contact-form" novalidate>
+                        <Input label="Your name" name="customerName" required minlength={2} maxlength={120} autocomplete="name" />
+                        <Input label="Email address" name="email" type="email" required maxlength={180} autocomplete="email" />
+                        <Input label="Discord username" name="discordUsername" required minlength={2} maxlength={80} />
+                        <Input
+                            label="Discord user ID"
+                            name="discordUserId"
+                            required
+                            pattern="[0-9]{15,22}"
+                            hint="Enable Developer Mode in Discord, then right-click your name and choose Copy User ID."
+                        />
+                        <Select label="Enquiry category" name="category" options={categoryOptions} required />
+                        <Select label="Product or service" name="product" options={productOptions} required />
+                        <Input label="Community or server name" name="serverName" maxlength={120} />
+                        <Input label="Discord server ID" name="serverId" pattern="[0-9]{0,22}" />
+                        <Input label="Subject" name="subject" required minlength={4} maxlength={180} full />
+                        <Input
+                            label="How can we help?"
+                            name="description"
+                            textarea
+                            required
+                            minlength={20}
+                            maxlength={8000}
+                            full
+                            hint="Describe the system, the community size, and any deadlines. Minimum 20 characters."
+                        />
+
+                        <div class="contact__submit">
+                            <Button type="submit" size="lg">Send Enquiry</Button>
+                            <span class="contact__note">We reply through Discord or email.</span>
+                        </div>
+
+                        <Alert id="contact-status" class="kl-hide" role="status" />
+                    </form>
+                </GlowPanel>
+
+                <aside class="contact__side">
+                    {
+                        channels.map((channel, index) => (
+                            <Card interactive reveal delay={index * 70}>
+                                <span class="kl-card__icon">
+                                    <Icon name={channel.icon} />
+                                </span>
+                                <h3>{channel.title}</h3>
+                                <p>{channel.description}</p>
+                                <div class="kl-card__foot">
+                                    <a
+                                        class="kl-btn kl-btn--secondary kl-btn--sm"
+                                        href={channel.action.href}
+                                        {...channel.action.external ? { target: '_blank', rel: 'noopener noreferrer' } : {}}
+                                    >
+                                        {channel.action.label}
+                                    </a>
+                                </div>
+                            </Card>
+                        ))
+                    }
+                </aside>
+            </div>
+        </Container>
+    </section>
+</KruigerLayout>
+
+<style>
+    .contact {
+        display: grid;
+        grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+        gap: 18px;
+        align-items: start;
+    }
+
+    .contact :global(.contact__form-panel) {
+        padding: clamp(24px, 4vw, 40px);
+    }
+
+    .contact__title {
+        margin: 0 0 10px;
+        font-size: clamp(1.4rem, 3vw, 2rem);
+        text-transform: uppercase;
+    }
+
+    .contact__intro {
+        margin: 0 0 26px;
+        color: var(--kl-text-muted);
+        line-height: 1.7;
+    }
+
+    .contact__form {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+    }
+
+    .contact__form :global(.kl-field--full),
+    .contact__submit,
+    .contact__form :global(.kl-alert) {
+        grid-column: 1 / -1;
+    }
+
+    .contact__submit {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 14px;
+        margin-top: 4px;
+    }
+
+    .contact__note {
+        color: var(--kl-silver-muted);
+        font-size: 0.82rem;
+    }
+
+    .contact__side {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    @media (max-width: 980px) {
+        .contact {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 560px) {
+        .contact__form {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<script>
+    const form = document.querySelector<HTMLFormElement>('#contact-form');
+    const status = document.querySelector<HTMLElement>('#contact-status');
+
+    // Apply ?category= and ?product= deep links from elsewhere on the site.
+    const params = new URLSearchParams(window.location.search);
+    const preselect = (name: string, wanted: string | null) => {
+        if (!wanted) return;
+        const select = form?.querySelector<HTMLSelectElement>(`select[name="${name}"]`);
+        if (!select) return;
+        const normalise = (value: string) => value.toLowerCase().replace(/[\s-]+/g, '');
+        const match = [...select.options].find((option) => normalise(option.value) === normalise(wanted));
+        if (match) select.value = match.value;
+    };
+    preselect('category', params.get('category'));
+    preselect('product', params.get('product'));
+
+    const show = (tone: 'info' | 'success' | 'error', message: string) => {
+        if (!status) return;
+        status.className = `kl-alert kl-alert--${tone}`;
+        status.textContent = message;
+    };
+
+    form?.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+        }
+
+        const submit = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+        if (submit) submit.disabled = true;
+        show('info', 'Sending your enquiry…');
+
+        const payload = Object.fromEntries(new FormData(form).entries()) as Record<string, string>;
+
+        try {
+            // Reuses the existing support ticket API — no new backend route.
+            const session = await fetch('/api/auth/session')
+                .then((response) => response.json())
+                .catch(() => ({}) as Record<string, string>);
+
+            const response = await fetch('/api/support/tickets', {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json',
+                    ...(session.csrfToken ? { 'x-csrf-token': session.csrfToken } : {})
+                },
+                body: JSON.stringify({
+                    ...payload,
+                    priority: 'normal',
+                    category: `${payload.category} Enquiry`,
+                    diagnosticConsent: false
+                })
+            });
+
+            const data = await response.json().catch(() => ({}) as Record<string, string>);
+
+            if (response.ok) {
+                show('success', `Enquiry received. Your reference is ${data.ticketNumber ?? 'on its way by email'}.`);
+                form.reset();
+            } else {
+                show('error', data.error || 'Unable to send the enquiry. Please try again or reach us on Discord.');
+            }
+        } catch {
+            show('error', 'Network error. Please try again or reach us on Discord.');
+        } finally {
+            if (submit) submit.disabled = false;
+        }
+    });
+</script>

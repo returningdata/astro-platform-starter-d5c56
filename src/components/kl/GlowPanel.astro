@@ -1,0 +1,14 @@
+---
+/** Large framed surface with an illuminated purple outline. */
+interface Props {
+    class?: string;
+    as?: string;
+    reveal?: boolean;
+}
+
+const { class: className = '', as: Tag = 'div', reveal = false } = Astro.props;
+---
+
+<Tag class={`kl-glow-panel ${className}`.trim()} {...reveal ? { 'data-reveal': '' } : {}}>
+    <slot />
+</Tag>

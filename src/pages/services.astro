@@ -1,0 +1,211 @@
+---
+import KruigerLayout from '../layouts/KruigerLayout.astro';
+import PageHero from '../components/kl/PageHero.astro';
+import Container from '../components/kl/Container.astro';
+import Button from '../components/kl/Button.astro';
+import Card from '../components/kl/Card.astro';
+import Icon from '../components/kl/Icon.astro';
+import GlowPanel from '../components/kl/GlowPanel.astro';
+import SectionHeader from '../components/kl/SectionHeader.astro';
+import { SERVICES } from '../data/site';
+
+/** Delivery standards that apply to every engagement. */
+const included = [
+    'Written specification before build',
+    'Documentation and command references',
+    'Permission model mapped to your roles',
+    'Logging and audit trails',
+    'Deployment and environment setup',
+    'Handover and ongoing support'
+];
+
+const title = 'Services | Kruiger Labs LLC';
+const description =
+    'Software development, Discord systems, FiveM infrastructure, cloud hosting, web development, automation, and security engineering from Kruiger Labs.';
+---
+
+<KruigerLayout title={title} description={description}>
+    <PageHero
+        eyebrow="Services"
+        title="Engineering"
+        accent="Services"
+        description="Seven capability areas, delivered as products or as bespoke engagements. Every service is built on the same infrastructure, security model, and documentation standard."
+    >
+        <div class="hero-actions">
+            <Button href="/contact" size="lg">Start a Project</Button>
+            <Button href="/products" variant="secondary" size="lg">View Products</Button>
+        </div>
+    </PageHero>
+
+    <section class="kl-section">
+        <Container>
+            <div class="service-list">
+                {
+                    SERVICES.map((service) => (
+                        <GlowPanel class="service" reveal>
+                            <span class="service__anchor" id={service.slug} />
+                            <span class="kl-card__icon">
+                                <Icon name={service.icon} size={22} />
+                            </span>
+                            <div class="service__body">
+                                <h2 class="kl-display service__title">{service.title}</h2>
+                                <p>{service.description}</p>
+                                <a class="kl-link" href={`/contact?category=${encodeURIComponent(service.title)}`}>
+                                    Enquire about {service.title}
+                                </a>
+                            </div>
+                        </GlowPanel>
+                    ))
+                }
+            </div>
+        </Container>
+    </section>
+
+    <section class="kl-section">
+        <Container>
+            <SectionHeader
+                eyebrow="Delivery"
+                title="What Every Engagement"
+                accent="Includes"
+                description="The same standards apply whether the work is a single bot or a full platform."
+            />
+            <div class="kl-grid kl-grid--3">
+                {
+                    included.map((item, index) => (
+                        <Card interactive reveal delay={(index % 3) * 60} class="delivery">
+                            <span class="delivery__check">
+                                <Icon name="check" size={16} />
+                            </span>
+                            <h3>{item}</h3>
+                        </Card>
+                    ))
+                }
+            </div>
+        </Container>
+    </section>
+
+    <section class="kl-section">
+        <Container size="narrow">
+            <GlowPanel class="cta" reveal>
+                <h2 class="kl-display cta__title">
+                    <span class="kl-metal">Tell us what you</span>
+                    <span class="kl-violet"> need.</span>
+                </h2>
+                <p class="kl-lead">
+                    Describe the system, the community, or the problem. We will come back with an approach, a scope, and
+                    a realistic timeline.
+                </p>
+                <div class="cta__actions">
+                    <Button href="/contact" size="lg">Contact Kruiger Labs</Button>
+                    <Button href="/docs" variant="secondary" size="lg">Read the Documentation</Button>
+                </div>
+            </GlowPanel>
+        </Container>
+    </section>
+</KruigerLayout>
+
+<style>
+    .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-top: 24px;
+    }
+
+    .service-list {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .service {
+        position: relative;
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        gap: clamp(16px, 3vw, 28px);
+        padding: clamp(22px, 3vw, 34px);
+    }
+
+    /* Offset anchor so deep links clear the fixed navbar. */
+    .service__anchor {
+        position: absolute;
+        top: calc(var(--kl-nav-h) * -1 - 12px);
+    }
+
+    .service :global(.kl-card__icon) {
+        margin-bottom: 0;
+    }
+
+    .service__body {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+
+    .service__title {
+        margin: 0;
+        font-size: clamp(1.15rem, 2.4vw, 1.5rem);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--kl-silver-bright);
+    }
+
+    .service__body p {
+        margin: 0;
+        color: var(--kl-text-muted);
+        line-height: 1.7;
+    }
+
+    .delivery {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-height: 0;
+    }
+
+    .delivery h3 {
+        margin: 0;
+        font-size: 0.98rem;
+    }
+
+    .delivery__check {
+        display: grid;
+        place-items: center;
+        width: 28px;
+        height: 28px;
+        flex: none;
+        border-radius: 999px;
+        color: var(--kl-purple-bright);
+        background: rgba(139, 92, 246, 0.16);
+        border: 1px solid var(--kl-border);
+    }
+
+    .cta {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+        padding: clamp(30px, 5vw, 56px);
+        text-align: center;
+    }
+
+    .cta__title {
+        margin: 0;
+        font-size: clamp(1.7rem, 4.6vw, 2.8rem);
+        text-transform: uppercase;
+    }
+
+    .cta__actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 14px;
+    }
+
+    @media (max-width: 640px) {
+        .service {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

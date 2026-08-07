@@ -1,0 +1,397 @@
+---
+import Wordmark from './Wordmark.astro';
+import Icon from './Icon.astro';
+import { NAV, NAV_ACTIONS } from '../../data/site';
+
+/** Dark glass navigation with a purple bottom rule and a full-screen mobile panel. */
+const path = Astro.url.pathname;
+const isActive = (href: string) => (href === '/' ? path === '/' : path === href || path.startsWith(`${href}/`));
+---
+
+<a class="kl-skip-link" href="#main">Skip to content</a>
+
+<header class="kl-nav" id="kl-nav" data-kl-nav>
+    <div class="kl-nav__inner">
+        <a class="kl-nav__brand" href="/" aria-label="Kruiger Labs LLC home">
+            <Wordmark mark={30} size="0.98rem" />
+        </a>
+
+        <nav class="kl-nav__links" aria-label="Primary">
+            <ul>
+                {
+                    NAV.map((item) => (
+                        <li>
+                            <a href={item.href} class:list={['kl-nav__link', isActive(item.href) && 'is-active']} aria-current={isActive(item.href) ? 'page' : undefined}>
+                                {item.label}
+                            </a>
+                        </li>
+                    ))
+                }
+            </ul>
+        </nav>
+
+        <div class="kl-nav__actions">
+            <a class="kl-nav__portal" href={NAV_ACTIONS.portal.href}>{NAV_ACTIONS.portal.label}</a>
+            <a
+                class="kl-nav__discord"
+                href={NAV_ACTIONS.discord.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Join the Kruiger Labs Discord"
+            >
+                <Icon name="discord" size={18} />
+                <span>Discord</span>
+            </a>
+            <a class="kl-btn kl-btn--primary kl-btn--sm kl-nav__cta" href={NAV_ACTIONS.start.href}>{NAV_ACTIONS.start.label}</a>
+            <!-- Revealed by client script only for authenticated staff. -->
+            <a class="kl-nav__staff kl-hide" id="kl-staff-link" href="/admin">Admin</a>
+        </div>
+
+        <button class="kl-nav__toggle" type="button" aria-expanded="false" aria-controls="kl-mobile-nav" aria-label="Open navigation" data-kl-nav-toggle>
+            <Icon name="menu" size={22} class="kl-nav__toggle-open" />
+            <Icon name="close" size={22} class="kl-nav__toggle-close" />
+        </button>
+    </div>
+
+    <div class="kl-nav__glow" aria-hidden="true"></div>
+</header>
+
+<div class="kl-mobile-nav" id="kl-mobile-nav" data-kl-mobile-nav hidden>
+    <nav aria-label="Mobile">
+        <ul>
+            {
+                NAV.map((item) => (
+                    <li>
+                        <a href={item.href} class:list={['kl-mobile-nav__link', isActive(item.href) && 'is-active']}>
+                            <span>{item.label}</span>
+                            <Icon name="arrow" size={16} />
+                        </a>
+                    </li>
+                ))
+            }
+        </ul>
+    </nav>
+    <div class="kl-mobile-nav__actions">
+        <a class="kl-btn kl-btn--secondary" href={NAV_ACTIONS.portal.href}>{NAV_ACTIONS.portal.label}</a>
+        <a class="kl-btn kl-btn--secondary" href={NAV_ACTIONS.discord.href} target="_blank" rel="noopener noreferrer">Discord</a>
+        <a class="kl-btn kl-btn--primary kl-btn--block" href={NAV_ACTIONS.start.href}>{NAV_ACTIONS.start.label}</a>
+    </div>
+</div>
+
+<style>
+    .kl-nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 900;
+        height: var(--kl-nav-h);
+        background: rgba(7, 7, 10, 0.55);
+        backdrop-filter: blur(14px) saturate(140%);
+        -webkit-backdrop-filter: blur(14px) saturate(140%);
+        border-bottom: 1px solid var(--kl-border);
+        transition:
+            background-color var(--kl-t),
+            border-color var(--kl-t),
+            box-shadow var(--kl-t);
+    }
+
+    /* Slightly more opaque and lifted once the page is scrolled. */
+    .kl-nav.is-scrolled {
+        background: rgba(7, 7, 10, 0.92);
+        border-bottom-color: var(--kl-border-strong);
+        box-shadow: 0 10px 34px -18px rgba(0, 0, 0, 0.9);
+    }
+
+    .kl-nav__glow {
+        position: absolute;
+        left: 12%;
+        right: 12%;
+        bottom: -1px;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.75), transparent);
+        opacity: 0;
+        transition: opacity var(--kl-t);
+    }
+
+    .kl-nav.is-scrolled .kl-nav__glow {
+        opacity: 1;
+    }
+
+    .kl-nav__inner {
+        height: 100%;
+        max-width: 1420px;
+        margin-inline: auto;
+        padding-inline: clamp(16px, 3vw, 32px);
+        display: flex;
+        align-items: center;
+        gap: clamp(12px, 2vw, 26px);
+    }
+
+    .kl-nav__brand {
+        text-decoration: none;
+        flex: none;
+    }
+
+    .kl-nav__links {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .kl-nav__links ul {
+        display: flex;
+        align-items: center;
+        gap: clamp(4px, 1vw, 8px);
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .kl-nav__link {
+        position: relative;
+        display: block;
+        padding: 8px 10px;
+        color: var(--kl-text-muted);
+        font-size: 0.82rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-decoration: none;
+        white-space: nowrap;
+        transition: color var(--kl-t);
+    }
+
+    /* Animated underline that grows from the centre on hover. */
+    .kl-nav__link::after {
+        content: '';
+        position: absolute;
+        left: 10px;
+        right: 10px;
+        bottom: 2px;
+        height: 1px;
+        background: var(--kl-purple-bright);
+        box-shadow: 0 0 8px var(--kl-purple-glow);
+        transform: scaleX(0);
+        transition: transform var(--kl-t);
+    }
+
+    .kl-nav__link:hover,
+    .kl-nav__link.is-active {
+        color: var(--kl-silver-bright);
+    }
+
+    .kl-nav__link:hover::after,
+    .kl-nav__link.is-active::after {
+        transform: scaleX(1);
+    }
+
+    .kl-nav__actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex: none;
+    }
+
+    .kl-nav__portal,
+    .kl-nav__staff {
+        color: var(--kl-silver);
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-decoration: none;
+        white-space: nowrap;
+        transition: color var(--kl-t);
+    }
+
+    .kl-nav__portal:hover,
+    .kl-nav__staff:hover {
+        color: var(--kl-purple-text);
+    }
+
+    .kl-nav__staff {
+        padding: 5px 10px;
+        border: 1px solid var(--kl-border-strong);
+        border-radius: var(--kl-r-sm);
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+    }
+
+    .kl-nav__discord {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 7px 12px;
+        border: 1px solid var(--kl-border-metal);
+        border-radius: var(--kl-r-sm);
+        color: var(--kl-silver);
+        font-size: 0.78rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition:
+            border-color var(--kl-t),
+            color var(--kl-t),
+            box-shadow var(--kl-t);
+    }
+
+    .kl-nav__discord:hover {
+        border-color: var(--kl-border-strong);
+        color: var(--kl-white);
+        box-shadow: 0 0 18px -6px var(--kl-purple-glow);
+    }
+
+    .kl-nav__toggle {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        margin-left: auto;
+        padding: 0;
+        background: rgba(18, 18, 25, 0.7);
+        border: 1px solid var(--kl-border);
+        border-radius: var(--kl-r-sm);
+        color: var(--kl-silver-bright);
+        cursor: pointer;
+    }
+
+    .kl-nav__toggle-close {
+        display: none;
+    }
+
+    .kl-nav__toggle[aria-expanded='true'] .kl-nav__toggle-open {
+        display: none;
+    }
+
+    .kl-nav__toggle[aria-expanded='true'] .kl-nav__toggle-close {
+        display: block;
+    }
+
+    /* ---- Mobile panel ---- */
+    .kl-mobile-nav {
+        position: fixed;
+        inset: var(--kl-nav-h) 0 0;
+        z-index: 890;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 22px clamp(16px, 5vw, 28px) calc(28px + env(safe-area-inset-bottom));
+        background: rgba(7, 7, 10, 0.98);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        overflow-y: auto;
+        overscroll-behavior: contain;
+    }
+
+    .kl-mobile-nav[hidden] {
+        display: none;
+    }
+
+    .kl-mobile-nav ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .kl-mobile-nav__link {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        /* Comfortable tap target on phones. */
+        min-height: 54px;
+        padding: 14px 4px;
+        border-bottom: 1px solid rgba(215, 217, 223, 0.08);
+        color: var(--kl-silver);
+        font-family: var(--kl-font-display);
+        font-size: 0.98rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        text-decoration: none;
+    }
+
+    .kl-mobile-nav__link.is-active {
+        color: var(--kl-purple-text);
+        border-bottom-color: var(--kl-border-strong);
+    }
+
+    .kl-mobile-nav__link svg {
+        color: var(--kl-purple-bright);
+        opacity: 0.7;
+    }
+
+    .kl-mobile-nav__actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .kl-mobile-nav__actions .kl-btn--block {
+        grid-column: 1 / -1;
+    }
+
+    /* ---- Breakpoints ---- */
+    @media (max-width: 1180px) {
+        .kl-nav__portal {
+            display: none;
+        }
+        .kl-nav__discord span {
+            display: none;
+        }
+    }
+
+    @media (max-width: 1040px) {
+        .kl-nav__links,
+        .kl-nav__actions {
+            display: none;
+        }
+        .kl-nav__toggle {
+            display: inline-flex;
+        }
+    }
+</style>
+
+<script>
+    // Navbar opacity on scroll.
+    const nav = document.querySelector<HTMLElement>('[data-kl-nav]');
+    const onScroll = () => nav?.classList.toggle('is-scrolled', window.scrollY > 12);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    // Mobile panel.
+    const toggle = document.querySelector<HTMLButtonElement>('[data-kl-nav-toggle]');
+    const panel = document.querySelector<HTMLElement>('[data-kl-mobile-nav]');
+
+    const setOpen = (open: boolean) => {
+        if (!toggle || !panel) return;
+        toggle.setAttribute('aria-expanded', String(open));
+        toggle.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
+        panel.hidden = !open;
+        document.body.style.overflow = open ? 'hidden' : '';
+    };
+
+    toggle?.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+
+    // Any navigation or a resize back to desktop closes the panel.
+    panel?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => setOpen(false)));
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') setOpen(false);
+    });
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 1040) setOpen(false);
+    });
+
+    // Surface the staff entry point only when the existing session API says so.
+    fetch('/api/auth/session')
+        .then((response) => (response.ok ? response.json() : null))
+        .then((data) => {
+            if (data?.authenticated && data.user?.isAdmin) {
+                document.querySelector('#kl-staff-link')?.classList.remove('kl-hide');
+            }
+        })
+        .catch(() => {
+            /* Anonymous visitors simply never see the staff link. */
+        });
+</script>

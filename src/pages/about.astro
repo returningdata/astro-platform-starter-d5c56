@@ -1,0 +1,229 @@
+---
+import KruigerLayout from '../layouts/KruigerLayout.astro';
+import PageHero from '../components/kl/PageHero.astro';
+import Container from '../components/kl/Container.astro';
+import Button from '../components/kl/Button.astro';
+import Card from '../components/kl/Card.astro';
+import Icon from '../components/kl/Icon.astro';
+import GlowPanel from '../components/kl/GlowPanel.astro';
+import SectionHeader from '../components/kl/SectionHeader.astro';
+import { WHY, TECHNOLOGIES, SITE } from '../data/site';
+import Badge from '../components/kl/Badge.astro';
+
+const title = 'About | Kruiger Labs LLC';
+const description =
+    'Kruiger Labs LLC builds Discord systems, FiveM infrastructure, web applications, cloud hosting, automation, and custom software for modern communities and businesses.';
+
+/** How work is approached — descriptive, no invented history or metrics. */
+const principles = [
+    {
+        title: 'Specification First',
+        description: 'Work starts from how your team actually operates, not from a template that has to be bent into shape.',
+        icon: 'book'
+    },
+    {
+        title: 'Documented By Default',
+        description: 'Every product ships with setup guides, command references, permission models, and troubleshooting.',
+        icon: 'terminal'
+    },
+    {
+        title: 'Operable in Production',
+        description: 'Logging, audit trails, and status visibility are part of the build, not an afterthought.',
+        icon: 'activity'
+    }
+];
+---
+
+<KruigerLayout title={title} description={description}>
+    <PageHero
+        eyebrow="About Kruiger Labs"
+        title="Building Systems That Power"
+        accent="Communities."
+        description="Kruiger Labs LLC is a software and infrastructure studio building Discord systems, game community tooling, web applications, automation, and managed hosting."
+    >
+        <div class="hero-actions">
+            <Button href="/contact" size="lg">Start a Project</Button>
+            <Button href="/products" variant="secondary" size="lg">View Products</Button>
+        </div>
+    </PageHero>
+
+    <section class="kl-section">
+        <Container>
+            <div class="intro">
+                <GlowPanel class="intro__panel" reveal>
+                    <h2 class="kl-display intro__title">
+                        <span class="kl-metal">What we</span>
+                        <span class="kl-violet"> do</span>
+                    </h2>
+                    <p>
+                        We design and operate the systems communities depend on: moderation and investigation tooling,
+                        Discord integrations, roleplay and game server infrastructure, customer portals, internal
+                        dashboards, and the hosting underneath all of it.
+                    </p>
+                    <p>
+                        Products are built to be run by real staff teams. That means permissions that map to how a
+                        community is actually organised, records that hold up to review, and documentation that answers
+                        the question before a ticket gets raised.
+                    </p>
+                </GlowPanel>
+
+                <div class="intro__side">
+                    {
+                        principles.map((principle, index) => (
+                            <Card interactive reveal delay={index * 70}>
+                                <span class="kl-card__icon">
+                                    <Icon name={principle.icon} />
+                                </span>
+                                <h3>{principle.title}</h3>
+                                <p>{principle.description}</p>
+                            </Card>
+                        ))
+                    }
+                </div>
+            </div>
+        </Container>
+    </section>
+
+    <section class="kl-section">
+        <Container>
+            <SectionHeader
+                eyebrow="Approach"
+                title="Why"
+                accent="Kruiger Labs"
+                description="The standards that apply across every product and engagement."
+            />
+            <div class="kl-grid kl-grid--3">
+                {
+                    WHY.map((item, index) => (
+                        <Card interactive brackets reveal delay={(index % 3) * 70}>
+                            <span class="kl-card__icon">
+                                <Icon name={item.icon} />
+                            </span>
+                            <h3>{item.title}</h3>
+                            <p>{item.description}</p>
+                        </Card>
+                    ))
+                }
+            </div>
+        </Container>
+    </section>
+
+    <section class="kl-section">
+        <Container>
+            <SectionHeader
+                eyebrow="Stack"
+                title="Technology We"
+                accent="Use"
+                description="The tooling genuinely running behind Kruiger Labs products and infrastructure."
+            />
+            <ul class="tech" data-reveal>
+                {
+                    TECHNOLOGIES.map((technology) => (
+                        <li>
+                            <Badge>{technology}</Badge>
+                        </li>
+                    ))
+                }
+            </ul>
+        </Container>
+    </section>
+
+    <section class="kl-section">
+        <Container size="narrow">
+            <GlowPanel class="cta" reveal>
+                <h2 class="kl-display cta__title">
+                    <span class="kl-metal">Work with</span>
+                    <span class="kl-violet"> Kruiger Labs.</span>
+                </h2>
+                <p class="kl-lead">
+                    Whether you need a single Discord system or a complete platform, the starting point is the same
+                    conversation.
+                </p>
+                <div class="cta__actions">
+                    <Button href="/contact" size="lg">Contact Us</Button>
+                    <Button href={SITE.discord} variant="secondary" size="lg" external>Join the Discord</Button>
+                </div>
+            </GlowPanel>
+        </Container>
+    </section>
+</KruigerLayout>
+
+<style>
+    .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-top: 24px;
+    }
+
+    .intro {
+        display: grid;
+        grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+        gap: 16px;
+        align-items: start;
+    }
+
+    .intro :global(.intro__panel) {
+        padding: clamp(24px, 4vw, 40px);
+    }
+
+    .intro__title {
+        margin: 0 0 16px;
+        font-size: clamp(1.4rem, 3vw, 2rem);
+        text-transform: uppercase;
+    }
+
+    .intro :global(.intro__panel) p {
+        margin: 0 0 14px;
+        color: var(--kl-text-muted);
+        line-height: 1.75;
+    }
+
+    .intro :global(.intro__panel) p:last-child {
+        margin-bottom: 0;
+    }
+
+    .intro__side {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .tech {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .cta {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+        padding: clamp(30px, 5vw, 56px);
+        text-align: center;
+    }
+
+    .cta__title {
+        margin: 0;
+        font-size: clamp(1.7rem, 4.6vw, 2.8rem);
+        text-transform: uppercase;
+    }
+
+    .cta__actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 14px;
+    }
+
+    @media (max-width: 900px) {
+        .intro {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

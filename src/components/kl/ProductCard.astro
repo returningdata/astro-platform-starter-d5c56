@@ -1,0 +1,98 @@
+---
+import Icon from './Icon.astro';
+import Badge from './Badge.astro';
+
+/**
+ * Catalogue product card. Reads its content from the existing product
+ * records in `src/data/portal.ts` — nothing here is hard-coded.
+ */
+interface Props {
+    name: string;
+    description: string;
+    category: string;
+    status?: string;
+    logo?: string;
+    facet: string;
+    href?: string;
+    docsHref?: string;
+    /** Overrides the primary action label (e.g. "Enquire" when there is no product page). */
+    ctaLabel?: string;
+    icon?: string;
+    delay?: number;
+}
+
+const {
+    name,
+    description,
+    category,
+    status,
+    logo,
+    facet,
+    href,
+    docsHref,
+    ctaLabel = 'View Product',
+    icon = 'code',
+    delay = 0
+} = Astro.props;
+---
+
+<article class="kl-card kl-card--interactive kl-product-card" data-facet={facet} data-reveal style={`--kl-reveal-delay:${delay}ms`}>
+    <div class="kl-product-card__head">
+        {
+            logo ? (
+                <img class="kl-product-card__logo" src={logo} alt={`${name} logo`} width="52" height="52" loading="lazy" decoding="async" />
+            ) : (
+                <span class="kl-card__icon kl-product-card__fallback">
+                    <Icon name={icon} />
+                </span>
+            )
+        }
+        <div class="kl-product-card__tags">
+            {status && <Badge tone="ok">{status}</Badge>}
+            <Badge>{category}</Badge>
+        </div>
+    </div>
+
+    <h3>{name}</h3>
+    <p>{description}</p>
+
+    <div class="kl-card__foot">
+        {href && <a class="kl-btn kl-btn--secondary kl-btn--sm" href={href}>{ctaLabel}</a>}
+        {docsHref && <a class="kl-btn kl-btn--ghost kl-btn--sm" href={docsHref}>Documentation</a>}
+    </div>
+</article>
+
+<style>
+    .kl-product-card {
+        min-height: 264px;
+    }
+
+    .kl-product-card__head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 14px;
+        margin-bottom: 18px;
+    }
+
+    .kl-product-card__logo {
+        width: 52px;
+        height: 52px;
+        border-radius: 13px;
+        object-fit: cover;
+        border: 1px solid var(--kl-border);
+        background: var(--kl-panel);
+        flex: none;
+    }
+
+    .kl-product-card__fallback {
+        margin-bottom: 0;
+    }
+
+    .kl-product-card__tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        justify-content: flex-end;
+    }
+</style>

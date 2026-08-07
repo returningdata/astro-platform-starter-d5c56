@@ -1,0 +1,51 @@
+---
+/** Section eyebrow + heading + optional supporting copy. */
+interface Props {
+    eyebrow?: string;
+    title: string;
+    /** Trailing words rendered with the violet gradient. */
+    accent?: string;
+    description?: string;
+    align?: 'left' | 'center';
+    class?: string;
+    level?: 2 | 3;
+}
+
+const { eyebrow, title, accent, description, align = 'center', class: className = '', level = 2 } = Astro.props;
+const Heading = `h${level}` as 'h2' | 'h3';
+---
+
+<header class={`kl-section-header kl-section-header--${align} ${className}`} data-reveal>
+    {eyebrow && <span class="kl-eyebrow">{eyebrow}</span>}
+    <Heading class="kl-display kl-section-header__title">
+        <span class="kl-metal">{title}</span>
+        {accent && <span class="kl-violet"> {accent}</span>}
+    </Heading>
+    {description && <p class="kl-lead kl-section-header__desc">{description}</p>}
+</header>
+
+<style>
+    .kl-section-header {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        margin-bottom: clamp(28px, 4vw, 46px);
+    }
+
+    .kl-section-header--center {
+        align-items: center;
+        text-align: center;
+    }
+
+    .kl-section-header--left {
+        align-items: flex-start;
+    }
+
+    .kl-section-header__title {
+        font-size: clamp(1.6rem, 3.6vw, 2.5rem);
+    }
+
+    .kl-section-header__desc {
+        max-width: 62ch;
+    }
+</style>

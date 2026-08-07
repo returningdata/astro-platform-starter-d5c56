@@ -1,0 +1,27 @@
+---
+import Icon from './Icon.astro';
+import Card from './Card.astro';
+
+/** Capability card used by "What We Build" and the services page. */
+interface Props {
+    title: string;
+    description: string;
+    icon: string;
+    href?: string;
+    delay?: number;
+}
+
+const { title, description, icon, href, delay = 0 } = Astro.props;
+---
+
+<Card interactive brackets href={href} reveal delay={delay} class="kl-service-card">
+    <span class="kl-card__icon"><Icon name={icon} /></span>
+    <h3>{title}</h3>
+    <p>{description}</p>
+</Card>
+
+<style>
+    .kl-service-card {
+        min-height: 210px;
+    }
+</style>

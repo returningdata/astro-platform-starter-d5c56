@@ -1,5 +1,7 @@
 ---
 import '../styles/docs.css';
+import DocsBar from '../components/DocsBar.astro';
+import DocsFooterBar from '../components/DocsFooterBar.astro';
 import { docNav, searchEntries } from '../data/portal';
 interface Props { title: string; description?: string; active?: string; toc?: { id: string; label: string }[]; }
 const { title, description = 'Kruiger Labs LLC product documentation and support.', active = '', toc = [] } = Astro.props;
@@ -13,14 +15,11 @@ const path = Astro.url.pathname;
   <meta name="description" content={description} />
   <title>{title} | Kruiger Labs LLC Docs</title>
   <link rel="icon" href="/favicon.png" />
+  <meta name="theme-color" content="#07070A" />
+  <meta name="color-scheme" content="dark" />
 </head>
 <body>
-  <header class="docs-mainbar">
-    <a class="brand" href="/"><img src="/logo.png" alt="Kruiger Labs LLC logo" /><span>Kruiger <span>Labs</span> LLC</span></a>
-    <nav class="main-links" aria-label="Main website">
-      <a href="/">Main Website</a><a href="/products">Products</a><a class="active" href="/docs">Docs</a><a href="/docs/support">Support</a><a href="/customer">Customer Dashboard</a>
-    </nav>
-  </header>
+  <DocsBar active="Documentation" />
   <div class="docs-top">
     <div style="display:flex;align-items:center;gap:10px"><button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle documentation navigation">☰</button><div class="docs-title">Documentation<small>Internal Affairs Bot · v1.0</small></div></div>
     <button class="search-button" id="search-open"><span>Search products, guides, and commands…</span><span class="kbd">⌘ K</span></button>
@@ -41,7 +40,7 @@ const path = Astro.url.pathname;
     </main>
     <aside class="docs-toc"><strong>On this page</strong>{toc.map((item) => <a href={`#${item.id}`}>{item.label}</a>)}</aside>
   </div>
-  <footer class="docs-footer"><div class="footer-links"><a href="/docs">Documentation</a><a href="/docs/catalogue">Product Catalogue</a><a href="/docs/support">Support</a><a href="/docs/status">Service Status</a><a href="/docs/privacy">Privacy Policy</a><a href="/docs/terms">Terms of Service</a><a href="/docs/security">Security</a><a href="/docs/contact">Contact</a><a href="/">Main Website</a></div><p>Built and maintained by Kruiger Labs LLC.</p></footer>
+  <DocsFooterBar />
   <div class="search-modal" id="search-modal" role="dialog" aria-modal="true" aria-label="Search documentation"><div class="search-shell"><input class="search-input" id="global-search" placeholder="Try “approve a punishment” or “mutual servers”" autocomplete="off" /><div class="search-results" id="search-results"></div></div></div>
   <script define:vars={{ searchEntries }}>
     const modal=document.querySelector('#search-modal');const input=document.querySelector('#global-search');const results=document.querySelector('#search-results');
@@ -50,5 +49,50 @@ const path = Astro.url.pathname;
     document.querySelector('#mobile-toggle').addEventListener('click',()=>document.querySelector('#docs-sidebar').classList.toggle('open'));
     document.querySelectorAll('[data-helpful]').forEach(button=>button.addEventListener('click',async()=>{await fetch('/api/docs/feedback',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({articleSlug:location.pathname,helpful:button.dataset.helpful==='true'})});button.parentElement.textContent='Thanks for your feedback.'}));
   </script>
+  <script>
+    // Adds a copy button to every code block rendered by the docs pages.
+    for (const block of document.querySelectorAll<HTMLElement>('.docs-content .code')) {
+      if (block.querySelector('.code-copy')) continue;
+      block.classList.add('code-has-copy');
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'code-copy';
+      button.textContent = 'Copy';
+      button.addEventListener('click', async () => {
+        const source = block.cloneNode(true) as HTMLElement;
+        source.querySelector('.code-copy')?.remove();
+        try {
+          await navigator.clipboard.writeText(source.textContent?.trim() ?? '');
+          button.textContent = 'Copied';
+        } catch {
+          button.textContent = 'Press Ctrl+C';
+        }
+        window.setTimeout(() => (button.textContent = 'Copy'), 1800);
+      });
+      block.append(button);
+    }
+  </script>
+  <style is:global>
+    .code-has-copy { position: relative; padding-right: 84px; }
+    .code-copy {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      padding: 4px 10px;
+      background: rgba(18, 18, 25, 0.9);
+      border: 1px solid rgba(168, 85, 247, 0.4);
+      border-radius: 8px;
+      color: var(--ink);
+      font: inherit;
+      font-size: 0.74rem;
+      font-weight: 700;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.2s ease, border-color 0.2s ease;
+    }
+    .code-has-copy:hover .code-copy,
+    .code-copy:focus-visible { opacity: 1; }
+    .code-copy:hover { border-color: rgba(168, 85, 247, 0.75); }
+  </style>
 </body>
 </html>
