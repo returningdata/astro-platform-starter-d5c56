@@ -1,10 +1,15 @@
-import type { Config } from "@netlify/functions";
+import type { Config, Context } from "@netlify/functions";
+import { randomBytes } from "node:crypto";
 import { getStore } from "@netlify/blobs";
+import { eq } from "drizzle-orm";
+import { db } from "../../db/index.js";
+import { auditLogs, authSessions, users } from "../../db/schema.js";
+import { hashSessionToken, hashTrustedIp, json, rateLimit } from "./_lib/security.mjs";
 
-const DISCORD_CLIENT_ID = Netlify.env.get("DISCORD_CLIENT_ID") || "";
-const DISCORD_CLIENT_SECRET = Netlify.env.get("DISCORD_CLIENT_SECRET") || "";
+const DISCORD_CLIENT_ID = Netlify.env.get("DISCORD_OAUTH_CLIENT_ID") || Netlify.env.get("DISCORD_CLIENT_ID") || "";
+const DISCORD_CLIENT_SECRET = Netlify.env.get("DISCORD_OAUTH_CLIENT_SECRET") || Netlify.env.get("DISCORD_CLIENT_SECRET") || "";
 const SITE_URL = Netlify.env.get("SITE_URL") || Netlify.env.get("URL") || "http://localhost:8889";
-const REDIRECT_URI = Netlify.env.get("DISCORD_REDIRECT_URI") || `${SITE_URL}/api/auth/discord/callback`;
+const REDIRECT_URI = Netlify.env.get("DISCORD_OAUTH_REDIRECT_URI") || Netlify.env.get("DISCORD_REDIRECT_URI") || `${SITE_URL}/api/auth/discord/callback`;
 
 const DISCORD_GUILD_ID = Netlify.env.get("KRUIGER_DISCORD_GUILD_ID") || "1411715697406378116";
 const OWNER_ROLE_ID = Netlify.env.get("KRUIGER_OWNER_ROLE_ID") || "1411715697888989286";
@@ -69,18 +74,21 @@ function readCookie(req: Request, name: string) {
   return (req.headers.get("cookie") || "").split(";").map((part) => part.trim()).find((part) => part.startsWith(`${name}=`))?.slice(name.length + 1) || "";
 }
 
-export default async (req: Request) => {
+export default async (req: Request, context: Context) => {
+  if (!await rateLimit(req, 20, 5 * 60_000)) return json({ error: "Too many OAuth callback attempts" }, 429);
   const url = new URL(req.url);
   const code = url.searchParams.get("code");
   const state = url.searchParams.get("state");
   const oauthCookie = readCookie(req, "oauth_state");
-  const separator = oauthCookie.indexOf(".");
-  const storedState = separator >= 0 ? oauthCookie.slice(0, separator) : "";
-  const returnTo = separator >= 0 ? decodeURIComponent(oauthCookie.slice(separator + 1)) : "/customer";
+  const storedState = oauthCookie;
+  const transactionStore = getStore({ name: "oauth-transactions", consistency: "strong" });
+  const transaction = state ? await transactionStore.get(state, { type: "json" }) as { returnTo?: string; verifier?: string; expiresAt?: number } | null : null;
+  const returnTo = transaction?.returnTo?.startsWith("/") && !transaction.returnTo.startsWith("//") ? transaction.returnTo : "/customer";
 
-  if (!code || !state || state !== storedState) {
+  if (!code || !state || state !== storedState || !transaction?.verifier || !transaction.expiresAt || transaction.expiresAt < Date.now()) {
     return Response.redirect("/?error=no_code", 302);
   }
+  await transactionStore.delete(state);
 
   try {
     // Exchange code for access token
@@ -94,12 +102,13 @@ export default async (req: Request) => {
         client_secret: DISCORD_CLIENT_SECRET,
         grant_type: "authorization_code",
         code,
-        redirect_uri: REDIRECT_URI
+        redirect_uri: REDIRECT_URI,
+        code_verifier: transaction.verifier,
       })
     });
 
     if (!tokenResponse.ok) {
-      console.error("Token exchange failed:", await tokenResponse.text());
+      console.error("Discord OAuth token exchange failed");
       return Response.redirect("/?error=token_failed", 302);
     }
 
@@ -153,32 +162,22 @@ export default async (req: Request) => {
     const isAdmin = permissions.length > 0 || isBootstrapAdmin;
     const isOwner = memberRoles.includes(OWNER_ROLE_ID) || isBootstrapAdmin;
 
-    // Create session token
-    const sessionId = crypto.randomUUID();
-    const sessionData = {
-      userId: user.id,
-      username: user.username,
-      displayName: user.global_name || user.username,
-      avatar: user.avatar
-        ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`
-        : null,
-      roles: memberRoles,
-      permissions,
-      isAdmin,
-      isOwner,
-      isInGuild,
-      csrfToken: crypto.randomUUID(),
-      createdAt: new Date().toISOString(),
-      expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString() // 7 days
-    };
+    const avatarUrl = user.avatar ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png` : null;
+    const ipHash = hashTrustedIp(context.ip);
+    const [existingUser] = await db.select().from(users).where(eq(users.discordId, user.id)).limit(1);
+    const [account] = existingUser
+      ? await db.update(users).set({ username: user.username, displayName: user.global_name || user.username, avatarUrl, isStaff: isAdmin, lastLoginAt: new Date(), lastLoginIpHash: ipHash, updatedAt: new Date() }).where(eq(users.id, existingUser.id)).returning()
+      : await db.insert(users).values({ discordId: user.id, username: user.username, displayName: user.global_name || user.username, avatarUrl, isStaff: isAdmin, lastLoginAt: new Date(), lastLoginIpHash: ipHash }).returning();
 
-    // Store session
-    const sessionsStore = getStore("sessions");
-    await sessionsStore.setJSON(sessionId, sessionData);
+    const sessionToken = randomBytes(48).toString("base64url");
+    const csrfToken = randomBytes(32).toString("base64url");
+    const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+    await db.insert(authSessions).values({ tokenHash: hashSessionToken(sessionToken), userId: account.id, roles: memberRoles, permissions, isAdmin, isOwner, isInGuild, csrfToken, ipHash, expiresAt });
+    await db.insert(auditLogs).values({ actorId: account.id, action: isAdmin ? "admin_login" : "login_success", entityType: "auth_session", metadata: { discordId: user.id }, ipHash });
 
     // Redirect to admin page with session cookie
     const headers = new Headers({ Location: isAdmin && returnTo === "/customer" ? "/admin" : returnTo });
-    headers.append("Set-Cookie", `session=${sessionId}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${7 * 24 * 60 * 60}${SITE_URL.startsWith("https://") ? "; Secure" : ""}`);
+    headers.append("Set-Cookie", `session=${sessionToken}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${7 * 24 * 60 * 60}${SITE_URL.startsWith("https://") ? "; Secure" : ""}`);
     headers.append("Set-Cookie", "oauth_state=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0");
     const response = new Response(null, { status: 302, headers });
 

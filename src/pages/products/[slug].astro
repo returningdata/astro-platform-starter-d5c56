@@ -1,0 +1,66 @@
+---
+import { and, eq } from 'drizzle-orm';
+import ProductLayout from '../../layouts/ProductLayout.astro';
+import { db } from '../../../db/index.js';
+import { products } from '../../../db/schema.js';
+import { productDetails } from '../../data/productDetails';
+import ProductPurchasePanel from '../../components/ProductPurchasePanel';
+
+export const prerender = false;
+
+const slug = Astro.params.slug || '';
+const staticProduct = productDetails[slug];
+let product = staticProduct;
+
+if (!product) {
+  const [record] = await db.select().from(products).where(and(eq(products.slug, slug), eq(products.commerceEnabled, true), eq(products.published, true))).limit(1);
+  if (record) {
+    product = {
+      slug: record.slug,
+      name: record.name,
+      category: record.category,
+      availability: record.status === 'active' ? 'Available' : record.availabilityMessage || record.status.replaceAll('_', ' '),
+      description: record.description,
+      overview: record.fullDescription || record.description,
+      capabilities: [
+        record.sourceIncluded ? 'Source-included delivery through the authenticated Client Portal' : 'Authenticated digital delivery through the Client Portal',
+        record.oneTimePurchase ? 'One-time purchase with historical order and entitlement records' : 'Purchase terms displayed during secure checkout',
+        'Documentation, protected downloads, version tracking, and customer support access',
+      ],
+      requirements: record.requirements.length ? record.requirements : ['Review the product documentation before purchase', 'Compatible self-hosting environment', 'A Kruiger Labs customer account'],
+      useCases: ['Teams that need a supported, self-hosted Kruiger Labs product', 'Customers who need protected downloads and documentation tied to their account'],
+      technical: `${record.selfHosted ? 'Self-hosted' : 'Hosted'} software delivered through entitlement-aware downloads. Version ${record.currentVersion} is currently listed.`,
+      hosting: record.selfHosted ? 'Customer-provided compatible hosting is required unless a setup or deployment service is purchased.' : 'Hosting requirements are listed in the product documentation.',
+      integrations: record.externalIntegrations.length ? record.externalIntegrations : ['See product documentation'],
+      complexity: record.setupEligible ? 'Setup service available' : 'See documentation',
+      docsHref: record.documentationUrl || '/docs/',
+      logoUrl: record.logoUrl || undefined,
+    };
+  }
+}
+
+if (!product) return Astro.redirect('/products', 302);
+---
+<ProductLayout title={product.name} description={product.description}>
+  <section class="hero-panel product-detail-hero">
+    <div class="product-heading">
+      {product.logoUrl && <img src={product.logoUrl} alt="" loading="eager" />}
+      <div>
+        <div class="eyebrow">{product.category}</div>
+        <div class="badges"><span class="badge good">{product.availability}</span><span class="badge">{product.complexity} setup</span><span class="badge">One Time Purchase</span><span class="badge">Self Hosted</span><span class="badge">Source Included</span><span class="badge">No Monthly Software License Fee</span></div>
+        <h1 class="page-title">{product.name}</h1>
+      </div>
+    </div>
+    <p class="lead">{product.description}</p>
+    <div class="hero-actions"><a class="button" href={product.docsHref}>Documentation</a><a class="button-secondary" href={`/docs/support?product=${encodeURIComponent(product.name)}`}>Support</a></div>
+  </section>
+  <section class="section"><h2>Overview</h2><p class="lead">{product.overview}</p></section>
+  <section class="section"><div class="product-purchase-grid"><div class="grid two"><article class="card"><h2>Key capabilities</h2><ul class="feature-list compact">{product.capabilities.map(item => <li>{item}</li>)}</ul></article><article class="card"><h2>Requirements</h2><ul class="feature-list compact">{product.requirements.map(item => <li>{item}</li>)}</ul></article></div><ProductPurchasePanel slug={product.slug} client:load /></div></section>
+  <section class="section"><h2>Ideal use cases</h2><div class="grid">{product.useCases.map(item => <article class="card"><p>{item}</p></article>)}</div></section>
+  <section class="section"><div class="grid two"><article class="card"><h2>Technical overview</h2><p>{product.technical}</p><h3>Setup complexity</h3><p>{product.complexity}</p></article><article class="card"><h2>Hosting requirements</h2><p>{product.hosting}</p><h3>External integrations</h3><p>{product.integrations.join(' · ')}</p></article></div></section>
+  <section class="section product-actions"><h2>Installation and operation</h2><p>The product page explains the software at a high level. Use the documentation for installation steps, configuration references, commands, security, and troubleshooting.</p><div class="hero-actions"><a class="button" href={product.docsHref}>Read {product.name} Documentation</a><a class="button-secondary" href="/docs/hosting/">Hosting Guide</a><a class="button-secondary" href="/support">Contact Support</a></div></section>
+</ProductLayout>
+
+<style>
+  .product-detail-hero{max-width:none}.product-detail-hero .badges{margin:12px 0}.product-heading{display:flex;gap:18px;align-items:flex-start}.product-heading img{width:86px;height:86px;object-fit:contain;border:1px solid var(--line);border-radius:16px;background:#101017;padding:10px}.compact{grid-template-columns:1fr}.product-actions{border:1px solid var(--line);border-radius:var(--radius);padding:28px;background:linear-gradient(145deg,rgba(168,85,247,.09),rgba(18,18,25,.72))}.product-purchase-grid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(280px,.55fr);gap:20px;align-items:start}@media(max-width:900px){.product-purchase-grid{grid-template-columns:1fr}}@media(max-width:560px){.product-heading{flex-direction:column}}
+</style>

@@ -1,0 +1,13 @@
+---
+export const prerender = false;
+import { marked } from 'marked';
+import setupGuide from '../../../../../STORE_SETUP.md?raw';
+import StaffStoreLayout from '../../../../layouts/StaffStoreLayout.astro';
+const content = await marked.parse(setupGuide);
+---
+<StaffStoreLayout title="Store Owner Setup Guide" description="Production configuration for Stripe, Discord OAuth, Netlify, database, private files, staff access, sales, and disputes." ownerOnly={true}>
+  <article class="owner-guide" set:html={content} />
+</StaffStoreLayout>
+<style is:global>
+  .owner-guide{max-width:920px}.owner-guide h1{display:none}.owner-guide h2{margin-top:2.4rem;padding-top:1rem;border-top:1px solid var(--line)}.owner-guide h3{margin-top:1.7rem}.owner-guide p,.owner-guide li{color:var(--muted);line-height:1.72}.owner-guide table{width:100%;border-collapse:collapse;display:block;overflow-x:auto}.owner-guide th,.owner-guide td{padding:10px 12px;border:1px solid var(--line);text-align:left;white-space:nowrap}.owner-guide pre{overflow-x:auto;padding:16px;border:1px solid var(--line);border-radius:10px;background:#09090e}.owner-guide code{color:#d8c6ff}.owner-guide input[type="checkbox"]{accent-color:#a855f7}
+</style>

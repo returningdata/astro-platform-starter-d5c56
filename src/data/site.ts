@@ -194,10 +194,10 @@ export const CONTACT_CATEGORIES = [
 export const PRODUCT_FILTERS = ['All', 'Discord', 'FiveM', 'Web', 'Automation', 'Infrastructure', 'Other'] as const;
 
 /** Product slugs that have a dedicated marketing page. */
-const PRODUCT_PAGES = new Set(['internal-affairs-bot']);
+const PRODUCT_PAGES = new Set(['scarlett', 'manager', 'dm-relay', 'leo-toolkit', 'iaa-bot']);
 
 /** Product slugs that have a documentation article. */
-const PRODUCT_DOCS = new Set(['internal-affairs-bot']);
+const PRODUCT_DOCS = new Set(['scarlett', 'manager', 'dm-relay', 'leo-toolkit', 'iaa-bot']);
 
 /**
  * Resolves the links shown on a product card. Only routes that actually exist

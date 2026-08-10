@@ -25,7 +25,7 @@ async function resolveUser(discordId?: string) {
 }
 
 export default async (req: Request) => {
-  if (!rateLimit(req, 10, 60_000)) return json({ error: "Too many requests" }, 429);
+  if (!await rateLimit(req, 10, 60_000)) return json({ error: "Too many requests" }, 429);
   const session = await getSession(req);
   const url = new URL(req.url);
 

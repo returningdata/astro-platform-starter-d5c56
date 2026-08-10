@@ -80,7 +80,7 @@ export const commands: BotCommand[] = [
   command("/blacklist search", "Blacklists", "Searches all blacklist records.", ["query", "type", "status", "severity"]),
 
   command("/punishment request", "Punishments", "Submits a punishment request against a member or staff member.", ["member", option("punishment_type", "Requested action.", punishmentTypes), "reason", "duration", "evidence", "case_number", "department", "notes"], {
-    response: "Sends the request to first-stage channel 1405663800312729625 with Approve and Deny controls and a restricted thread. It presents authorised related records and visible mutual-server findings. After the required first review, it moves to High Command channel 1405663800522313759 for a distinct final reviewer unless override is authorised. Completion updates the original message with status, submitter, both reviewers, dates, final reason, and case number.", related: ["/review approve", "/review deny", "/review request-info"] }),
+    response: "Sends the request to the configured first-stage channel with Approve and Deny controls and a restricted thread. It presents authorised related records and visible mutual-server findings. After the required first review, it moves to the configured High Command channel for a distinct final reviewer unless override is authorised. Completion updates the original message with status, submitter, both reviewers, dates, final reason, and case number.", related: ["/review approve", "/review deny", "/review request-info"] }),
   command("/punishment view", "Punishments", "Displays a punishment request or completed punishment.", ["request_id", "member"]),
   command("/punishment history", "Punishments", "Displays a member's punishment history.", ["member", "user_id"]),
   command("/punishment revoke", "Punishments", "Revokes an active punishment.", ["punishment_id", "reason", "authorisation"]),
@@ -107,7 +107,7 @@ export const commands: BotCommand[] = [
   command("/record add-note", "Records", "Adds an authorised administrative note.", ["subject", "note", "visibility"]),
   command("/record remove-note", "Records", "Removes an administrative note with a reason.", ["note_id", "reason"]),
 
-  command("/setup", "Configuration", "Starts the guided Internal Affairs Bot setup wizard.", [], { response: "Guides administrators through roles, channels, notifications, review requirements, branding, numbering, threads, mentions, and data-retention settings." }),
+  command("/setup", "Configuration", "Starts the guided IAA BOT setup wizard.", [], { response: "Guides administrators through roles, channels, notifications, review requirements, branding, numbering, threads, mentions, and data-retention settings." }),
   command("/config view", "Configuration", "Displays the current server configuration."),
   command("/config channel", "Configuration", "Updates a configured channel.", ["channel_type", "channel"]),
   command("/config role", "Configuration", "Updates a configured permission-group role.", ["permission_group", "role"]),
@@ -139,7 +139,11 @@ export const commands: BotCommand[] = [
 export const commandCategories = Object.keys(permissions);
 
 export const products = [
-  { name: "Internal Affairs Bot", slug: "internal-affairs-bot", category: "Discord Bots", status: "Available", version: "1.0", description: "Professional investigations, cases, blacklists, punishment reviews, evidence, and administrative records for Discord communities.", featured: true, customerOnly: false, logo: "/assets/internal-affairs/logo.png" },
+  { name: "Scarlett", slug: "scarlett", category: "Discord Bots / FiveM", facets: ["Discord", "FiveM", "Automation"], status: "Available", version: "Buyer release", description: "Advanced Discord and FiveM community management with moderation, server status monitoring, verification, role management, global administration tools, protection systems, and configurable integrations.", featured: true, customerOnly: false },
+  { name: "Manager", slug: "manager", category: "Discord Bots / FiveM", facets: ["Discord", "FiveM", "Automation"], status: "Available", version: "Buyer release", description: "Multi purpose Discord and FiveM management with role administration, giveaways, vehicle systems, Tebex integration, FiveGuard utilities, tags, statistics, and database backed configuration.", featured: true, customerOnly: false },
+  { name: "DM RELAY", slug: "dm-relay", category: "Discord Bots / Automation", facets: ["Discord", "Automation"], status: "Available", version: "Buyer release", description: "Private Discord communication relay that lets community members contact an owner or staff representative without directly messaging their personal Discord account.", featured: true, customerOnly: false },
+  { name: "LEO TOOLKIT", slug: "leo-toolkit", category: "Discord Bots / Automation", facets: ["Discord", "Automation", "Other"], status: "Available", version: "Buyer release", description: "Google Sheets powered law enforcement roster and personnel management for departments that need structured ranks, callsigns, promotions, transfers, employee records, and Discord synchronization.", featured: true, customerOnly: false },
+  { name: "IAA BOT", slug: "iaa-bot", category: "Discord Bots / Automation / Web", facets: ["Discord", "Automation", "Web"], status: "Available", version: "Buyer release", description: "Internal Affairs and intelligence management system with Discord OAuth authorization, server intelligence, blacklists, investigations, cases, staff permissions, approvals, and secured website integration.", featured: true, customerOnly: false, logo: "/assets/internal-affairs/logo.png" },
   { name: "Discord Bot Development", slug: "discord-bot-development", category: "Custom Development", status: "Available", version: "Custom", description: "Purpose-built Discord applications, workflows, moderation systems, and integrations.", customerOnly: false },
   { name: "Custom Websites", slug: "custom-websites", category: "Websites", status: "Available", version: "Custom", description: "Responsive websites and customer portals designed around your organisation.", customerOnly: false },
   { name: "Netlify Applications", slug: "netlify-applications", category: "Websites", status: "Available", version: "Custom", description: "Modern Netlify applications with serverless functions, databases, forms, and identity.", customerOnly: false },
@@ -177,7 +181,7 @@ export const troubleshooting = [
 ];
 
 export const faqs = [
-  ["What is the Internal Affairs Bot?", "A professional Discord investigation, case-management, blacklist, punishment-review, and administrative-record system."],
+  ["What is IAA BOT?", "A Discord Internal Affairs and intelligence system that operates with a compatible secured website/backend."],
   ["Who is the bot intended for?", "Roleplay and gaming communities, staff teams, departments, law-enforcement groups, and multi-server organisations."],
   ["Can it be used across multiple Discord servers?", "Yes. Each server keeps its own configuration and access rules while authorised multi-server records can be supported."],
   ["Can it see every server a user is in?", "No. It can only identify mutual servers where the bot is installed and has the necessary access."],
@@ -201,10 +205,10 @@ export const faqs = [
   ["Where can I get customer support?", "Use the Kruiger Labs LLC Docs Support Centre or sign in to view and reply to your tickets."],
 ];
 
-export const services = ["Kruiger Labs Website", "Documentation Portal", "Authentication", "Customer Dashboard", "Support System", "Internal Affairs Bot", "Internal Affairs Database", "Discord API Connection", "Case System", "Review System", "Notification System"];
+export const services = ["Kruiger Labs Website", "Documentation Portal", "Authentication", "Customer Dashboard", "Support System", "IAA BOT", "IAA Backend", "Discord API Connection", "Case System", "Review System", "Notification System"];
 
 export const docNav = [
-  ["Home", "/docs"], ["Product Catalogue", "/docs/catalogue"], ["Internal Affairs Bot", "/docs/internal-affairs-bot"],
+  ["Home", "/docs"], ["Product Catalogue", "/docs/catalogue"], ["Scarlett", "/docs/scarlett"], ["Manager", "/docs/manager"], ["DM RELAY", "/docs/dm-relay"], ["LEO TOOLKIT", "/docs/leo-toolkit"], ["IAA BOT", "/docs/iaa-bot"],
   ["Setup Guides", "/docs/setup"], ["Command Reference", "/docs/commands"], ["Permissions", "/docs/permissions"],
   ["Workflows", "/docs/workflows"], ["Integrations", "/docs/integrations"], ["Troubleshooting", "/docs/troubleshooting"],
   ["Frequently Asked Questions", "/docs/faq"], ["Changelog", "/docs/changelog"], ["Service Status", "/docs/status"],
@@ -212,7 +216,7 @@ export const docNav = [
 ];
 
 export const searchEntries = [
-  ...products.map((product) => ({ title: product.name, excerpt: product.description, category: "Product", href: product.slug === "internal-affairs-bot" ? "/docs/internal-affairs-bot" : "/docs/catalogue", version: product.version })),
+  ...products.map((product) => ({ title: product.name, excerpt: product.description, category: "Product", href: ["scarlett", "manager", "dm-relay", "leo-toolkit", "iaa-bot"].includes(product.slug) ? `/docs/${product.slug}` : "/docs/catalogue", version: product.version })),
   ...commands.map((item) => ({ title: item.name, excerpt: `${item.description} ${item.response}`, category: item.category, href: `/docs/commands#${item.name.replace(/[ /]/g, "-").replace(/^-+/, "")}`, version: "1.0" })),
   ...troubleshooting.map(([title, causes, resolution]) => ({ title: String(title), excerpt: `${(causes as string[]).join(" ")} ${resolution}`, category: "Troubleshooting", href: `/docs/troubleshooting#${String(title).toLowerCase().replace(/[^a-z0-9]+/g, "-")}`, version: "1.0" })),
   ...faqs.map(([title, answer]) => ({ title, excerpt: answer, category: "FAQ", href: "/docs/faq", version: "1.0" })),

@@ -1,0 +1,7 @@
+---
+export const prerender = false;
+import StaffStoreLayout from '../../../layouts/StaffStoreLayout.astro';
+import StaffStore from '../../../components/StaffStore';
+---
+<StaffStoreLayout title="Store Dashboard" description="Revenue, orders, products, setup work, disputes, refunds, and security activity."><StaffStore mode="dashboard" client:load /></StaffStoreLayout>
+

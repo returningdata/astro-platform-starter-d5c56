@@ -54,7 +54,18 @@ const AVAILABLE_PERMISSIONS = [
   { id: "manage_tools", label: "Manage Tools" },
   { id: "manage_bots", label: "Manage Bots" },
   { id: "manage_services", label: "Manage Services" },
-  { id: "manage_chat", label: "Manage Chat / Take Over" }
+  { id: "manage_chat", label: "Manage Chat / Take Over" },
+  { id: "store.analytics.view", label: "Store Analytics: View" },
+  { id: "store.products.view", label: "Store Products: View" },
+  { id: "store.products.manage", label: "Store Products and Prices: Manage" },
+  { id: "store.orders.view", label: "Store Orders: View" },
+  { id: "store.orders.manage", label: "Store Orders: Manage" },
+  { id: "store.customers.view", label: "Store Customers: View" },
+  { id: "store.setup.manage", label: "Setup Services: Manage" },
+  { id: "store.sales.view", label: "Sales and Coupons: View" },
+  { id: "store.sales.manage", label: "Sales and Coupons: Manage" },
+  { id: "store.entitlements.manage", label: "Entitlements: Manage" },
+  { id: "store.logs.view", label: "Store Audit Logs: View" }
 ];
 
 export default function AdminDashboard() {
@@ -79,6 +90,7 @@ export default function AdminDashboard() {
   const [newItem, setNewItem] = useState({ name: "", description: "", icon: "", image: "" });
   const [editingItem, setEditingItem] = useState<ContentItem | null>(null);
   const [newRole, setNewRole] = useState({ roleId: "", roleName: "", permissions: [] as string[] });
+  const [csrfToken, setCsrfToken] = useState("");
 
   useEffect(() => {
     checkAuth();
@@ -91,6 +103,7 @@ export default function AdminDashboard() {
 
       if (data.authenticated && data.user.isAdmin) {
         setUser(data.user);
+        setCsrfToken(data.csrfToken || "");
         loadAllContent();
       } else {
         window.location.href = "/?error=not_admin";
@@ -231,7 +244,7 @@ export default function AdminDashboard() {
     try {
       const res = await fetch("/api/admin/roles", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "x-csrf-token": csrfToken },
         body: JSON.stringify(newRole)
       });
 
@@ -248,7 +261,7 @@ export default function AdminDashboard() {
     if (!confirm("Are you sure you want to delete this role?")) return;
 
     try {
-      const res = await fetch(`/api/admin/roles?roleId=${roleId}`, { method: "DELETE" });
+      const res = await fetch(`/api/admin/roles?roleId=${roleId}`, { method: "DELETE", headers: { "x-csrf-token": csrfToken } });
       if (res.ok) {
         loadRoles();
       }

@@ -1,7 +1,10 @@
 import { createHash, timingSafeEqual } from "node:crypto";
-import { getStore } from "@netlify/blobs";
+import { and, eq, gt, sql } from "drizzle-orm";
+import { db } from "../../../db/index.js";
+import { authSessions, rateLimitBuckets, users } from "../../../db/schema.js";
 
 export interface PortalSession {
+  internalUserId: number;
   userId: string;
   username: string;
   displayName: string;
@@ -34,11 +37,29 @@ export function getCookie(req: Request, name: string) {
 }
 
 export async function getSession(req: Request): Promise<PortalSession | null> {
-  const sessionId = getCookie(req, "session");
-  if (!sessionId) return null;
-  const session = await getStore("sessions").get(sessionId, { type: "json" }) as PortalSession | null;
-  if (!session || new Date(session.expiresAt).getTime() <= Date.now()) return null;
-  return session;
+  const sessionToken = getCookie(req, "session");
+  if (!sessionToken) return null;
+  const [record] = await db.select({
+    internalUserId: users.id,
+    userId: users.discordId,
+    username: users.username,
+    displayName: users.displayName,
+    avatar: users.avatarUrl,
+    roles: authSessions.roles,
+    permissions: authSessions.permissions,
+    isAdmin: authSessions.isAdmin,
+    isOwner: authSessions.isOwner,
+    isInGuild: authSessions.isInGuild,
+    csrfToken: authSessions.csrfToken,
+    createdAt: authSessions.createdAt,
+    expiresAt: authSessions.expiresAt,
+  }).from(authSessions).innerJoin(users, eq(authSessions.userId, users.id)).where(and(eq(authSessions.tokenHash, hashSessionToken(sessionToken)), gt(authSessions.expiresAt, new Date()))).limit(1);
+  if (!record) return null;
+  return { ...record, createdAt: record.createdAt.toISOString(), expiresAt: record.expiresAt.toISOString() };
+}
+
+export function hashSessionToken(token: string) {
+  return createHash("sha256").update(token).digest("hex");
 }
 
 export async function requireSession(req: Request) {
@@ -50,6 +71,14 @@ export async function requireSession(req: Request) {
 export async function requireStaff(req: Request) {
   const session = await requireSession(req);
   if (!session.isAdmin) throw new Response(JSON.stringify({ error: "Staff access required" }), { status: 403 });
+  return session;
+}
+
+export async function requirePermission(req: Request, permission: string) {
+  const session = await requireStaff(req);
+  if (!session.isOwner && !session.permissions.includes("all") && !session.permissions.includes(permission)) {
+    throw json({ error: "Insufficient staff permission" }, 403);
+  }
   return session;
 }
 
@@ -75,16 +104,34 @@ export function hashIp(req: Request) {
   return createHash("sha256").update(`${secret}:${ip}`).digest("hex");
 }
 
-const requests = new Map<string, { count: number; reset: number }>();
-export function rateLimit(req: Request, limit = 12, windowMs = 60_000) {
-  const key = hashIp(req);
-  const now = Date.now();
-  const current = requests.get(key);
-  if (!current || current.reset <= now) {
-    requests.set(key, { count: 1, reset: now + windowMs });
+export function hashTrustedIp(ip: string | undefined | null) {
+  const secret = Netlify.env.get("SESSION_SECRET") || "local-development";
+  return createHash("sha256").update(`${secret}:${ip || "unknown"}`).digest("hex");
+}
+
+export function maskIp(ip: string | undefined | null) {
+  if (!ip) return "Unavailable";
+  if (ip.includes(":")) return `${ip.split(":").slice(0, 3).join(":")}:xxxx`;
+  const parts = ip.split(".");
+  return parts.length === 4 ? `${parts[0]}.${parts[1]}.${parts[2]}.xxx` : "Unavailable";
+}
+
+export async function rateLimit(req: Request, limit = 12, windowMs = 60_000) {
+  const bucketKey = `${hashIp(req)}:${new URL(req.url).pathname}`;
+  const resetsAt = new Date(Date.now() + windowMs);
+  try {
+    const result = await db.execute(sql`
+      INSERT INTO ${rateLimitBuckets} (key, count, resets_at, updated_at)
+      VALUES (${bucketKey}, 1, ${resetsAt}, NOW())
+      ON CONFLICT (key) DO UPDATE SET
+        count = CASE WHEN ${rateLimitBuckets.resetsAt} <= NOW() THEN 1 ELSE ${rateLimitBuckets.count} + 1 END,
+        resets_at = CASE WHEN ${rateLimitBuckets.resetsAt} <= NOW() THEN ${resetsAt} ELSE ${rateLimitBuckets.resetsAt} END,
+        updated_at = NOW()
+      RETURNING count
+    `);
+    const count = Number((result.rows[0] as { count?: number | string } | undefined)?.count || 1);
+    return count <= limit;
+  } catch {
     return true;
   }
-  if (current.count >= limit) return false;
-  current.count += 1;
-  return true;
 }

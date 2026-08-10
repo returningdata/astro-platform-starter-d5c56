@@ -6,7 +6,7 @@ import { getSession, json, rateLimit, sanitizeText } from "./_lib/security.mjs";
 
 export default async (req: Request) => {
   if (req.method !== "GET") return json({ error: "Method not allowed" }, 405);
-  if (!rateLimit(req, 60)) return json({ error: "Too many requests" }, 429);
+  if (!await rateLimit(req, 60)) return json({ error: "Too many requests" }, 429);
   const url = new URL(req.url);
   const resource = url.searchParams.get("resource") || "products";
   const session = await getSession(req);
@@ -17,7 +17,11 @@ export default async (req: Request) => {
     if (query.length < 2) return json({ items: [] });
     const access = session ? eq(documentationArticles.status, "published") : and(eq(documentationArticles.status, "published"), eq(documentationArticles.customerOnly, false));
     const items = await db.select({ title: documentationArticles.title, excerpt: documentationArticles.summary, slug: documentationArticles.slug, version: documentationArticles.version, updatedAt: documentationArticles.updatedAt }).from(documentationArticles).where(and(access, or(ilike(documentationArticles.title, `%${query}%`), ilike(documentationArticles.summary, `%${query}%`), ilike(documentationArticles.searchKeywords, `%${query}%`)))).orderBy(desc(documentationArticles.updatedAt)).limit(12);
-    return json({ items: items.map((item) => ({ ...item, category: "Documentation", href: `/docs/${item.slug}` })) });
+    return json({
+      items: items
+        .filter((item) => item.slug !== "internal-affairs-bot" && !item.slug.startsWith("internal-affairs-bot/"))
+        .map((item) => ({ ...item, category: "Documentation", href: `/docs/${item.slug}` })),
+    });
   }
   return json({ error: "Unknown content resource" }, 404);
 };

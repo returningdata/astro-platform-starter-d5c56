@@ -70,9 +70,9 @@ async function getBotConfig(): Promise<BotConfig> {
     config || {
       responses: {
         hello: "Hello! Welcome to KruigerLabs. How can I assist you today?",
-        hi: "Hi there! I'm here to help you learn about Internal Affairs Bot and Kruiger Labs LLC services.",
-        help: "I can help with Internal Affairs Bot, documentation, setup, commands, support, websites, hosting, automation, integrations, and custom development.",
-        bots: "Internal Affairs Bot is currently the only Discord bot listed by Kruiger Labs LLC. It provides investigations, case management, blacklist and punishment requests, evidence, records, and multi-stage reviews.",
+        hi: "Hi there! I'm here to help you learn about Kruiger Labs products and services.",
+        help: "I can help with Scarlett, Manager, DM RELAY, LEO TOOLKIT, IAA BOT, documentation, setup, support, websites, hosting, automation, integrations, and custom development.",
+        bots: "Kruiger Labs offers Scarlett, Manager, DM RELAY, LEO TOOLKIT, and IAA BOT. Their documentation covers Discord and FiveM management, private message relay, Google Sheets roster tooling, and secured Internal Affairs workflows.",
         services:
           "KruigerLabs provides moderation, automation, ticketing, role sync, AI assistance, analytics, webhooks, music bots, forms, logging, Twitch integration, security, APIs, and dev tools. What would you like to explore?",
         discord:
@@ -82,7 +82,7 @@ async function getBotConfig(): Promise<BotConfig> {
         pricing:
           "For pricing information and custom solutions, please join our Discord server and open a ticket. We offer flexible plans for communities of all sizes.",
         support: "Use the Kruiger Labs LLC Docs Support Centre for product setup, command help, bugs, features, security, privacy, billing, and custom development enquiries.",
-        features: "Internal Affairs Bot includes cases, user and server investigations, evidence, blacklists, punishments, first-stage reviews, High Command final reviews, reviewer tracking, records, and audit logs."
+        features: "The product catalogue includes Discord moderation, FiveM management, private message relay, roster synchronization, OAuth authorization, intelligence, cases, approvals, and audit workflows."
       },
       fallbackResponse:
         "Thanks for your message! For detailed inquiries, please join our Discord server where our team can assist you better. Is there anything specific about our bots or services I can help with?",
@@ -116,7 +116,7 @@ async function getAIResponse(message: string, conversation: Conversation): Promi
         role: "system",
         content: `You are KRUIGER AI, a helpful assistant for Kruiger Labs LLC. Kruiger Labs LLC builds Discord systems, websites, dashboards, automation, integrations, hosting solutions, and custom software.
 
-Current Discord bot: Internal Affairs Bot, a professional investigation, case-management, blacklist, punishment-review, evidence, administrative-record, and multi-stage approval system. It is the only Discord bot currently listed. Never claim the bot can see every Discord server a user has joined; mutual-server checks are limited to servers where the bot is installed and authorised.
+Current products: Scarlett for Discord and FiveM management; Manager for community, vehicle, Tebex, FiveGuard, and telemetry workflows; DM RELAY for private user-to-owner communication; LEO TOOLKIT for backend-powered Google Sheets rosters; and IAA BOT for Discord OAuth authorization, intelligence, cases, permissions, and signed API workflows. IAA BOT requires a compatible HTTPS website/backend. LEO TOOLKIT requires a compatible backend. Never claim a product can access data that Discord, Google, or the configured backend has not authorized.
 
 Services: Moderation, Automation, Ticketing, Role Sync, AI Assistance, Analytics, Webhooks, Music, Forms, Logging, Twitch Integration, Security, APIs, Dev Tools.
 
