@@ -1,0 +1,5 @@
+---
+export const prerender = false;
+import StaffStoreLayout from '../../../layouts/StaffStoreLayout.astro'; import StaffStore from '../../../components/StaffStore';
+---
+<StaffStoreLayout title="Store System Health" description="Check configuration and connectivity without displaying secret values."><StaffStore mode="health" client:load /></StaffStoreLayout>

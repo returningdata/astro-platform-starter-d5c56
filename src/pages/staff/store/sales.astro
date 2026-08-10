@@ -1,0 +1,6 @@
+---
+export const prerender = false;
+import StaffStoreLayout from '../../../layouts/StaffStoreLayout.astro'; import StaffStore from '../../../components/StaffStore';
+---
+<StaffStoreLayout title="Sales and Discounts" description="Create time-bound sales and Stripe-associated coupon codes without trusting the browser clock."><StaffStore mode="sales" client:load /></StaffStoreLayout>
+

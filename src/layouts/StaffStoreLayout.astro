@@ -1,0 +1,18 @@
+---
+import ProductLayout from './ProductLayout.astro';
+import { getSession } from '../../netlify/functions/_lib/security.mjs';
+
+interface Props { title: string; description: string; ownerOnly?: boolean; }
+const { title, description, ownerOnly = false } = Astro.props;
+const session = await getSession(Astro.request);
+const staff = session!;
+---
+<ProductLayout title={title} description={description}>
+  <header class="staff-store-head"><div><div class="eyebrow">Restricted staff system</div><h1 class="page-title">{title}</h1><p>{description}</p></div><div class="staff-identity"><span>{staff.displayName}</span><small>{staff.isOwner ? 'Owner' : 'Authorized staff'}</small></div></header>
+  <nav class="staff-store-nav" aria-label="Staff store"><a href="/staff/store/">Dashboard</a><a href="/staff/store/products/">Products</a><a href="/staff/store/orders/">Orders</a><a href="/staff/store/customers/">Customers</a><a href="/staff/store/sales/">Sales</a><a href="/staff/store/setup-services/">Setup Services</a><a href="/staff/store/logs/">Logs</a><a href="/staff/store/system-health/">System Health</a><a href="/staff/store/setup-guide/">Setup Guide</a></nav>
+  <slot />
+</ProductLayout>
+<style>
+  .staff-store-head{display:flex;justify-content:space-between;gap:22px;margin-bottom:20px;padding:25px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(145deg,rgba(168,85,247,.1),rgba(18,18,25,.8))}.staff-store-head h1{margin:.25rem 0}.staff-store-head p{margin:0;color:var(--muted)}.staff-identity{display:flex;flex-direction:column;justify-content:center;text-align:right}.staff-identity small{color:var(--muted)}.staff-store-nav{display:flex;gap:7px;overflow-x:auto;margin-bottom:24px;padding-bottom:5px}.staff-store-nav a{white-space:nowrap;padding:9px 12px;border:1px solid var(--line);border-radius:8px;color:var(--muted);text-decoration:none}.staff-store-nav a:hover{color:var(--ink);border-color:rgba(168,85,247,.45)}@media(max-width:700px){.staff-store-head{flex-direction:column}.staff-identity{text-align:left}}
+</style>
+

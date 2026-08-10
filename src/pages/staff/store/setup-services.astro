@@ -1,0 +1,6 @@
+---
+export const prerender = false;
+import StaffStoreLayout from '../../../layouts/StaffStoreLayout.astro'; import StaffStore from '../../../components/StaffStore';
+---
+<StaffStoreLayout title="Setup Services" description="Manage customer intake, assignment, testing, waiting, completion, and cancellation states."><StaffStore mode="setup" client:load /></StaffStoreLayout>
+

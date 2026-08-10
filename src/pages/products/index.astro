@@ -5,7 +5,11 @@ import Container from '../../components/kl/Container.astro';
 import Button from '../../components/kl/Button.astro';
 import ProductGrid from '../../components/kl/ProductGrid.astro';
 import GlowPanel from '../../components/kl/GlowPanel.astro';
+import CommerceCatalogue from '../../components/CommerceCatalogue';
 import { products } from '../../data/portal';
+
+const commerceSlugs = new Set(['scarlett', 'manager', 'dm-relay', 'leo-toolkit', 'iaa-bot']);
+const existingProducts = products.filter((product) => !commerceSlugs.has(product.slug));
 
 const title = 'Products | Kruiger Labs LLC';
 const description =
@@ -22,7 +26,14 @@ const description =
 
     <section class="kl-section">
         <Container>
-            <ProductGrid products={products} />
+            <CommerceCatalogue client:load />
+        </Container>
+    </section>
+
+    <section class="kl-section">
+        <Container>
+            <div class="existing-heading"><span class="kl-eyebrow">Services & custom work</span><h2 class="kl-display">Existing Kruiger Labs offerings</h2><p class="kl-lead">Custom development, websites, integrations, automation, community tooling, and hosting remain available alongside the software store.</p></div>
+            <ProductGrid products={existingProducts} />
         </Container>
     </section>
 
@@ -68,4 +79,7 @@ const description =
         justify-content: center;
         gap: 14px;
     }
+</style>
+<style>
+    .existing-heading{max-width:760px;margin-bottom:28px}.existing-heading h2{margin:.4rem 0}.existing-heading p{margin:0}
 </style>

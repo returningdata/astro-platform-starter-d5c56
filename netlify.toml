@@ -1,3 +1,15 @@
+
+[[redirects]]
+  from = "/api/store/checkout"
+  to = "/.netlify/functions/create-checkout-session"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/store/stripe-webhook"
+  to = "/.netlify/functions/stripe-webhook"
+  status = 200
+  force = true
 [[redirects]]
   from = "/bots/*"
   to = "/products"
@@ -7,3 +19,26 @@
   from = "/products/bots/*"
   to = "/products"
   status = 301
+
+[[redirects]]
+  from = "/products/internal-affairs-bot"
+  to = "/products/iaa-bot"
+  status = 301
+
+[[redirects]]
+  from = "/products/internal-affairs-bot/*"
+  to = "/products/iaa-bot"
+  status = 301
+
+[[redirects]]
+  from = "/docs/internal-affairs-bot"
+  to = "/docs/iaa-bot"
+  status = 301
+
+[[redirects]]
+  from = "/docs/internal-affairs-bot/*"
+  to = "/docs/iaa-bot"
+  status = 301
+
+[functions]
+  included_files = [".netlify/assets/6a796917dc706944f2e772de/*.zip"]

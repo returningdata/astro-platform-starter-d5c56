@@ -1,0 +1,6 @@
+---
+export const prerender = false;
+import StaffStoreLayout from '../../../layouts/StaffStoreLayout.astro'; import StaffStore from '../../../components/StaffStore';
+---
+<StaffStoreLayout title="Order Management" description="Search orders, review Stripe references, manage entitlements, and add internal notes."><StaffStore mode="orders" client:load /></StaffStoreLayout>
+

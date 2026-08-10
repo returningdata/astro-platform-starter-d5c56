@@ -12,7 +12,7 @@ const feedbackSchema = z.object({
 
 export default async (req: Request) => {
   if (req.method !== "POST") return json({ error: "Method not allowed" }, 405);
-  if (!rateLimit(req, 20)) return json({ error: "Too many requests" }, 429);
+  if (!await rateLimit(req, 20)) return json({ error: "Too many requests" }, 429);
   const session = await getSession(req);
   if (!validateMutation(req)) return json({ error: "Invalid request origin" }, 403);
   const parsed = feedbackSchema.safeParse(await req.json().catch(() => null));

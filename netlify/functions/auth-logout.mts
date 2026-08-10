@@ -1,5 +1,8 @@
 import type { Context, Config } from "@netlify/functions";
-import { getStore } from "@netlify/blobs";
+import { eq } from "drizzle-orm";
+import { db } from "../../db/index.js";
+import { authSessions } from "../../db/schema.js";
+import { hashSessionToken } from "./_lib/security.mjs";
 
 function getSessionIdFromCookie(cookieHeader: string | null): string | null {
   if (!cookieHeader) return null;
@@ -19,8 +22,7 @@ export default async (req: Request, context: Context) => {
 
   if (sessionId) {
     try {
-      const sessionsStore = getStore("sessions");
-      await sessionsStore.delete(sessionId);
+      await db.delete(authSessions).where(eq(authSessions.tokenHash, hashSessionToken(sessionId)));
     } catch (error) {
       console.error("Error deleting session:", error);
     }

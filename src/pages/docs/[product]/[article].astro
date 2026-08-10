@@ -1,0 +1,25 @@
+---
+import DocsLayout from '../../../layouts/DocsLayout.astro';
+import { adjacentDocs, docsArticles, docsByPath } from '../../../data/docs';
+
+export function getStaticPaths() {
+  return docsArticles.filter((item) => item.path.split('/').length === 2).map((item) => {
+    const [product, article] = item.path.split('/');
+    return { params: { product, article } };
+  });
+}
+
+const path = `${Astro.params.product || ''}/${Astro.params.article || ''}`;
+const doc = docsByPath.get(path);
+if (!doc) return Astro.redirect('/docs/', 302);
+const adjacent = adjacentDocs(path);
+---
+<DocsLayout title={doc.title} description={doc.description} activePath={doc.path} toc={doc.sections.map(item => ({ id: item.id, label: item.title }))} previous={adjacent.previous} next={adjacent.next} product={doc.product}>
+  <header class="article-head">
+    <div class="eyebrow">{doc.eyebrow}</div>
+    <h1 class="page-title">{doc.title}</h1>
+    <p class="lead">{doc.description}</p>
+    {doc.productHref && <p><a class="button-secondary" href={doc.productHref}>View {doc.product} Product</a></p>}
+  </header>
+  {doc.sections.map(item => <section class="section doc-section" id={item.id}><h2><a href={`#${item.id}`} aria-label={`Link to ${item.title}`}>{item.title}<span class="heading-anchor">#</span></a></h2><Fragment set:html={item.html} /></section>)}
+</DocsLayout>
